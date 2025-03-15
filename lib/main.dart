@@ -1,6 +1,8 @@
 import 'package:adhisree_foundation/bottomNav/bottom_nav_bar.dart';
 import 'package:adhisree_foundation/bottomNav/controller/bottom_navbar_controller.dart';
 import 'package:adhisree_foundation/homescreen/home_screen.dart';
+import 'package:adhisree_foundation/loginScreen/messageScreen.dart';
+import 'package:adhisree_foundation/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,10 +19,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      onGenerateRoute: AppRoutes.generateRoute,
       theme: ThemeData(
         fontFamily: 'Quicksand',
       ),
-      home: BottomNavScreen(initialPageIndex: 0), // Directly navigate to HomeScreen
+      home: Messagescreen(), 
     );
   }
 }
