@@ -46,7 +46,8 @@ class _TeamsScreenState extends State<TeamsScreen> {
               ),
               Positioned(
                 top: 62,
-                left: 354,
+                left: MediaQuery.of(context).size.width -
+                  24,
                 child: Container(
                   width: 16,
                   height: 16,
@@ -119,7 +120,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
                 top: 244,
                 left: 141,
                 child: Container(
-                  width: screenWidth * 0.35,
+                  width: screenWidth * 0.4,
                   height: 35,
                   padding: EdgeInsets.symmetric(vertical: 9, horizontal: 12),
                   decoration: BoxDecoration(

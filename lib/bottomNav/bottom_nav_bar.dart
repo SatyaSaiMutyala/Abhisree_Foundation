@@ -1,5 +1,7 @@
 import 'package:adhisree_foundation/bottomNav/controller/bottom_navbar_controller.dart';
 import 'package:adhisree_foundation/homescreen/home_screen.dart';
+import 'package:adhisree_foundation/more_section/settings_screen.dart';
+import 'package:adhisree_foundation/teams/referrals_screen.dart';
 import 'package:adhisree_foundation/teams/teams_screen.dart';
 import 'package:adhisree_foundation/wallet/wallet_screen.dart';
 import 'package:get/get.dart';
@@ -74,10 +76,10 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         return TeamsScreen();
       case BnbItem.wallet:
         return WalletScreen();
-      case BnbItem.dashboard:
-        return HomeScreen();
+      case BnbItem.referrals:
+        return ReferralsScreen();
       case BnbItem.more:
-        return HomeScreen();
+        return MoreScreen();
     }
   }
 }
