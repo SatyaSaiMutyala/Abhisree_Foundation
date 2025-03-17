@@ -1,31 +1,37 @@
 
-
-import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class CustomButton extends StatelessWidget{
   final String text;
   final VoidCallback onPressed;
+  final bool outlined;
 
-  const CustomButton({Key? key, required this.text, required this.onPressed}) : super(key: key);
+  const CustomButton({super.key, required this.text, required this.onPressed, this.outlined = false});
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width ;
+
+    Color primaryColor = Color(0XFF338D9B);
+    
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
         onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: Color(0XFF338D9B),
-        padding: EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
+        backgroundColor: outlined ? Colors.white : primaryColor,
+        padding: EdgeInsets.symmetric(vertical: width * 0.04),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
+          side: BorderSide(
+            color: primaryColor,
+            width: outlined ? 1 : 0,
+          )
         ),
       ),
       child: Text(
         text,
-        style: TextStyle(color: Colors.white, fontSize: Dimensions.fontSizeExtraLarge),
+        style: TextStyle(color: outlined ? primaryColor : Colors.white, fontSize: width * 0.05),
       ),
       ),
 

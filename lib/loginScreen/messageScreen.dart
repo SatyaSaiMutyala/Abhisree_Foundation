@@ -8,6 +8,9 @@ import 'package:flutter/services.dart';
 class Messagescreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width ;
+    double height = MediaQuery.of(context).size.height ;
+
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Color.fromARGB(255, 181, 233, 240), 
       statusBarIconBrightness: Brightness.dark, 
@@ -35,13 +38,12 @@ class Messagescreen extends StatelessWidget {
         children: [
           Spacer(), 
          Image.asset('assets/images/Png/messageImg.png'),
-         SizedBox(height: 20),
+         SizedBox(height: height * 0.03),
          Text(
           'GIVE WITH HEART,',
           style: TextStyle(
             color: Colors.black,
-            fontSize: Dimensions.fontSizeOverLarge,
-            fontFamily: 'Poppins',
+            fontSize: width * 0.07,
             fontWeight: FontWeight.bold,
           ),
          ),
@@ -49,14 +51,13 @@ class Messagescreen extends StatelessWidget {
           'CHANGE THE WORLD',
           style: TextStyle(
             color: Colors.black,
-            fontSize: Dimensions.fontSizeOverLarge,
-            fontFamily: 'Poppins',
+            fontSize: width * 0.07,
             fontWeight: FontWeight.bold,
           ),
          ),
         Spacer(), // Pushes button to the bottom
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeExtraLarge),
+              padding: EdgeInsets.symmetric(horizontal: width * 0.04, vertical: width * 0.03 ),
               child: CustomButton(text: 'Next', onPressed: () {Navigator.pushNamed(context, AppRoutes.LoginWithNumber);}),
             ),
         ],

@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: AppRoutes.generateRoute,
       theme: ThemeData(
-        fontFamily: 'Quicksand',
+        fontFamily: 'poppins',
       ),
       home: Messagescreen(), 
     );
