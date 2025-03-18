@@ -1,3 +1,4 @@
+import 'package:adhisree_foundation/widgets/text_feilds.dart';
 import 'package:flutter/material.dart';
 
 class DonationPopupForm extends StatelessWidget {
@@ -44,40 +45,7 @@ class DonationPopupForm extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 292.48,
-                      height: 16,
-                      alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(
-                        "NAME",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10.61,
-                          letterSpacing: 0.76,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 6.06),
-                    Container(
-                      width: 292.48,
-                      height: 35.63,
-                      padding: EdgeInsets.symmetric(
-                          vertical: 4.55, horizontal: 10.61),
-                      decoration: BoxDecoration(
-                        color: Color(0xFFE4E4E4),
-                        borderRadius: BorderRadius.circular(6.06),
-                      ),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Enter your full name",
-                          hintStyle: TextStyle(color: Colors.black54),
-                        ),
-                      ),
-                    ),
+                    textFieldScreen("Name", keyboardType: TextInputType.number),
                   ],
                 ),
                 SizedBox(height: 9.1),
@@ -86,40 +54,7 @@ class DonationPopupForm extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 292.48,
-                      height: 16,
-                      alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(
-                        "PAN",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10.61,
-                          letterSpacing: 0.76,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 6.06),
-                    Container(
-                      width: 292.48,
-                      height: 35.63,
-                      padding: EdgeInsets.symmetric(
-                          vertical: 4.55, horizontal: 10.61),
-                      decoration: BoxDecoration(
-                        color: Color(0xFFE4E4E4),
-                        borderRadius: BorderRadius.circular(6.06),
-                      ),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Enter your pan",
-                          hintStyle: TextStyle(color: Colors.black54),
-                        ),
-                      ),
-                    ),
+                    textFieldScreen("Pan", keyboardType: TextInputType.number),
                   ],
                 ),
                 SizedBox(height: 9.1),
@@ -128,41 +63,7 @@ class DonationPopupForm extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 292.48,
-                      height: 16,
-                      alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(
-                        "PHONE NUMBER",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10.61,
-                          letterSpacing: 0.76,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 6.06),
-                    Container(
-                      width: 292.48,
-                      height: 35.63,
-                      padding: EdgeInsets.symmetric(
-                          vertical: 4.55, horizontal: 10.61),
-                      decoration: BoxDecoration(
-                        color: Color(0xFFE4E4E4),
-                        borderRadius: BorderRadius.circular(6.06),
-                      ),
-                      child: TextField(
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Enter phone number",
-                          hintStyle: TextStyle(color: Colors.black54),
-                        ),
-                      ),
-                    ),
+                    textFieldScreen("Phone Number", keyboardType: TextInputType.number),
                   ],
                 ),
                 SizedBox(height: 24),

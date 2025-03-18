@@ -1,3 +1,5 @@
+import 'package:adhisree_foundation/more_section/bank_details.dart';
+import 'package:adhisree_foundation/more_section/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class MoreScreen extends StatelessWidget {
@@ -36,7 +38,7 @@ class MoreScreen extends StatelessWidget {
             subtitle: Text("you can edit your profile first name, last name, phone number, email address"),
             trailing: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
             onTap: () {
-              // Navigate to Profile Screen
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
             },
           ),
           Divider(),
@@ -48,7 +50,7 @@ class MoreScreen extends StatelessWidget {
             subtitle: Text("You can add accounts for withdrawals and set your primary account accordingly."),
             trailing: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
             onTap: () {
-              // Navigate to Bank Details Screen
+              Navigator.push(context, MaterialPageRoute(builder: (context) => BankAccountsScreen()));
             },
           ),
           Divider(),

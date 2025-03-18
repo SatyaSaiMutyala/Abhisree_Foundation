@@ -1,3 +1,5 @@
+import 'package:adhisree_foundation/menu_screens.dart';
+import 'package:adhisree_foundation/notification_screen.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -38,7 +40,7 @@ class CustomAppBar extends StatelessWidget {
               ),
               child: IconButton(
                 icon: Icon(Icons.menu, color: Colors.black),
-                onPressed: onMenuPressed ?? () {},
+                onPressed: onMenuPressed ?? () => showMenuDialog(context),
               ),
             ),
           ),
@@ -56,7 +58,10 @@ class CustomAppBar extends StatelessWidget {
               ),
               child: IconButton(
                 icon: Icon(Icons.notifications_none, color: Colors.black),
-                onPressed: onNotificationPressed ?? () {},
+                onPressed: onNotificationPressed ?? () {Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => NotificationsScreen()),
+  );},
               ),
             ),
           ),
@@ -110,4 +115,35 @@ class CustomAppBar extends StatelessWidget {
       ),
     );
   }
+
+  void showMenuDialog(BuildContext context) {
+  showGeneralDialog(
+    context: context,
+    barrierDismissible: true,
+    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+    transitionDuration: Duration(milliseconds: 300), // Smooth animation
+    pageBuilder: (context, anim1, anim2) {
+      return Align(
+        alignment: Alignment.centerLeft,
+        child: Material(
+          color: Colors.transparent,
+          child: SizedBox(
+            width: 333, // Custom width
+            height: 852, // Custom height
+            child: MenuScreen(), // Ensure MenuScreen is being used
+          ),
+        ),
+      );
+    },
+    transitionBuilder: (context, anim1, anim2, child) {
+      return SlideTransition(
+        position: Tween<Offset>(
+          begin: Offset(-1, 0), // Start from left
+          end: Offset(0, 0), // End at center
+        ).animate(anim1),
+        child: child,
+      );
+    },
+  );
+}
 }
