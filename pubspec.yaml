@@ -43,6 +43,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.3
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/Png/SplashIcon.png"  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -70,9 +76,11 @@ flutter:
     - assets/campaign1.png
     - assets/teams1.png
     - assets/images/Png/
+    - assets/home_icon.png
     - assets/teams_icon.png
     - assets/refer_icon.png
     - assets/wallet_icon.png
+    - assets/more_icon.png
     - assets/customer_icon.png
     - assets/logout_icon.png
 
@@ -87,12 +95,12 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Medium.ttf
+        # - asset: fonts/Schyler-Italic.ttf
+        #   style: italic
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
@@ -101,3 +109,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+  
+flutter_native_splash:
+  color: "#FFFFFF"
+  background_image: assets/images/Png/splash2.png
+  android: true
+  ios: true

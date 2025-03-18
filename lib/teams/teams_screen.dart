@@ -98,7 +98,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
                 top: 213,
                 left: 144,
                 child: Container(
-                  width: screenWidth * 0.3,
+                  width: screenWidth * 0.4,
                   height: 17,
                   alignment: Alignment.center,
                   child: Text(
@@ -132,9 +132,9 @@ class _TeamsScreenState extends State<TeamsScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "View Activities",
+                        "View activities",
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
                           fontFamily: 'Poppins',

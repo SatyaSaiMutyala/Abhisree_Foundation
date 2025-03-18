@@ -18,7 +18,7 @@ class WalletAmountWidget extends StatelessWidget {
               color: Color(0xFFDAF6FA),
               child: Container(
                 width: MediaQuery.of(context).size.width -
-                  46,
+                  50,
                 height: 144,
                 padding: EdgeInsets.all(16.0),
                 alignment: Alignment.center,

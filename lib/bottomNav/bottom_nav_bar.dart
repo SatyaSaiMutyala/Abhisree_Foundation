@@ -35,35 +35,61 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
               _getBody(Get.find<BottomNavController>().currentPage.value)),
         ),
         Container(
-          decoration: const BoxDecoration(
-            color: Color(0xFFF0F0F0), // Set background color
-          ),
-          child: BottomNavigationBar(
-            backgroundColor:
-                Colors.transparent, // Keep transparent for gradient
-            currentIndex: _pageIndex,
-            onTap: (index) {
-              setState(() {
-                _pageIndex = index;
-              });
-              Get.find<BottomNavController>().changePage(BnbItem.values[index]);
-            },
-            selectedItemColor: Color(0xFF338D9B), // Color for the selected item
-            unselectedItemColor:
-                Color(0xFF747272), // Color for unselected items
-            type: BottomNavigationBarType.fixed, // Ensures the items are fixed
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(icon: Icon(Icons.person), label: "Teams"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.wallet), label: "Wallet"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person_off), label: "Refer"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.more_horiz), label: "More"),
-            ],
-          ),
-        ),
+            decoration: const BoxDecoration(
+              color: Color(0xFFF0F0F0), // Set background color
+            ),
+            child: BottomNavigationBar(
+              backgroundColor: Colors.transparent,
+              currentIndex: _pageIndex,
+              onTap: (index) {
+                setState(() {
+                  _pageIndex = index;
+                });
+                Get.find<BottomNavController>()
+                    .changePage(BnbItem.values[index]);
+              },
+              selectedItemColor: Color(0xFF338D9B),
+              unselectedItemColor: Color(0xFF747272),
+              type: BottomNavigationBarType.fixed,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Image.asset(
+                    "assets/home_icon.png",
+                    width: 24,
+                    height: 24,
+                  ),
+                  label: "Home",
+                ),
+                BottomNavigationBarItem(
+                    icon: Image.asset(
+                      "assets/teams_icon.png",
+                      width: 24,
+                      height: 24,
+                    ),
+                    label: "Teams"),
+                BottomNavigationBarItem(
+                    icon: Image.asset(
+                      "assets/wallet_icon.png",
+                      width: 24,
+                      height: 24,
+                    ),
+                    label: "Wallet"),
+                BottomNavigationBarItem(
+                    icon: Image.asset(
+                      "assets/refer_icon.png",
+                      width: 24,
+                      height: 24,
+                    ),
+                    label: "Refer"),
+                BottomNavigationBarItem(
+                    icon: Image.asset(
+                      "assets/more_icon.png",
+                      width: 24,
+                      height: 24,
+                    ),
+                    label: "More"),
+              ],
+            )),
       ],
     );
   }

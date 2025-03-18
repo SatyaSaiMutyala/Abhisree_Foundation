@@ -177,15 +177,15 @@ class DonationModalScreen {
                         children: [
                           DonationPriceCard(
                               amount: "₹1000",
-                              name: "Basic school kits for 5 students"),
+                              name: "Basic school kits"),
                           SizedBox(width: 16),
                           DonationPriceCard(
                               amount: "₹2000",
-                              name: "School uniform for 5 students"),
+                              name: "School uniform"),
                           SizedBox(width: 16),
                           DonationPriceCard(
                               amount: "₹5000",
-                              name: "Full meals for 8 students"),
+                              name: "Full meals"),
                           SizedBox(width: 16),
                           DonationPriceCard(
                               amount: "₹8000", name: "Full Year Support"),

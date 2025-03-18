@@ -74,103 +74,109 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
           // Copy Referral Code & Share Buttons
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Copy Referral Code Card
-                Container(
-                  width: 162,
-                  height: 66,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF6F2F2),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Color(0xFFE4DFDF)),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Referral Code Box
-                      Container(
-                        width: 79,
-                        height: 34,
-                        alignment: Alignment.center,
-                        child: Text(
-                          referralCode.toUpperCase(),
-                          style: TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1.2,
-                            color: Color(0xFF78797E),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal, // Enables horizontal scrolling
+              child: Row(
+                children: [
+                  // Copy Referral Code Card
+                  Container(
+                    width: 162,
+                    height: 66,
+                    padding: EdgeInsets.all(10),
+                    margin: EdgeInsets.only(
+                        right: 10), // Adds spacing between items
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF6F2F2),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Color(0xFFE4DFDF)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Referral Code Box
+                        Container(
+                          width: 79,
+                          height: 34,
+                          alignment: Alignment.center,
+                          child: Text(
+                            referralCode.toUpperCase(),
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1.2,
+                              color: Color(0xFF78797E),
+                            ),
                           ),
                         ),
-                      ),
 
-                      // Copy Button with Text
-                      GestureDetector(
-                        onTap: copyToClipboard,
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 24,
-                              height: 24,
-                              child: Icon(Icons.copy, color: Color(0xFF338D9B), size: 18),
-                            ),
-                            SizedBox(width: 4),
-                            Text(
-                              "Copy",
-                              style: TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF338D9B),
+                        // Copy Button with Text
+                        GestureDetector(
+                          onTap: copyToClipboard,
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 24,
+                                height: 24,
+                                child: Icon(Icons.copy,
+                                    color: Color(0xFF338D9B), size: 18),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Share Referral Code Card
-                Container(
-                  width: 172,
-                  height: 66,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF6F2F2),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Color(0xFFE4DFDF)),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          // Code to share referral code
-                        },
-                        child: Icon(Icons.share, color: Color(0xFF338D9B), size: 24),
-                      ),
-                      Container(
-                        width: 79,
-                        height: 34,
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Share",
-                          style: TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF338D9B),
+                              SizedBox(width: 4),
+                              Text(
+                                "Copy",
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF338D9B),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+
+                  // Share Referral Code Card
+                  Container(
+                    width: 172,
+                    height: 66,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF6F2F2),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Color(0xFFE4DFDF)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            // Code to share referral code
+                          },
+                          child: Icon(Icons.share,
+                              color: Color(0xFF338D9B), size: 24),
+                        ),
+                        Container(
+                          width: 79,
+                          height: 34,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Share",
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF338D9B),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
 
@@ -191,74 +197,71 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
 
           // Referral List
           Expanded(
-  child: ListView.separated(
-    padding: EdgeInsets.symmetric(horizontal: 20),
-    itemCount: referredUsers.length,
-    separatorBuilder: (context, index) => Column(
-      children: [
-        SizedBox(height: 10), // 83px gap
-        Divider(color: Colors.grey, thickness: 1), // Horizontal line
-        SizedBox(height: 10), // 83px gap
-
-      ],
-    ),
-    itemBuilder: (context, index) {
-      final user = referredUsers[index];
-      return Row(
-        children: [
-          // User Profile Image
-          CircleAvatar(
-            radius: 31,
-            backgroundImage: AssetImage(user["image"]!),
-          ),
-          SizedBox(width: 12),
-
-          // User Name & Date/Time
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                user["name"]!,
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
+            child: ListView.separated(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              itemCount: referredUsers.length,
+              separatorBuilder: (context, index) => Column(
+                children: [
+                  SizedBox(height: 10), // 83px gap
+                  Divider(color: Colors.grey, thickness: 1), // Horizontal line
+                  SizedBox(height: 10), // 83px gap
+                ],
               ),
-              SizedBox(height: 4),
-              Text(
-                "${user["date"]} - ${user["time"]}",
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
+              itemBuilder: (context, index) {
+                final user = referredUsers[index];
+                return Row(
+                  children: [
+                    // User Profile Image
+                    CircleAvatar(
+                      radius: 31,
+                      backgroundImage: AssetImage(user["image"]!),
+                    ),
+                    SizedBox(width: 12),
 
-          Spacer(),
+                    // User Name & Date/Time
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          user["name"]!,
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          "${user["date"]} - ${user["time"]}",
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
 
-          // Amount
-          Text(
-            user["amount"]!,
-            style: TextStyle(
-              fontFamily: 'Inter',
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.green,
+                    Spacer(),
+
+                    // Amount
+                    Text(
+                      user["amount"]!,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.green,
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
-        ],
-      );
-    },
-  ),
-),
-
-
         ],
       ),
     );

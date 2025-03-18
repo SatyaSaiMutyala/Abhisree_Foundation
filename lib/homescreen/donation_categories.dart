@@ -25,7 +25,7 @@ class DonationCategoryScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: Dimensions.paddingSizeExtraLargeFix),
             child: Container(
-              width: 110,
+              width: 115,
               height: 92,
               padding: EdgeInsets.symmetric(
                 vertical: Dimensions.paddingSizeSmall,
