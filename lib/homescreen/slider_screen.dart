@@ -11,13 +11,16 @@ class SliderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width ;
+    double height  = MediaQuery.of(context).size.height ;
+
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraLarge),
+      padding: EdgeInsets.symmetric(horizontal: width * 0.06),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
+        borderRadius: BorderRadius.circular(width * 0.04),
         child: CarouselSlider(
           options: CarouselOptions(
-            height: Dimensions.sliderImageWidth,
+            height: height * 0.17,
             autoPlay: true,
             enlargeCenterPage: true,
             viewportFraction: 1.0,
@@ -31,7 +34,7 @@ class SliderScreen extends StatelessWidget {
                 imagePath,
                 fit: BoxFit.cover,
                 width: double.infinity,
-                height: Dimensions.sliderImageWidth,
+                height: height * 0.17,
               ),
             );
           }).toList(),

@@ -3,19 +3,22 @@ import 'package:adhisree_foundation/notification_screen.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
-  final String title; // Optional title parameter
+  final String title; 
   final VoidCallback? onMenuPressed;
   final VoidCallback? onNotificationPressed;
 
   const CustomAppBar({
     Key? key,
-    this.title = "", // Default to empty if no title is provided
+    this.title = "",
     this.onMenuPressed,
     this.onNotificationPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Container(
       height: 223,
       decoration: BoxDecoration(
@@ -58,10 +61,14 @@ class CustomAppBar extends StatelessWidget {
               ),
               child: IconButton(
                 icon: Icon(Icons.notifications_none, color: Colors.black),
-                onPressed: onNotificationPressed ?? () {Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => NotificationsScreen()),
-  );},
+                onPressed: onNotificationPressed ??
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NotificationsScreen()),
+                      );
+                    },
               ),
             ),
           ),
@@ -87,6 +94,7 @@ class CustomAppBar extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 6),
                 child: TextField(
+                  textAlignVertical: TextAlignVertical.center,
                   decoration: InputDecoration(
                     hintText: "Search...",
                     prefixIcon: Icon(Icons.search, color: Colors.black),
@@ -117,33 +125,33 @@ class CustomAppBar extends StatelessWidget {
   }
 
   void showMenuDialog(BuildContext context) {
-  showGeneralDialog(
-    context: context,
-    barrierDismissible: true,
-    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-    transitionDuration: Duration(milliseconds: 300), // Smooth animation
-    pageBuilder: (context, anim1, anim2) {
-      return Align(
-        alignment: Alignment.centerLeft,
-        child: Material(
-          color: Colors.transparent,
-          child: SizedBox(
-            width: 333, // Custom width
-            height: 852, // Custom height
-            child: MenuScreen(), // Ensure MenuScreen is being used
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      transitionDuration: Duration(milliseconds: 300), // Smooth animation
+      pageBuilder: (context, anim1, anim2) {
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: Material(
+            color: Colors.transparent,
+            child: SizedBox(
+              width: 333, // Custom width
+              height: 852, // Custom height
+              child: MenuScreen(), // Ensure MenuScreen is being used
+            ),
           ),
-        ),
-      );
-    },
-    transitionBuilder: (context, anim1, anim2, child) {
-      return SlideTransition(
-        position: Tween<Offset>(
-          begin: Offset(-1, 0), // Start from left
-          end: Offset(0, 0), // End at center
-        ).animate(anim1),
-        child: child,
-      );
-    },
-  );
-}
+        );
+      },
+      transitionBuilder: (context, anim1, anim2, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: Offset(-1, 0), // Start from left
+            end: Offset(0, 0), // End at center
+          ).animate(anim1),
+          child: child,
+        );
+      },
+    );
+  }
 }

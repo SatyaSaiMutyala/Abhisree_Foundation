@@ -1,5 +1,7 @@
+import 'package:adhisree_foundation/teams/viewActivitesScreen.dart';
+import 'package:adhisree_foundation/wallet/paymentDetailsScreen.dart';
+import 'package:adhisree_foundation/wallet/refferedPaymentScreen.dart';
 import 'package:flutter/material.dart';
-
 
 import 'package:adhisree_foundation/homescreen/MainScreen.dart';
 import 'package:adhisree_foundation/homescreen/volunteerScreen.dart';
@@ -15,6 +17,9 @@ class AppRoutes {
   static const String referralCode = '/referral';
   static const String mainScreen = '/main';
   static const String volunteerScreen = '/volunteer';
+  static const String withdrawPaymentDetails = '/withdrawPaymentDetails';
+  static const String refferedPaymentScreen = '/refferedPaymentScreen';
+  static const String viewActivityScreen = '/viewActivityScreen';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -35,6 +40,15 @@ class AppRoutes {
 
       case volunteerScreen : 
       return MaterialPageRoute(builder: (_) => Volunteerscreen());
+
+      case withdrawPaymentDetails :
+      return MaterialPageRoute(builder: (_) => Paymentdetailsscreen());
+
+      case refferedPaymentScreen :
+      return MaterialPageRoute(builder: (_) => Refferedpaymentscreen());
+
+      case viewActivityScreen : 
+      return MaterialPageRoute(builder: (_) => Viewactivitesscreen());
 
       default : 
       return MaterialPageRoute(builder: (_) =>Scaffold(

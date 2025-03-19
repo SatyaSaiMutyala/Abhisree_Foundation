@@ -1,37 +1,39 @@
 import 'package:adhisree_foundation/homescreen/donation_model/donation_modal_screen.dart';
+import 'package:adhisree_foundation/utils/customButton.dart';
 import 'package:flutter/material.dart';
-import 'package:adhisree_foundation/utils/dimensions.dart';
 
 class ActiveCampaigns extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width ;
+    double height = MediaQuery.of(context).size.height ;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: Dimensions.paddingSizeExtraLargeFix),
+          padding: EdgeInsets.only(left: width * 0.07),
           child: Text(
             "Active Campaigns",
             style: TextStyle(
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w600,
-              fontSize: Dimensions.fontSizeLarge,
+              fontWeight: FontWeight.bold,
+              fontSize: width * 0.05,
               color: Colors.black,
             ),
           ),
         ),
-        SizedBox(height: Dimensions.sizedBoxSizeDefault),
+        SizedBox(height: height * 0.02),
 
         // Active Campaign Card
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraLarge),
+          padding: EdgeInsets.symmetric(horizontal: width * 0.05),
           child: Container(
             width: double.infinity,
-            height: 289,
-            padding: EdgeInsets.all(Dimensions.paddingSizeDefault),
+            height: height * 0.42,
+            padding: EdgeInsets.all(width * 0.04),
             decoration: BoxDecoration(
               color: Color(0xFFF9F9F9),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(width * 0.04),
               border: Border.all(color: Color(0xFFEDEDED), width: 1),
             ),
             child: Column(
@@ -40,51 +42,50 @@ class ActiveCampaigns extends StatelessWidget {
                 // Campaign Image
                 Container(
                   width: double.infinity,
-                  height: 127,
+                  height: height * 0.16,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
+                    borderRadius: BorderRadius.circular(width * 0.04),
                     image: DecorationImage(
                       image: AssetImage('assets/campaign1.png'),
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                SizedBox(height: Dimensions.sizedBoxSizeSmall),
+                SizedBox(height: height * 0.025),
 
                 // Campaign Title
                 Text(
                   "Health Care Support",
                   style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                    fontSize: Dimensions.fontSizeSmall,
+                    fontWeight: FontWeight.bold,
+                    fontSize: width * 0.04,
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 5),
+                SizedBox(height: height * 0.02),
 
                 // Progress Bar
                 Stack(
                   children: [
                     Container(
                       width: double.infinity,
-                      height: 10,
+                      height: height * 0.01,
                       decoration: BoxDecoration(
                         color: Color(0xFFEDEDED),
-                        borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                        borderRadius: BorderRadius.circular(width * 0.03),
                       ),
                     ),
                     Container(
-                      width: 160,
-                      height: 10,
+                      width: width * 0.4,
+                      height: height * 0.01,
                       decoration: BoxDecoration(
                         color: Color(0XFF338D9B),
-                        borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                        borderRadius: BorderRadius.circular(width * 0.02),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: Dimensions.sizedBoxSizeSmall),
+                SizedBox(height: height * 0.01),
 
                 // Donation Info
                 Row(
@@ -93,51 +94,53 @@ class ActiveCampaigns extends StatelessWidget {
                     Text(
                       "\$2,500 Raised",
                       style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: Dimensions.fontSizeDefault,
+                        fontSize: width * 0.035,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black,
+                        color: Color(0XFF6F6B6B),
                       ),
                     ),
                     Text(
                       "\$20,000 Goal",
                       style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: Dimensions.fontSizeSmall,
+                        fontSize: width * 0.035,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black,
+                        color: Color(0XFF6F6B6B),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: Dimensions.sizedBoxSizeSmall),
+                SizedBox(height: height * 0.02),
 
                 // Donate Now Button
-                SizedBox(
-                  width: double.infinity,
-                  height: 41,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      DonationModalScreen.showDonationPopup(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      side: BorderSide(color: Color(0xFF338D9B), width: 1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(Dimensions.radiusDefaultExpand),
-                      ),
-                    ),
-                    child: Text(
-                      "Donate Now",
-                      style: TextStyle(
-                        color: Color(0xFF338D9B),
-                        fontFamily: 'Poppins',
-                        fontSize: Dimensions.fontSizeDefault,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
+                // SizedBox(
+                //   width: double.infinity,
+                //   height: 41,
+                //   child: ElevatedButton(
+                //     onPressed: () {
+                //       DonationModalScreen.showDonationPopup(context);
+                //     },
+                //     style: ElevatedButton.styleFrom(
+                //       backgroundColor: Colors.white,
+                //       side: BorderSide(color: Color(0xFF338D9B), width: 1),
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(Dimensions.radiusDefaultExpand),
+                //       ),
+                //     ),
+                //     child: Text(
+                //       "Donate Now",
+                //       style: TextStyle(
+                //         color: Color(0xFF338D9B),
+                //         fontFamily: 'Poppins',
+                //         fontSize: Dimensions.fontSizeDefault,
+                //         fontWeight: FontWeight.w500,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.00),
+                  child: CustomButton(text: "Donate Now", onPressed: () => DonationModalScreen.showDonationPopup(context), outlined: true, ),
+                )
               ],
             ),
           ),

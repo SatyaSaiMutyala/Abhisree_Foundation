@@ -1,6 +1,6 @@
 import 'package:adhisree_foundation/homescreen/donation_model/donation_form_details.dart';
+import 'package:adhisree_foundation/utils/customButton.dart';
 import 'package:flutter/material.dart';
-// import 'package:share_plus/share_plus.dart'; // Import share package
 import 'package:adhisree_foundation/homescreen/donation_model/donation_pride_card.dart';
 
 class DonationDetailsScreen extends StatelessWidget {
@@ -19,43 +19,46 @@ class DonationDetailsScreen extends StatelessWidget {
 
   @override
 Widget build(BuildContext context) {
+  double width = MediaQuery.of(context).size.width ;
+  double height = MediaQuery.of(context).size.height ;
+
   return Scaffold(
     backgroundColor: Colors.white,
     body: Stack(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25),
-          child: SingleChildScrollView( // Added SingleChildScrollView
+          padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+          child: SingleChildScrollView( 
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 340), // Adjust space after image
+                SizedBox(height: height * 0.38),
 
                 Text(
                   "Below poverty level students",
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    fontSize: width * 0.04,
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 5),
+                SizedBox(height: height * 0.015),
 
                 // Progress Bar
                 Stack(
                   children: [
                     Container(
                       width: double.infinity,
-                      height: 7,
+                      height: height * 0.01,
                       decoration: BoxDecoration(
                         color: Color(0xFFEDEDED),
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     Container(
-                      width: 160,
-                      height: 7,
+                      width: width * 0.4,
+                      height: height * 0.01,
                       decoration: BoxDecoration(
                         color: Color(0XFF338D9B),
                         borderRadius: BorderRadius.circular(10),
@@ -73,80 +76,80 @@ Widget build(BuildContext context) {
                       "\$2,500 Raised",
                       style: TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
+                        fontSize: width * 0.035,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0XFF6F6B6B),
                       ),
                     ),
                     Text(
                       "\$20,000 Goal",
                       style: TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
+                        fontSize: width * 0.035,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0XFF6F6B6B),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: height * 0.02),
 
                 Text(
                   title,
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w700,
-                    fontSize: 16,
+                    fontSize: width * 0.04,
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 9),
+                SizedBox(height: height * 0.01),
 
                 Text(
                   description,
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.w400,
-                    fontSize: 12,
+                    fontSize: width * 0.03,
                     color: Colors.black,
                   ),
                   textAlign: TextAlign.left,
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: height * 0.02),
 
                 Text(
                   "School Supplies",
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                    fontSize: width * 0.04,
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 9),
+                SizedBox(height: height * 0.01),
 
                 Text(
                   "Notebooks, Textbooks, pens, bags, uniforms, and shoes. Helping students who can't afford them.",
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.w400,
-                    fontSize: 12,
+                    fontSize: width * 0.03,
                     color: Colors.black,
                   ),
                   textAlign: TextAlign.left,
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: height * 0.027),
 
                 Text(
                   "Select your amount",
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                    fontSize: width * 0.04,
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: height * 0.025),
 
                 // Donation Cards - Horizontally Scrollable
                 SingleChildScrollView(
@@ -154,7 +157,7 @@ Widget build(BuildContext context) {
                   child: Row(
                     children: donationOptions.map((option) {
                       return Padding(
-                        padding: EdgeInsets.only(right: 16),
+                        padding: EdgeInsets.only(right: width * 0.02),
                         child: DonationPriceCard(
                           amount: option["amount"]!,
                           name: option["name"]!,
@@ -163,17 +166,10 @@ Widget build(BuildContext context) {
                     }).toList(),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: height * 0.03),
 
-                // Donate Button
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 20),
-                    child: SizedBox(
-                      width: 340,
-                      height: 53,
-                      child: ElevatedButton(
+                 CustomButton(
+                        text: 'SEND YOUR DONATION',
                         onPressed: () {
                           showDialog(
                             context: context,
@@ -181,9 +177,9 @@ Widget build(BuildContext context) {
                             builder: (context) {
                               return Stack(
                                 children: [
-                                  Positioned(
-                                    top: 233,
-                                    left: 25,
+                                  Align(
+                                    alignment: Alignment
+                                        .center, 
                                     child: Material(
                                       color: Colors.transparent,
                                       child: DonationPopupForm(),
@@ -193,27 +189,8 @@ Widget build(BuildContext context) {
                               );
                             },
                           );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF338D9B),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          padding: EdgeInsets.symmetric(vertical: 11),
-                        ),
-                        child: Text(
-                          "SEND YOUR DONATION",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                        }),
+
               ],
             ),
           ),
@@ -221,15 +198,15 @@ Widget build(BuildContext context) {
 
         // Image with precise positioning
         Positioned(
-          top: 114,
-          left: 23,
+          top: width * 0.24,
+          left: width * 0.05,
+          right: width * 0.05,
           child: Container(
-            width: MediaQuery.of(context).size.width -
-                  46,
-            height: 199,
+            width: double.infinity,
+            height: height * 0.25,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(width * 0.035),
               image: DecorationImage(
                 image: AssetImage(imagePath),
                 fit: BoxFit.cover,
@@ -240,8 +217,8 @@ Widget build(BuildContext context) {
 
         // Back Icon positioned at top: 56px, left: 16px
         Positioned(
-          top: 56,
-          left: 16,
+          top: width * 0.1,
+          left: width * 0.02,
           child: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black, size: 24),
             onPressed: () => Navigator.pop(context),
@@ -250,11 +227,9 @@ Widget build(BuildContext context) {
 
         // Share Icon positioned at top: 56px, right: 16px
         Positioned(
-          top: 56,
-          right: 16,
+          top: width * 0.1,
+          right: width * 0.02,
           child: SizedBox(
-            width: 40,
-            height: 41,
             child: IconButton(
               icon: Icon(Icons.share, color: Colors.black, size: 24),
               onPressed: () {

@@ -1,54 +1,54 @@
+import 'package:adhisree_foundation/utils/customButton.dart';
 import 'package:adhisree_foundation/widgets/text_feilds.dart';
 import 'package:flutter/material.dart';
 
 class DonationPopupForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width ;
+    double height = MediaQuery.of(context).size.height ;
+
     return Material(
       color: Colors.transparent,
       child: Stack(
         children: [
           // Popup Container
           Container(
-            width: 341,
-            height: 409,
-            padding: EdgeInsets.all(24.26),
+            width: width * 0.9,
+            height: height * 0.66,
+            padding: EdgeInsets.all(width * 0.07),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(width * 0.04),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 10),
+                SizedBox(height: height * 0.01),
 
                 // Title
                 Container(
-                  width: 234.24,
-                  height: 26,
-                  alignment: Alignment.center,
+                  alignment: Alignment.centerLeft,
                   child: Text(
-                    "ADD DETAILS TO RECEIVE RECEIPT",
+                    "Add details to receive receipt",
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w700,
-                      fontSize: 15.16,
-                      height: 25.02 / 15.16,
-                      letterSpacing: 0,
+                      fontSize: width * 0.045,
                       color: Colors.black,
                     ),
                   ),
                 ),
-                SizedBox(height: 18.95),
+                SizedBox(height: height * 0.025),
 
                 // Name Input
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    textFieldScreen("Name", keyboardType: TextInputType.number),
+                    textFieldScreen("Name", keyboardType: TextInputType.name),
                   ],
                 ),
-                SizedBox(height: 9.1),
+                SizedBox(height: height * 0.02),
 
                 // Email Input
                 Column(
@@ -57,7 +57,7 @@ class DonationPopupForm extends StatelessWidget {
                     textFieldScreen("Pan", keyboardType: TextInputType.number),
                   ],
                 ),
-                SizedBox(height: 9.1),
+                SizedBox(height: height * 0.02),
 
                 // Donation Amount Input
                 Column(
@@ -66,70 +66,68 @@ class DonationPopupForm extends StatelessWidget {
                     textFieldScreen("Phone Number", keyboardType: TextInputType.number),
                   ],
                 ),
-                SizedBox(height: 24),
+                SizedBox(height: height * 0.03),
 
                 // Donate Button
                 // Donate Button
                 // Continue Button
                 Center(
-                  child: Container(
-                    width: 292.48,
-                    height: 34.11,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF338D9B),
-                      borderRadius: BorderRadius.circular(6.06),
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Colors.transparent, // Keeps the container color
-                        shadowColor:
-                            Colors.transparent, // Removes button shadow
-                        padding: EdgeInsets.symmetric(
-                            vertical: 8.34, horizontal: 116.74),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6.06),
-                        ),
-                      ),
-                      child: Text(
-                        "Continue",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15.16,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                    ),
-                  ),
+                  // child: Container(
+                  //   width: 292.48,
+                  //   height: 34.11,
+                  //   decoration: BoxDecoration(
+                  //     color: Color(0xFF338D9B),
+                  //     borderRadius: BorderRadius.circular(6.06),
+                  //   ),
+                  //   child: ElevatedButton(
+                  //     onPressed: () {
+                  //       Navigator.pop(context);
+                  //     },
+                  //     style: ElevatedButton.styleFrom(
+                  //       backgroundColor:
+                  //           Colors.transparent, // Keeps the container color
+                  //       shadowColor:
+                  //           Colors.transparent, // Removes button shadow
+                  //       padding: EdgeInsets.symmetric(
+                  //           vertical: 8.34, horizontal: 116.74),
+                  //       shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(6.06),
+                  //       ),
+                  //     ),
+                  //     child: Text(
+                  //       "Continue",
+                  //       style: TextStyle(
+                  //         color: Colors.white,
+                  //         fontSize: 15.16,
+                  //         fontWeight: FontWeight.w700,
+                  //         fontFamily: 'Poppins',
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  child:  CustomButton(text: 'Countinue', onPressed: () {}),
                 ),
 
-                SizedBox(height: 10), // Space between buttons
+                SizedBox(height: height * 0.01), // Space between buttons
 
 // Skip Button
                 Center(
                   child: TextButton(
                     onPressed: () {
-                      // Handle skip action
                     },
                     style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero, // Removes default padding
-                      minimumSize: Size(292.48, 26), // Sets exact size
+                      padding: EdgeInsets.zero, 
+                      minimumSize: Size(292.48, 26), 
                       tapTargetSize: MaterialTapTargetSize
-                          .shrinkWrap, // Prevents extra padding
+                          .shrinkWrap, 
                     ),
                     child: Text(
                       "Skip",
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
-                        fontSize: 12.13,
-                        height: 25.02 / 12.13,
-                        letterSpacing: 0,
-                        color: Color(0XFF338D9B), // Text color only, no background
+                        fontSize: width * 0.035,
+                        color: Color(0XFF338D9B), 
                       ),
                     ),
                   ),
@@ -140,8 +138,9 @@ class DonationPopupForm extends StatelessWidget {
 
           // Close Button with Background
           Positioned(
-            top: 15.76,
-            left: 290.43,
+            top: width * 0.04,
+            // left: 290.43,
+            right: width * 0.04,
             child: Container(
               width: 31.08,
               height: 29.73,

@@ -36,10 +36,10 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         ),
         Container(
             decoration: const BoxDecoration(
-              color: Color(0xFFF0F0F0), // Set background color
+              color: Color(0xFFF0F0F0), 
             ),
             child: BottomNavigationBar(
-              backgroundColor: Colors.transparent,
+              backgroundColor: Color(0xFFF0F0F0),
               currentIndex: _pageIndex,
               onTap: (index) {
                 setState(() {
@@ -53,44 +53,36 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
               type: BottomNavigationBarType.fixed,
               items: [
                 BottomNavigationBarItem(
-                  icon: Image.asset(
-                    "assets/home_icon.png",
-                    width: 24,
-                    height: 24,
-                  ),
+                  icon: _getNavIcon("House", _pageIndex == 0),
                   label: "Home",
                 ),
                 BottomNavigationBarItem(
-                    icon: Image.asset(
-                      "assets/teams_icon.png",
-                      width: 24,
-                      height: 24,
-                    ),
+                    icon: _getNavIcon("UsersThree", _pageIndex == 1),
                     label: "Teams"),
                 BottomNavigationBarItem(
-                    icon: Image.asset(
-                      "assets/wallet_icon.png",
-                      width: 24,
-                      height: 24,
-                    ),
+                    icon: _getNavIcon("Wallet", _pageIndex == 2), 
                     label: "Wallet"),
                 BottomNavigationBarItem(
-                    icon: Image.asset(
-                      "assets/refer_icon.png",
-                      width: 24,
-                      height: 24,
-                    ),
+                    icon: _getNavIcon("UserSwitch", _pageIndex == 3),
                     label: "Refer"),
                 BottomNavigationBarItem(
-                    icon: Image.asset(
-                      "assets/more_icon.png",
-                      width: 24,
-                      height: 24,
-                    ),
+                    icon: _getNavIcon("DotsThreeOutline", _pageIndex == 4), 
                     label: "More"),
               ],
             )),
       ],
+    );
+  }
+
+  // Helper method to return the correct icon based on the active state
+  Widget _getNavIcon(String iconName, bool isSelected) {
+    String iconPath = isSelected
+        ? "assets/images/Png/active_$iconName.png" // Active icon path
+        : "assets/images/Png/Inactive_$iconName.png"; // Inactive icon path
+    return Image.asset(
+      iconPath,
+      width: 24,
+      height: 24,
     );
   }
 
@@ -109,3 +101,4 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     }
   }
 }
+
