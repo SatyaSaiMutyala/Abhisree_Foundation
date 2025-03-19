@@ -1,7 +1,14 @@
+import 'package:adhisree_foundation/homescreen/donation_model/volunteer_membership.dart';
+import 'package:adhisree_foundation/utils/customButton.dart';
+import 'package:adhisree_foundation/widgets/success_screen.dart';
 import 'package:adhisree_foundation/widgets/text_feilds.dart';
 import 'package:flutter/material.dart';
 
 class DonationPopupForm extends StatelessWidget {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _panController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -17,71 +24,62 @@ class DonationPopupForm extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 10),
+            child: SingleChildScrollView( // ✅ Added scrollable behavior
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 10),
 
-                // Title
-                Container(
-                  width: 234.24,
-                  height: 26,
-                  alignment: Alignment.center,
-                  child: Text(
-                    "ADD DETAILS TO RECEIVE RECEIPT",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15.16,
-                      height: 25.02 / 15.16,
-                      letterSpacing: 0,
-                      color: Colors.black,
+                  // Title
+                  Container(
+                    width: 234.24,
+                    height: 26,
+                    alignment: Alignment.center,
+                    child: Text(
+                      "ADD DETAILS TO RECEIVE RECEIPT",
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 15.16,
+                        height: 25.02 / 15.16,
+                        letterSpacing: 0,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 18.95),
+                  SizedBox(height: 18.95),
 
-                // Name Input
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    textFieldScreen("Name", keyboardType: TextInputType.number),
-                  ],
-                ),
-                SizedBox(height: 9.1),
+                  // Name Input
+                  textFieldScreen("Name",
+                      keyboardType: TextInputType.name,
+                      controller: _nameController),
+                  SizedBox(height: 9.1),
 
-                // Email Input
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    textFieldScreen("Pan", keyboardType: TextInputType.number),
-                  ],
-                ),
-                SizedBox(height: 9.1),
+                  // Pan Input
+                  textFieldScreen("Pan",
+                      keyboardType: TextInputType.text,
+                      controller: _panController),
+                  SizedBox(height: 9.1),
 
-                // Donation Amount Input
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    textFieldScreen("Phone Number", keyboardType: TextInputType.number),
-                  ],
-                ),
-                SizedBox(height: 24),
+                  // Phone Number Input
+                  textFieldScreen("Phone Number",
+                      keyboardType: TextInputType.phone,
+                      controller: _phoneNumberController),
+                  SizedBox(height: 24),
 
-                // Donate Button
-                // Donate Button
-                // Continue Button
-                Center(
+                  // Continue Button
+                  Center(
                   child: Container(
-                    width: 292.48,
-                    height: 34.11,
+                    width: 350,
+                    height: 40,
                     decoration: BoxDecoration(
                       color: Color(0xFF338D9B),
                       borderRadius: BorderRadius.circular(6.06),
                     ),
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessScreen()));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
@@ -89,13 +87,13 @@ class DonationPopupForm extends StatelessWidget {
                         shadowColor:
                             Colors.transparent, // Removes button shadow
                         padding: EdgeInsets.symmetric(
-                            vertical: 8.34, horizontal: 116.74),
+                            vertical: 8.34, horizontal: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6.06),
                         ),
                       ),
                       child: Text(
-                        "Continue",
+                        "CONTINUE",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 15.16,
@@ -107,38 +105,39 @@ class DonationPopupForm extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 10), // Space between buttons
+                  SizedBox(height: 10), // Space between buttons
 
-// Skip Button
-                Center(
-                  child: TextButton(
-                    onPressed: () {
-                      // Handle skip action
-                    },
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero, // Removes default padding
-                      minimumSize: Size(292.48, 26), // Sets exact size
-                      tapTargetSize: MaterialTapTargetSize
-                          .shrinkWrap, // Prevents extra padding
-                    ),
-                    child: Text(
-                      "Skip",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.13,
-                        height: 25.02 / 12.13,
-                        letterSpacing: 0,
-                        color: Color(0XFF338D9B), // Text color only, no background
+                  // Skip Button
+                  Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+
+                      },
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size(292.48, 26),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: Text(
+                        "Skip",
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          height: 25.02 / 12.13,
+                          letterSpacing: 0,
+                          color: Color(0XFF338D9B),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
 
-          // Close Button with Background
+          // Close Button
           Positioned(
             top: 15.76,
             left: 290.43,

@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class NotificationsScreen extends StatelessWidget {
   final List<Map<String, String>> todayNotifications = [
     {
-      "image": "assets/slider1.png",
+      "image": "assets/images/Png/slider1.png",
       "title": "Students Education Campaigns",
       "subtitle":
           "Supporting Below Poverty Level (BPL) students can make a significant impact on their education and future.",
     },
     {
-      "image": "assets/slider1.png",
+      "image": "assets/images/Png/slider1.png",
       "title": "Students Education Campaigns",
       "subtitle":
           "Supporting Below Poverty Level (BPL) students can make a significant impact on their education and future.",
@@ -18,13 +18,13 @@ class NotificationsScreen extends StatelessWidget {
 
   final List<Map<String, String>> yesterdayNotifications = [
     {
-      "image": "assets/teams1.png",
+      "image": "assets/images/Png/teams1.png",
       "title": "Educational Support Program",
       "subtitle":
           "Providing scholarships and resources helps shape a better future for underprivileged students.",
     },
     {
-      "image": "assets/teams1.png",
+      "image": "assets/images/Png/teams1.png",
       "title": "Educational Support Program",
       "subtitle":
           "Providing scholarships and resources helps shape a better future for underprivileged students.",
@@ -33,28 +33,31 @@ class NotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Notifications"),
         centerTitle: true,
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 21, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: width * 0.051, vertical: height * 0.026),
         child: ListView(
           children: [
-            _buildSectionTitle("Today"),
-            ..._buildNotificationList(todayNotifications),
-            _buildSectionTitle("Most recent"),
-            ..._buildNotificationList(yesterdayNotifications),
+            _buildSectionTitle("Today", height),
+            ..._buildNotificationList(todayNotifications, width, height), // ✅ Pass width & height
+            _buildSectionTitle("Most recent", height),
+            ..._buildNotificationList(yesterdayNotifications, width, height), // ✅ Pass width & height
           ],
         ),
       ),
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(String title, double height) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: EdgeInsets.symmetric(vertical: height * 0.012),
       child: Text(
         title,
         style: TextStyle(
@@ -65,13 +68,15 @@ class NotificationsScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildNotificationList(List<Map<String, String>> notifications) {
+  List<Widget> _buildNotificationList(List<Map<String, String>> notifications, double width, double height) {
     List<Widget> widgets = [];
     for (var i = 0; i < notifications.length; i++) {
       widgets.add(_buildNotificationItem(
         notifications[i]["image"]!,
         notifications[i]["title"]!,
         notifications[i]["subtitle"]!,
+        width,  // ✅ Pass width
+        height, // ✅ Pass height
       ));
       if (i != notifications.length - 1) {
         widgets.add(Divider()); // Add divider after each notification
@@ -80,15 +85,15 @@ class NotificationsScreen extends StatelessWidget {
     return widgets;
   }
 
-  Widget _buildNotificationItem(String imagePath, String title, String subtitle) {
+  Widget _buildNotificationItem(String imagePath, String title, String subtitle, double width, double height) { // ✅ Receive width & height
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(vertical: height * 0.008), // ✅ Use height safely
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 56,
-            height: 55,
+            width: width * 0.15, // ✅ Use width safely
+            height: height * 0.07, // ✅ Use height safely
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(28),
               image: DecorationImage(
@@ -97,7 +102,7 @@ class NotificationsScreen extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 11),
+          SizedBox(width: width * 0.03), // ✅ Use width safely
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,19 +112,19 @@ class NotificationsScreen extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: "Poppins",
                     fontWeight: FontWeight.w500,
-                    fontSize: 16,
+                    fontSize: width * 0.04, // ✅ Responsive text size
                     color: Colors.black,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 4),
+                SizedBox(height: height * 0.005), // ✅ Use height safely
                 Text(
                   subtitle,
                   style: TextStyle(
                     fontFamily: "Inter",
                     fontWeight: FontWeight.w400,
-                    fontSize: 12,
+                    fontSize: width * 0.035, // ✅ Responsive text size
                     color: Color(0xFF6F6B6B),
                   ),
                   maxLines: 2,

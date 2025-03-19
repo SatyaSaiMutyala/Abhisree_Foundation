@@ -1,3 +1,4 @@
+import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:adhisree_foundation/teams/referral_amount.dart';
@@ -18,21 +19,21 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
       "date": "12 Mar 2025",
       "time": "10:45 AM",
       "amount": "+25",
-      "image": "assets/teams1.png"
+      "image": 'assets/images/Png/teams1.png'
     },
     {
       "name": "Emma Watson",
       "date": "14 Mar 2025",
       "time": "12:30 PM",
       "amount": "+25",
-      "image": "assets/teams1.png"
+      "image": 'assets/images/Png/teams1.png'
     },
     {
       "name": "Michael Smith",
       "date": "15 Mar 2025",
       "time": "03:15 PM",
       "amount": "+25",
-      "image": "assets/teams1.png"
+      "image": 'assets/images/Png/teams1.png'
     },
   ];
 
@@ -45,12 +46,14 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomAppBar(),
-          SizedBox(height: 16),
+          SizedBox(height: width * 0.04),
 
           // Referrals Title
           Padding(
@@ -60,8 +63,8 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w600,
-                fontSize: 18,
-                color: Theme.of(context).shadowColor.withOpacity(0.8),
+                fontSize: 16,
+                color: Colors.black,
               ),
             ),
           ),
@@ -69,25 +72,25 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
 
           // Referral Amount Widget
           ReferralAmountWidget(),
-          SizedBox(height: 20),
+          SizedBox(height: width * 0.07),
 
           // Copy Referral Code & Share Buttons
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: width * 0.05),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal, // Enables horizontal scrolling
               child: Row(
                 children: [
                   // Copy Referral Code Card
                   Container(
-                    width: 162,
+                    width: (width / 2 ) * 0.845,
                     height: 66,
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(width * 0.025),
                     margin: EdgeInsets.only(
-                        right: 10), // Adds spacing between items
+                        right: width * 0.025), // Adds spacing between items
                     decoration: BoxDecoration(
                       color: Color(0xFFF6F2F2),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                       border: Border.all(color: Color(0xFFE4DFDF)),
                     ),
                     child: Row(
@@ -95,14 +98,14 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
                       children: [
                         // Referral Code Box
                         Container(
-                          width: 79,
+                          width: width * 0.2,
                           height: 34,
                           alignment: Alignment.center,
                           child: Text(
                             referralCode.toUpperCase(),
                             style: TextStyle(
                               fontFamily: 'Inter',
-                              fontSize: 14,
+                              fontSize: width * 0.04,
                               fontWeight: FontWeight.w500,
                               letterSpacing: 1.2,
                               color: Color(0xFF78797E),
@@ -116,17 +119,17 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
                           child: Row(
                             children: [
                               Container(
-                                width: 24,
+                                width: width * 0.07,
                                 height: 24,
                                 child: Icon(Icons.copy,
-                                    color: Color(0xFF338D9B), size: 18),
+                                    color: Color(0xFF338D9B), size: width * 0.04),
                               ),
-                              SizedBox(width: 4),
+                              SizedBox(width: width * 0.01),
                               Text(
                                 "Copy",
                                 style: TextStyle(
                                   fontFamily: 'Inter',
-                                  fontSize: 14,
+                                  fontSize: width * 0.035,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xFF338D9B),
                                 ),
@@ -137,15 +140,15 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
                       ],
                     ),
                   ),
-
+SizedBox(width:  width * 0.03,),
                   // Share Referral Code Card
                   Container(
-                    width: 172,
+                    width: (width / 2 ) * 0.845,
                     height: 66,
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(width * 0.025),
                     decoration: BoxDecoration(
                       color: Color(0xFFF6F2F2),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                       border: Border.all(color: Color(0xFFE4DFDF)),
                     ),
                     child: Row(
@@ -155,18 +158,17 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
                           onTap: () {
                             // Code to share referral code
                           },
-                          child: Icon(Icons.share,
-                              color: Color(0xFF338D9B), size: 24),
+                          child: Image.asset("assets/icons/share_icon.png", width: 24, height: 24,),
                         ),
                         Container(
-                          width: 79,
+                          width: width * 0.3,
                           height: 34,
                           alignment: Alignment.center,
                           child: Text(
                             "Share",
                             style: TextStyle(
                               fontFamily: 'Inter',
-                              fontSize: 14,
+                              fontSize: width * 0.035,
                               fontWeight: FontWeight.w500,
                               color: Color(0xFF338D9B),
                             ),
@@ -180,31 +182,31 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
             ),
           ),
 
-          SizedBox(height: 20),
+          SizedBox(height: width * 0.04),
           Padding(
-            padding: EdgeInsets.only(left: 24),
+            padding: EdgeInsets.only(left: width * 0.06),
             child: Text(
               "Referrals list",
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w600,
-                fontSize: 18,
-                color: Theme.of(context).shadowColor.withOpacity(0.8),
+                fontSize: width * 0.042,
+                color: Colors.black,
               ),
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: width * 0.05),
 
           // Referral List
           Expanded(
             child: ListView.separated(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.symmetric(horizontal: width * 0.05),
               itemCount: referredUsers.length,
               separatorBuilder: (context, index) => Column(
                 children: [
-                  SizedBox(height: 10), // 83px gap
+                  SizedBox(height: width * 0.025), // 83px gap
                   Divider(color: Colors.grey, thickness: 1), // Horizontal line
-                  SizedBox(height: 10), // 83px gap
+                  SizedBox(height: width * 0.025), // 83px gap
                 ],
               ),
               itemBuilder: (context, index) {
@@ -213,10 +215,10 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
                   children: [
                     // User Profile Image
                     CircleAvatar(
-                      radius: 31,
+                      radius: Dimensions.radiusDoubleExtraLarge,
                       backgroundImage: AssetImage(user["image"]!),
                     ),
-                    SizedBox(width: 12),
+                    SizedBox(width: width * 0.03),
 
                     // User Name & Date/Time
                     Column(
@@ -227,17 +229,17 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
                           user["name"]!,
                           style: TextStyle(
                             fontFamily: 'Inter',
-                            fontSize: 14,
+                            fontSize: width * 0.035,
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        SizedBox(height: width * 0.0125),
                         Text(
                           "${user["date"]} - ${user["time"]}",
                           style: TextStyle(
                             fontFamily: 'Inter',
-                            fontSize: 12,
+                            fontSize: width * 0.03,
                             fontWeight: FontWeight.w400,
                             color: Colors.grey,
                           ),
@@ -252,7 +254,7 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
                       user["amount"]!,
                       style: TextStyle(
                         fontFamily: 'Inter',
-                        fontSize: 16,
+                        fontSize: width * 0.04,
                         fontWeight: FontWeight.w600,
                         color: Colors.green,
                       ),

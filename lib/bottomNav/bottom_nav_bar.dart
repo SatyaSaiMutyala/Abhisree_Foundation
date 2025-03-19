@@ -19,12 +19,17 @@ class BottomNavScreen extends StatefulWidget {
 class _BottomNavScreenState extends State<BottomNavScreen> {
   late int _pageIndex;
 
-  @override
-  void initState() {
-    super.initState();
-    _pageIndex = widget.initialPageIndex;
+ @override
+void initState() {
+  super.initState();
+  _pageIndex = widget.initialPageIndex;
+
+  // Delay the state update until after the first frame
+  WidgetsBinding.instance.addPostFrameCallback((_) {
     Get.find<BottomNavController>().changePage(BnbItem.values[_pageIndex]);
-  }
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,57 +44,72 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
               color: Color(0xFFF0F0F0), // Set background color
             ),
             child: BottomNavigationBar(
-              backgroundColor: Colors.transparent,
-              currentIndex: _pageIndex,
-              onTap: (index) {
-                setState(() {
-                  _pageIndex = index;
-                });
-                Get.find<BottomNavController>()
-                    .changePage(BnbItem.values[index]);
-              },
-              selectedItemColor: Color(0xFF338D9B),
-              unselectedItemColor: Color(0xFF747272),
-              type: BottomNavigationBarType.fixed,
-              items: [
-                BottomNavigationBarItem(
-                  icon: Image.asset(
-                    "assets/home_icon.png",
-                    width: 24,
-                    height: 24,
-                  ),
-                  label: "Home",
-                ),
-                BottomNavigationBarItem(
-                    icon: Image.asset(
-                      "assets/teams_icon.png",
-                      width: 24,
-                      height: 24,
-                    ),
-                    label: "Teams"),
-                BottomNavigationBarItem(
-                    icon: Image.asset(
-                      "assets/wallet_icon.png",
-                      width: 24,
-                      height: 24,
-                    ),
-                    label: "Wallet"),
-                BottomNavigationBarItem(
-                    icon: Image.asset(
-                      "assets/refer_icon.png",
-                      width: 24,
-                      height: 24,
-                    ),
-                    label: "Refer"),
-                BottomNavigationBarItem(
-                    icon: Image.asset(
-                      "assets/more_icon.png",
-                      width: 24,
-                      height: 24,
-                    ),
-                    label: "More"),
-              ],
-            )),
+  // backgroundColor: Colors.transparent,
+  backgroundColor: Color(0xFFF0F0F0),
+  currentIndex: _pageIndex,
+  onTap: (index) {
+    setState(() {
+      _pageIndex = index;
+    });
+    Get.find<BottomNavController>().changePage(BnbItem.values[index]);
+  },
+  selectedItemColor: Color(0xFF338D9B),
+  unselectedItemColor: Color(0xFF747272),
+  type: BottomNavigationBarType.fixed,
+  items: [
+    BottomNavigationBarItem(
+      icon: ColorFiltered(
+        colorFilter: ColorFilter.mode(
+          _pageIndex == 0 ? Color(0xFF338D9B) : Color(0xFF747272),
+          BlendMode.srcIn,
+        ),
+        child: Image.asset("assets/icons/home_icon.png", width: 24, height: 24),
+      ),
+      label: "Home",
+    ),
+    BottomNavigationBarItem(
+      icon: ColorFiltered(
+        colorFilter: ColorFilter.mode(
+          _pageIndex == 1 ? Color(0xFF338D9B) : Color(0xFF747272),
+          BlendMode.srcIn,
+        ),
+        child: Image.asset("assets/icons/teams_icon.png", width: 24, height: 24),
+      ),
+      label: "Teams",
+    ),
+    BottomNavigationBarItem(
+      icon: ColorFiltered(
+        colorFilter: ColorFilter.mode(
+          _pageIndex == 2 ? Color(0xFF338D9B) : Color(0xFF747272),
+          BlendMode.srcIn,
+        ),
+        child: Image.asset("assets/icons/wallet_icon.png", width: 24, height: 24),
+      ),
+      label: "Wallet",
+    ),
+    BottomNavigationBarItem(
+      icon: ColorFiltered(
+        colorFilter: ColorFilter.mode(
+          _pageIndex == 3 ? Color(0xFF338D9B) : Color(0xFF747272),
+          BlendMode.srcIn,
+        ),
+        child: Image.asset("assets/icons/refer_icon.png", width: 24, height: 24),
+      ),
+      label: "Refer",
+    ),
+    BottomNavigationBarItem(
+      icon: ColorFiltered(
+        colorFilter: ColorFilter.mode(
+          _pageIndex == 4 ? Color(0xFF338D9B) : Color(0xFF747272),
+          BlendMode.srcIn,
+        ),
+        child: Image.asset("assets/icons/more_icon.png", width: 24, height: 24),
+      ),
+      label: "More",
+    ),
+  ],
+),
+),
       ],
     );
   }

@@ -4,9 +4,9 @@ import 'package:adhisree_foundation/utils/dimensions.dart';
 
 class SliderScreen extends StatelessWidget {
   final List<String> imageList = [
-    'assets/slider1.png',
-    'assets/slider1.png',
-    'assets/slider1.png',
+    'assets/images/Png/slider1.png',
+    'assets/images/Png/slider1.png',
+    'assets/images/Png/slider1.png',
   ];
 
   @override

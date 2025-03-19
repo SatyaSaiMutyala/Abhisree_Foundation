@@ -1,3 +1,4 @@
+import 'package:adhisree_foundation/bottomNav/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 
 
@@ -15,6 +16,7 @@ class AppRoutes {
   static const String referralCode = '/referral';
   static const String mainScreen = '/main';
   static const String volunteerScreen = '/volunteer';
+  static const String bottomNavBar = '/bottomNav';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -35,6 +37,12 @@ class AppRoutes {
 
       case volunteerScreen : 
       return MaterialPageRoute(builder: (_) => Volunteerscreen());
+
+      case bottomNavBar:
+      final int initialIndex = settings.arguments as int? ?? 0;
+      return MaterialPageRoute(
+        builder: (_) => BottomNavScreen(initialPageIndex: initialIndex),
+      );
 
       default : 
       return MaterialPageRoute(builder: (_) =>Scaffold(
