@@ -19,12 +19,17 @@ class BottomNavScreen extends StatefulWidget {
 class _BottomNavScreenState extends State<BottomNavScreen> {
   late int _pageIndex;
 
-  @override
-  void initState() {
-    super.initState();
-    _pageIndex = widget.initialPageIndex;
+ @override
+void initState() {
+  super.initState();
+  _pageIndex = widget.initialPageIndex;
+
+  // Delay the state update until after the first frame
+  WidgetsBinding.instance.addPostFrameCallback((_) {
     Get.find<BottomNavController>().changePage(BnbItem.values[_pageIndex]);
-  }
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {

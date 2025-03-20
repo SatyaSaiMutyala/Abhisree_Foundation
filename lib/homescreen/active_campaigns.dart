@@ -46,7 +46,7 @@ class ActiveCampaigns extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(width * 0.04),
                     image: DecorationImage(
-                      image: AssetImage('assets/campaign1.png'),
+                      image: AssetImage('assets/images/Png/campaign1.png'),
                       fit: BoxFit.cover,
                     ),
                   ),

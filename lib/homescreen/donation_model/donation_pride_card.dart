@@ -48,6 +48,8 @@ class DonationPriceCard extends StatelessWidget {
               fontFamily: 'Poppins',
               color: Colors.black,
             ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
           ),
         ],

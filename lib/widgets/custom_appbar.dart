@@ -1,5 +1,6 @@
 import 'package:adhisree_foundation/menu_screens.dart';
 import 'package:adhisree_foundation/notification_screen.dart';
+import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -24,8 +25,8 @@ class CustomAppBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: Color(0XFF97D7E0),
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(32),
-          bottomRight: Radius.circular(32),
+          bottomLeft: Radius.circular(Dimensions.radiusDoubleExtraLarge),
+          bottomRight: Radius.circular(Dimensions.radiusDoubleExtraLarge),
         ),
       ),
       child: Stack(
@@ -42,7 +43,9 @@ class CustomAppBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: IconButton(
-                icon: Icon(Icons.menu, color: Colors.black),
+                icon: Image.asset(
+  'assets/icons/menu_icon.png',
+),
                 onPressed: onMenuPressed ?? () => showMenuDialog(context),
               ),
             ),
@@ -60,7 +63,7 @@ class CustomAppBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: IconButton(
-                icon: Icon(Icons.notifications_none, color: Colors.black),
+                icon: Image.asset('assets/icons/notification_icon.png',),
                 onPressed: onNotificationPressed ??
                     () {
                       Navigator.push(

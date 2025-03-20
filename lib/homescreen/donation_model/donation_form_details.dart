@@ -1,8 +1,12 @@
 import 'package:adhisree_foundation/utils/customButton.dart';
+import 'package:adhisree_foundation/utils/routes.dart';
 import 'package:adhisree_foundation/widgets/text_feilds.dart';
 import 'package:flutter/material.dart';
 
 class DonationPopupForm extends StatelessWidget {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _panController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width ;
@@ -45,7 +49,7 @@ class DonationPopupForm extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    textFieldScreen("Name", keyboardType: TextInputType.name),
+                    textFieldScreen("Name", controller: _nameController, keyboardType: TextInputType.name),
                   ],
                 ),
                 SizedBox(height: height * 0.02),
@@ -54,7 +58,7 @@ class DonationPopupForm extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    textFieldScreen("Pan", keyboardType: TextInputType.number),
+                    textFieldScreen("Pan", controller: _panController, keyboardType: TextInputType.number),
                   ],
                 ),
                 SizedBox(height: height * 0.02),
@@ -63,52 +67,17 @@ class DonationPopupForm extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    textFieldScreen("Phone Number", keyboardType: TextInputType.number),
+                    textFieldScreen("Phone Number", controller: _phoneNumberController, keyboardType: TextInputType.number),
                   ],
                 ),
                 SizedBox(height: height * 0.03),
 
-                // Donate Button
-                // Donate Button
                 // Continue Button
                 Center(
-                  // child: Container(
-                  //   width: 292.48,
-                  //   height: 34.11,
-                  //   decoration: BoxDecoration(
-                  //     color: Color(0xFF338D9B),
-                  //     borderRadius: BorderRadius.circular(6.06),
-                  //   ),
-                  //   child: ElevatedButton(
-                  //     onPressed: () {
-                  //       Navigator.pop(context);
-                  //     },
-                  //     style: ElevatedButton.styleFrom(
-                  //       backgroundColor:
-                  //           Colors.transparent, // Keeps the container color
-                  //       shadowColor:
-                  //           Colors.transparent, // Removes button shadow
-                  //       padding: EdgeInsets.symmetric(
-                  //           vertical: 8.34, horizontal: 116.74),
-                  //       shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.circular(6.06),
-                  //       ),
-                  //     ),
-                  //     child: Text(
-                  //       "Continue",
-                  //       style: TextStyle(
-                  //         color: Colors.white,
-                  //         fontSize: 15.16,
-                  //         fontWeight: FontWeight.w700,
-                  //         fontFamily: 'Poppins',
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  child:  CustomButton(text: 'Countinue', onPressed: () {}),
+                  child:  CustomButton(text: 'Countinue', onPressed: () => Navigator.pushNamed(context, AppRoutes.successScreen)),
                 ),
 
-                SizedBox(height: height * 0.01), // Space between buttons
+                SizedBox(height: height * 0.01), 
 
 // Skip Button
                 Center(

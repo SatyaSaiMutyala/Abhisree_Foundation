@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:adhisree_foundation/homescreen/donation_model/donation_details_screen.dart';
 import 'package:adhisree_foundation/homescreen/donation_model/donation_form_details.dart';
 import 'package:adhisree_foundation/homescreen/donation_model/donation_pride_card.dart';
@@ -213,13 +214,51 @@ class DonationModalScreen {
                     color: Colors.grey[300],
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(Icons.close, color: Colors.black),
+                  child: const Icon(Icons.close, color: Colors.black),
                 ),
               ),
             ),
           ],
         );
       },
+    );
+  }
+
+  /// Extracted common text sections to avoid repetition
+  static Widget _buildTextSection({required String title, required String description}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 347,
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w700,
+              fontSize: 16,
+              letterSpacing: 0,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        const SizedBox(height: 9),
+        Container(
+          width: 347,
+          padding: const EdgeInsets.all(8),
+          child: Text(
+            description,
+            style: const TextStyle(
+              fontFamily: 'Inter',
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              letterSpacing: 0,
+              color: Colors.black,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
     );
   }
 }

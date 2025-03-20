@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 Widget textFieldScreen(
   String labelText, {
+  required TextEditingController controller, // Added controller parameter
   TextInputType keyboardType = TextInputType.text,
   String hintText = "",
 }) {
@@ -34,6 +35,7 @@ Widget textFieldScreen(
             borderRadius: BorderRadius.circular(6.06),
           ),
           child: TextField(
+            controller: controller, // Added controller here
             keyboardType: keyboardType,
             decoration: InputDecoration(
               border: InputBorder.none,

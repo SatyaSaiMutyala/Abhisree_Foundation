@@ -1,17 +1,20 @@
+import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 
 class ReferralAmountWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Center(
       child: Container(
         width: MediaQuery.of(context).size.width -
-                  46,
+                  width * 0.1,
         height: 131,
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: width * 0.040, vertical: width * 0.05),
         decoration: BoxDecoration(
           color: Color(0xFFDAF6FA), // Background color
-          borderRadius: BorderRadius.circular(21.18), // Border radius
+          borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge), // Border radius
           boxShadow: [
             BoxShadow(
               color: Color(0x171A1F12), // First shadow
@@ -29,17 +32,18 @@ class ReferralAmountWidget extends StatelessWidget {
             Text(
               "Referrals earnings",
               style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.black54,
+                fontSize: Dimensions.fontSizeLarge,
+                fontFamily: 'poppins',
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
               ),
             ),
-            SizedBox(height: 8),
+            SizedBox(height: width * 0.02),
             Text(
               "₹500.00",
               style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
+                fontSize: Dimensions.fontSizeMoreLarge,
+                fontWeight: FontWeight.w700,
                 color: Colors.black,
               ),
             ),

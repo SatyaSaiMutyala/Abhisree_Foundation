@@ -4,6 +4,8 @@ import 'package:adhisree_foundation/widgets/text_feilds.dart';
 import 'package:flutter/material.dart';
 
 class WithdrawalBottomSheet extends StatelessWidget {
+  final TextEditingController _selectAccountController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -31,6 +33,7 @@ class WithdrawalBottomSheet extends StatelessWidget {
                 // Select Account Field
                 textFieldScreen(
                   'Select Account',
+                  controller: _selectAccountController,
                   keyboardType: TextInputType.text,
                   hintText: 'XXXXXXXXXXX1233',
                 ),
@@ -39,6 +42,7 @@ class WithdrawalBottomSheet extends StatelessWidget {
                 // Withdrawal Amount Field
                 textFieldScreen(
                   'Withdrawal Amount',
+                  controller: _amountController,
                   keyboardType: TextInputType.number,
                   hintText: '₹100',
                 ),

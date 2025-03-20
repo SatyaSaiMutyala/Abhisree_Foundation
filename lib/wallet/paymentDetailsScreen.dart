@@ -55,7 +55,7 @@ class _PaymentDetails extends State<Paymentdetailsscreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Image.asset(
-                  'assets/teams1.png',
+                  'assets/images/Png/teams1.png',
                   width: width * 0.2,
                   height: height * 0.1,
                 ),

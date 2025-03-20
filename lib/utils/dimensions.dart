@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Dimensions {
@@ -7,6 +8,7 @@ class Dimensions {
   static double fontSizeLarge = Get.context!.width >= 1300 ? 18 : 16;
   static double fontSizeExtraLarge = Get.context!.width >= 1300 ? 20 : 18;
   static double fontSizeOverLarge = Get.context!.width >= 1300 ? 26 : 24;
+  static double fontSizeMoreLarge = Get.context!.width >= 1300 ? 34 : 32;
   static double fontSizeForReview = Get.context!.width >= 1300 ? 36 : 36;
 
   static const double positionedWidth = 110.0;
@@ -30,6 +32,10 @@ class Dimensions {
   static const double paddingSizeExtraMoreLarge = 40.0;
   static const double paddingForChattingButton = 60.0;
   static const double pagesBottomPadding = 100.0;
+
+  static double width = Get.context!.width;
+static double height = Get.context!.height;
+
 
   static const double sizedBoxSizeMini = 2.0;
   static const double sizedBoxSizeTine = 3.0;
@@ -87,6 +93,7 @@ class Dimensions {
   static const double radiusSeven = 7.0;
   static const double radiusLarge = 15.0;
   static const double radiusExtraLarge = 20.0;
+  static const double radiusDoubleExtraLarge = 32.0;
   static const double radiusExtraMoreLarge = 50.0;
 
   static const double webMaxWidth = 1200;

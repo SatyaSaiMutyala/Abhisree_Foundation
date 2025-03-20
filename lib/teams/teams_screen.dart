@@ -11,16 +11,16 @@ class _TeamsScreenState extends State<TeamsScreen> {
   bool showPrimary = true; // To track which data to show
 
   final List<Map<String, String>> primaryReferrals = [
-    {'name': 'John Doe', 'role': 'CEO', 'image': 'assets/teams1.png'},
-    {'name': 'Jane Smith', 'role': 'CTO', 'image': 'assets/teams1.png'},
+    {'name': 'John Doe', 'role': 'CEO', 'image': 'assets/images/Png/teams1.png'},
+    {'name': 'Jane Smith', 'role': 'CTO', 'image': 'assets/images/Png/teams1.png'},
   ];
 
   final List<Map<String, String>> secondaryReferrals = [
-    {'name': 'Mike Johnson', 'role': 'Designer', 'image': 'assets/teams1.png'},
+    {'name': 'Mike Johnson', 'role': 'Designer', 'image': 'assets/images/Png/teams1.png'},
     {
       'name': 'Emily Davis',
       'role': 'Marketing Head',
-      'image': 'assets/teams1.png'
+      'image': 'assets/images/Png/teams1.png'
     },
   ];
 
@@ -68,7 +68,8 @@ class _TeamsScreenState extends State<TeamsScreen> {
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 6),
                     image: DecorationImage(
-                      image: AssetImage('assets/teams1.png'),
+                      image: AssetImage(
+                          'assets/images/Png/teams1.png'), // Replace with your image
                       fit: BoxFit.cover,
                     ),
                   ),
