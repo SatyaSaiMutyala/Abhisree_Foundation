@@ -1,6 +1,5 @@
-import 'package:adhisree_foundation/homescreen/donation_model/volunteer_membership.dart';
 import 'package:adhisree_foundation/utils/customButton.dart';
-import 'package:adhisree_foundation/widgets/success_screen.dart';
+import 'package:adhisree_foundation/utils/routes.dart';
 import 'package:adhisree_foundation/widgets/text_feilds.dart';
 import 'package:flutter/material.dart';
 
@@ -8,139 +7,109 @@ class DonationPopupForm extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _panController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width ;
+    double height = MediaQuery.of(context).size.height ;
+
     return Material(
       color: Colors.transparent,
       child: Stack(
         children: [
           // Popup Container
           Container(
-            width: 341,
-            height: 409,
-            padding: EdgeInsets.all(24.26),
+            width: width * 0.9,
+            height: height * 0.66,
+            padding: EdgeInsets.all(width * 0.07),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(width * 0.04),
             ),
-            child: SingleChildScrollView( // ✅ Added scrollable behavior
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: height * 0.01),
 
-                  // Title
-                  Container(
-                    width: 234.24,
-                    height: 26,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "ADD DETAILS TO RECEIVE RECEIPT",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15.16,
-                        height: 25.02 / 15.16,
-                        letterSpacing: 0,
-                        color: Colors.black,
-                      ),
+                // Title
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Add details to receive receipt",
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w700,
+                      fontSize: width * 0.045,
+                      color: Colors.black,
                     ),
                   ),
-                  SizedBox(height: 18.95),
+                ),
+                SizedBox(height: height * 0.025),
 
-                  // Name Input
-                  textFieldScreen("Name",
-                      keyboardType: TextInputType.name,
-                      controller: _nameController),
-                  SizedBox(height: 9.1),
+                // Name Input
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    textFieldScreen("Name", controller: _nameController, keyboardType: TextInputType.name),
+                  ],
+                ),
+                SizedBox(height: height * 0.02),
 
-                  // Pan Input
-                  textFieldScreen("Pan",
-                      keyboardType: TextInputType.text,
-                      controller: _panController),
-                  SizedBox(height: 9.1),
+                // Email Input
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    textFieldScreen("Pan", controller: _panController, keyboardType: TextInputType.number),
+                  ],
+                ),
+                SizedBox(height: height * 0.02),
 
-                  // Phone Number Input
-                  textFieldScreen("Phone Number",
-                      keyboardType: TextInputType.phone,
-                      controller: _phoneNumberController),
-                  SizedBox(height: 24),
+                // Donation Amount Input
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    textFieldScreen("Phone Number", controller: _phoneNumberController, keyboardType: TextInputType.number),
+                  ],
+                ),
+                SizedBox(height: height * 0.03),
 
-                  // Continue Button
-                  Center(
-                  child: Container(
-                    width: 350,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF338D9B),
-                      borderRadius: BorderRadius.circular(6.06),
+                // Continue Button
+                Center(
+                  child:  CustomButton(text: 'Countinue', onPressed: () => Navigator.pushNamed(context, AppRoutes.successScreen)),
+                ),
+
+                SizedBox(height: height * 0.01), 
+
+// Skip Button
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                    },
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero, 
+                      minimumSize: Size(292.48, 26), 
+                      tapTargetSize: MaterialTapTargetSize
+                          .shrinkWrap, 
                     ),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Navigator.pop(context);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessScreen()));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Colors.transparent, // Keeps the container color
-                        shadowColor:
-                            Colors.transparent, // Removes button shadow
-                        padding: EdgeInsets.symmetric(
-                            vertical: 8.34, horizontal: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6.06),
-                        ),
-                      ),
-                      child: Text(
-                        "CONTINUE",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15.16,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'Poppins',
-                        ),
+                    child: Text(
+                      "Skip",
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                        fontSize: width * 0.035,
+                        color: Color(0XFF338D9B), 
                       ),
                     ),
                   ),
                 ),
-
-                  SizedBox(height: 10), // Space between buttons
-
-                  // Skip Button
-                  Center(
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-
-                      },
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: Size(292.48, 26),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      child: Text(
-                        "Skip",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                          height: 25.02 / 12.13,
-                          letterSpacing: 0,
-                          color: Color(0XFF338D9B),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              ],
             ),
           ),
 
-          // Close Button
+          // Close Button with Background
           Positioned(
-            top: 15.76,
-            left: 290.43,
+            top: width * 0.04,
+            // left: 290.43,
+            right: width * 0.04,
             child: Container(
               width: 31.08,
               height: 29.73,

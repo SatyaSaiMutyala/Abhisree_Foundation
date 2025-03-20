@@ -41,76 +41,53 @@ void initState() {
         ),
         Container(
             decoration: const BoxDecoration(
-              color: Color(0xFFF0F0F0), // Set background color
+              color: Color(0xFFF0F0F0), 
             ),
             child: BottomNavigationBar(
-  // backgroundColor: Colors.transparent,
-  backgroundColor: Color(0xFFF0F0F0),
-  currentIndex: _pageIndex,
-  onTap: (index) {
-    setState(() {
-      _pageIndex = index;
-    });
-    Get.find<BottomNavController>().changePage(BnbItem.values[index]);
-  },
-  selectedItemColor: Color(0xFF338D9B),
-  unselectedItemColor: Color(0xFF747272),
-  type: BottomNavigationBarType.fixed,
-  items: [
-    BottomNavigationBarItem(
-      icon: ColorFiltered(
-        colorFilter: ColorFilter.mode(
-          _pageIndex == 0 ? Color(0xFF338D9B) : Color(0xFF747272),
-          BlendMode.srcIn,
-        ),
-        child: Image.asset("assets/icons/home_icon.png", width: 24, height: 24),
-      ),
-      label: "Home",
-    ),
-    BottomNavigationBarItem(
-      icon: ColorFiltered(
-        colorFilter: ColorFilter.mode(
-          _pageIndex == 1 ? Color(0xFF338D9B) : Color(0xFF747272),
-          BlendMode.srcIn,
-        ),
-        child: Image.asset("assets/icons/teams_icon.png", width: 24, height: 24),
-      ),
-      label: "Teams",
-    ),
-    BottomNavigationBarItem(
-      icon: ColorFiltered(
-        colorFilter: ColorFilter.mode(
-          _pageIndex == 2 ? Color(0xFF338D9B) : Color(0xFF747272),
-          BlendMode.srcIn,
-        ),
-        child: Image.asset("assets/icons/wallet_icon.png", width: 24, height: 24),
-      ),
-      label: "Wallet",
-    ),
-    BottomNavigationBarItem(
-      icon: ColorFiltered(
-        colorFilter: ColorFilter.mode(
-          _pageIndex == 3 ? Color(0xFF338D9B) : Color(0xFF747272),
-          BlendMode.srcIn,
-        ),
-        child: Image.asset("assets/icons/refer_icon.png", width: 24, height: 24),
-      ),
-      label: "Refer",
-    ),
-    BottomNavigationBarItem(
-      icon: ColorFiltered(
-        colorFilter: ColorFilter.mode(
-          _pageIndex == 4 ? Color(0xFF338D9B) : Color(0xFF747272),
-          BlendMode.srcIn,
-        ),
-        child: Image.asset("assets/icons/more_icon.png", width: 24, height: 24),
-      ),
-      label: "More",
-    ),
-  ],
-),
-),
+              backgroundColor: Color(0xFFF0F0F0),
+              currentIndex: _pageIndex,
+              onTap: (index) {
+                setState(() {
+                  _pageIndex = index;
+                });
+                Get.find<BottomNavController>()
+                    .changePage(BnbItem.values[index]);
+              },
+              selectedItemColor: Color(0xFF338D9B),
+              unselectedItemColor: Color(0xFF747272),
+              type: BottomNavigationBarType.fixed,
+              items: [
+                BottomNavigationBarItem(
+                  icon: _getNavIcon("House", _pageIndex == 0),
+                  label: "Home",
+                ),
+                BottomNavigationBarItem(
+                    icon: _getNavIcon("UsersThree", _pageIndex == 1),
+                    label: "Teams"),
+                BottomNavigationBarItem(
+                    icon: _getNavIcon("Wallet", _pageIndex == 2), 
+                    label: "Wallet"),
+                BottomNavigationBarItem(
+                    icon: _getNavIcon("UserSwitch", _pageIndex == 3),
+                    label: "Refer"),
+                BottomNavigationBarItem(
+                    icon: _getNavIcon("DotsThreeOutline", _pageIndex == 4), 
+                    label: "More"),
+              ],
+            )),
       ],
+    );
+  }
+
+  // Helper method to return the correct icon based on the active state
+  Widget _getNavIcon(String iconName, bool isSelected) {
+    String iconPath = isSelected
+        ? "assets/images/Png/active_$iconName.png" // Active icon path
+        : "assets/images/Png/Inactive_$iconName.png"; // Inactive icon path
+    return Image.asset(
+      iconPath,
+      width: 24,
+      height: 24,
     );
   }
 
@@ -129,3 +106,4 @@ void initState() {
     }
   }
 }
+

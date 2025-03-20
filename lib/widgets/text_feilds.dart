@@ -7,31 +7,29 @@ Widget textFieldScreen(
   String hintText = "",
 }) {
   return LayoutBuilder(builder: (context, constraints) {
-    double screenWidth = constraints.maxWidth; // Get available width dynamically
+    double screenWidth = constraints.maxWidth; 
+    double width = MediaQuery.of(context).size.width ;
+    double height = MediaQuery.of(context).size.height ;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: screenWidth, // Use full width available
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.symmetric(horizontal: 0),
+          padding: EdgeInsets.symmetric(horizontal: width * 0.02),
           child: Text(
             labelText.toUpperCase(),
             style: TextStyle(
               fontFamily: 'Poppins',
-              fontWeight: FontWeight.w500,
-              fontSize: 14,
-              letterSpacing: 0.76,
+              fontWeight: FontWeight.w600,
+              fontSize: width * 0.03,
               color: Colors.black,
             ),
           ),
         ),
-        SizedBox(height: 8),
+        SizedBox(height: height * 0.01),
         Container(
-          width: screenWidth, // Use full width available
-          height: 47,
-          padding: EdgeInsets.symmetric(vertical: 4.55, horizontal: 10.61),
+          padding: EdgeInsets.symmetric(vertical: width * 0.01, horizontal: width * 0.03),
           decoration: BoxDecoration(
             color: Color(0xFFE4E4E4),
             borderRadius: BorderRadius.circular(6.06),

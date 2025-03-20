@@ -1,6 +1,10 @@
+import 'package:adhisree_foundation/homescreen/donation_model/volunteer_membership.dart';
+import 'package:adhisree_foundation/teams/viewActivitesScreen.dart';
+import 'package:adhisree_foundation/wallet/paymentDetailsScreen.dart';
+import 'package:adhisree_foundation/wallet/refferedPaymentScreen.dart';
 import 'package:adhisree_foundation/bottomNav/bottom_nav_bar.dart';
+import 'package:adhisree_foundation/widgets/success_screen.dart';
 import 'package:flutter/material.dart';
-
 
 import 'package:adhisree_foundation/homescreen/MainScreen.dart';
 import 'package:adhisree_foundation/homescreen/volunteerScreen.dart';
@@ -16,7 +20,12 @@ class AppRoutes {
   static const String referralCode = '/referral';
   static const String mainScreen = '/main';
   static const String volunteerScreen = '/volunteer';
+  static const String withdrawPaymentDetails = '/withdrawPaymentDetails';
+  static const String refferedPaymentScreen = '/refferedPaymentScreen';
+  static const String viewActivityScreen = '/viewActivityScreen';
   static const String bottomNavBar = '/bottomNav';
+  static const String volunteerMembership = '/volunteerMembership' ;
+  static const String successScreen = '/successScreen' ;
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -38,11 +47,27 @@ class AppRoutes {
       case volunteerScreen : 
       return MaterialPageRoute(builder: (_) => Volunteerscreen());
 
+      case withdrawPaymentDetails :
+      return MaterialPageRoute(builder: (_) => Paymentdetailsscreen());
+
+      case refferedPaymentScreen :
+      return MaterialPageRoute(builder: (_) => Refferedpaymentscreen());
+
+      case viewActivityScreen : 
+      return MaterialPageRoute(builder: (_) => Viewactivitesscreen());
+
+      case volunteerMembership :
+      return MaterialPageRoute(builder: (_) => VolunteerMembership());
+
+      case successScreen :
+      return MaterialPageRoute(builder: (_) => SuccessScreen());
+      
       case bottomNavBar:
       final int initialIndex = settings.arguments as int? ?? 0;
       return MaterialPageRoute(
         builder: (_) => BottomNavScreen(initialPageIndex: initialIndex),
       );
+
 
       default : 
       return MaterialPageRoute(builder: (_) =>Scaffold(

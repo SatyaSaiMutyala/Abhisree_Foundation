@@ -1,3 +1,4 @@
+import 'package:adhisree_foundation/utils/routes.dart';
 import 'package:adhisree_foundation/wallet/wallet_amount.dart';
 import 'package:adhisree_foundation/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
@@ -8,40 +9,42 @@ class WalletScreen extends StatefulWidget {
 }
 
 class _WalletScreenState extends State<WalletScreen> {
-  bool showTransactions = true; // Toggle between Transaction and Withdrawal History
+  bool showTransactions = true; 
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width ;
+    double height = MediaQuery.of(context).size.height ;
+
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomAppBar(),
-          SizedBox(height: 16),
+          SizedBox(height: height * 0.02),
 
           // Wallet Title
           Padding(
-            padding: EdgeInsets.only(left: 24),
+            padding: EdgeInsets.only(left: width * 0.06),
             child: Text(
               "Wallet",
               style: TextStyle(
                 fontFamily: 'Poppins',
-                fontWeight: FontWeight.w600,
-                fontSize: 18,
+                fontWeight: FontWeight.w800,
+                fontSize: width * 0.045,
                 color: Theme.of(context).shadowColor.withOpacity(0.8),
               ),
             ),
           ),
-          SizedBox(height: 16),
+          SizedBox(height: height * 0.015),
 
           // Wallet Amount Widget
-          WalletAmountWidget(),
+          WalletAmountWidget(showTransactions: showTransactions),
 
           // Transaction & Withdrawal History Toggle
           Container(
-            width: 350,
-            height: 29,
-            margin: EdgeInsets.only(top: 25, left: 22), // Positioned as per requirement
+            width: width * 2,
+            margin: EdgeInsets.only(top: width * 0.06, left: width * 0.08), 
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -52,19 +55,13 @@ class _WalletScreenState extends State<WalletScreen> {
                     });
                   },
                   child: Container(
-                    width: 165,
-                    height: 29,
                     alignment: Alignment.center,
-                    // decoration: BoxDecoration(
-                    //   borderRadius: BorderRadius.circular(5),
-                    //   color: showTransactions ? Colors.black : Colors.transparent,
-                    // ),
                     child: Text(
                       "Transaction History",
                       style: TextStyle(
                         fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        fontSize: width * 0.04,
                         color: showTransactions ? Colors.black : Color(0xFFB8B5B5),
                       ),
                       textAlign: TextAlign.center,
@@ -78,19 +75,14 @@ class _WalletScreenState extends State<WalletScreen> {
                     });
                   },
                   child: Container(
-                    width: 165,
-                    height: 29,
+                    width: width * 0.5,
                     alignment: Alignment.center,
-                    // decoration: BoxDecoration(
-                    //   borderRadius: BorderRadius.circular(5),
-                    //   color: showTransactions ? Colors.transparent : Colors.black,
-                    // ),
                     child: Text(
                       "Withdrawal History",
                       style: TextStyle(
                         fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        fontSize: width * 0.04,
                         color: showTransactions ? Color(0xFFB8B5B5) : Colors.black,
                       ),
                       textAlign: TextAlign.center,
@@ -103,8 +95,8 @@ class _WalletScreenState extends State<WalletScreen> {
 
           // Line Divider
           Container(
-            width: 350,
-            margin: EdgeInsets.only(top: 10, left: 22), // Aligning with toggle
+            width: width * 0.9,
+            margin: EdgeInsets.only(top: width * 0.03, left: width * 0.06), // Aligning with toggle
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(color: Color(0xFFDEDEDE), width: 1),
@@ -112,12 +104,12 @@ class _WalletScreenState extends State<WalletScreen> {
             ),
           ),
 
-          SizedBox(height: 16),
+          SizedBox(height: width * 0.01),
 
           // Transaction List
           Expanded(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 22),
+              padding: EdgeInsets.symmetric(horizontal: width * 0.04),
               child: showTransactions ? buildTransactionList() : buildWithdrawalList(),
             ),
           ),
@@ -126,19 +118,22 @@ class _WalletScreenState extends State<WalletScreen> {
     );
   }
 
-  // Transaction History List
-    // Transaction History List
-    // Transaction History List
-    // Transaction History List
   Widget buildTransactionList() {
+
+    double width = MediaQuery.of(context).size.width ;
+    double height = MediaQuery.of(context).size.height ;
+
     return ListView.builder(
       itemCount: 5,
       itemBuilder: (context, index) {
-        return Container(
-          width: 354,
-          height: 72,
-          margin: EdgeInsets.only(bottom: 8),
-          padding: EdgeInsets.fromLTRB(4, 14, 4, 4),
+        return GestureDetector(
+          onTap: () => {
+            Navigator.pushNamed(context, AppRoutes.refferedPaymentScreen),
+          },
+          child:  Container(
+          width: width * 0.4,
+          margin: EdgeInsets.only(bottom: width * 0.02),
+          padding: EdgeInsets.fromLTRB(width * 0.02, width * 0.03, width * 0.04, width * 0.03),
           decoration: BoxDecoration(
             color: Color(0xFFF3F3F3),
             borderRadius: BorderRadius.circular(3),
@@ -148,9 +143,8 @@ class _WalletScreenState extends State<WalletScreen> {
             children: [
               // Date & Time Bar
               Container(
-                width: 322,
-                height: 21,
-                padding: EdgeInsets.symmetric(horizontal: 8),
+                // width: 322,
+                padding: EdgeInsets.symmetric(horizontal: width * 0.02),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -158,7 +152,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       "20-Sep-2024 | 10:30 AM",
                       style: TextStyle(
                         fontFamily: 'Inter',
-                        fontSize: 12,
+                        fontSize: width * 0.03,
                         fontWeight: FontWeight.w400,
                         color: Color(0xFF6F6B6B),
                       ),
@@ -166,7 +160,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: height * 0.01),
 
               // Main Transaction Details
               Row(
@@ -174,15 +168,15 @@ class _WalletScreenState extends State<WalletScreen> {
                 children: [
                   // Name (Srinivas)
                   Container(
-                    width: 70,
-                    height: 21,
-                padding: EdgeInsets.symmetric(horizontal: 8),
+                    // width: 70,
+                    // height: 21,
+                padding: EdgeInsets.symmetric(horizontal: width * 0.02),
                     child: Text(
                       "Srinivas",
                       style: TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
+                        fontSize: width * 0.035,
+                        fontWeight: FontWeight.w600,
                         color: Colors.black,
                       ),
                     ),
@@ -190,8 +184,8 @@ class _WalletScreenState extends State<WalletScreen> {
 
                   // Amount with Rs symbol
                   Container(
-                    width: 79,
-                    height: 17,
+                    // width: 79,
+                    // height: 17,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -201,7 +195,7 @@ class _WalletScreenState extends State<WalletScreen> {
                           "₹25,000",
                           style: TextStyle(
                             fontFamily: 'Inter',
-                            fontSize: 14,
+                            fontSize: width * 0.035,
                             fontWeight: FontWeight.w600,
                             color: Color(0xFF039200),
                           ),
@@ -213,24 +207,28 @@ class _WalletScreenState extends State<WalletScreen> {
               ),
             ],
           ),
-        );
+        ));
       },
     );
   }
 
 
   Widget buildWithdrawalList() {
+    double width = MediaQuery.of(context).size.width ;
+    double height = MediaQuery.of(context).size.height ;
   return ListView.builder(
     itemCount: 3,
     itemBuilder: (context, index) {
-      return Container(
-        width: 354,
-        height: 86, // Card size
-        margin: EdgeInsets.only(bottom: 8),
-        padding: EdgeInsets.fromLTRB(4, 14, 4, 4), // Padding
+      return GestureDetector(
+        onTap: () => {
+          Navigator.pushNamed(context, AppRoutes.withdrawPaymentDetails),
+        },
+      child: Container(
+        margin: EdgeInsets.only(bottom: width * 0.02),
+        padding: EdgeInsets.fromLTRB(width * 0.02, width * 0.03, width * 0.04, width * 0.03),
         decoration: BoxDecoration(
-          color: Color(0xFFF3F3F3), // Background color
-          borderRadius: BorderRadius.circular(3), // Border radius
+          color: Color(0xFFF3F3F3), 
+          borderRadius: BorderRadius.circular(3), 
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,7 +237,7 @@ class _WalletScreenState extends State<WalletScreen> {
             Container(
               width: 322,
               height: 15, // Updated height
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.symmetric(horizontal: width * 0.02),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -247,7 +245,7 @@ class _WalletScreenState extends State<WalletScreen> {
                     "20-Sep-2024 | 10:30 AM",
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 12,
+                      fontSize: width * 0.03,
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF6F6B6B),
                     ),
@@ -255,13 +253,13 @@ class _WalletScreenState extends State<WalletScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 3),
+            SizedBox(height: height * 0.006),
 
             // Debited To Text & Amount
             Container(
-              width: 322,
-              height: 33,
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              // width: 322,
+              // height: 33,
+              padding: EdgeInsets.symmetric(horizontal: width * 0.02),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -271,7 +269,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       "Debited to",
                       style: TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize: 14,
+                        fontSize: width * 0.035,
                         fontWeight: FontWeight.w500,
                         color: Colors.black,
                       ),
@@ -280,18 +278,17 @@ class _WalletScreenState extends State<WalletScreen> {
 
                   // ₹25,000 Box (Fixed Size)
                   Container(
-                    width: 79,
-                    height: 18,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.add, size: 14, color: Color(0xFF039200)),
-                        SizedBox(width: 2),
+                        // Icon(Icons.add, size: 14, color: Color(0xFF039200)),
+                        Image.asset('assets/images/Png/success.png', width: width * 0.04),
+                        SizedBox(width: width * 0.02),
                         Text(
                           "₹25,000",
                           style: TextStyle(
                             fontFamily: 'Outfit',
-                            fontSize: 14,
+                            fontSize: width * 0.04,
                             fontWeight: FontWeight.w600,
                             color: Color(0xFF039200),
                           ),
@@ -305,14 +302,14 @@ class _WalletScreenState extends State<WalletScreen> {
 
             // Account Number
             Container(
-              width: 322,
-              height: 15,
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              // width: 322,
+              // height: 15,
+              padding: EdgeInsets.symmetric(horizontal: width * 0.02),
               child: Text(
                 "xxxxxxxxx34",
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 12,
+                  fontSize: width * 0.03,
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF6F6B6B),
                 ),
@@ -320,7 +317,7 @@ class _WalletScreenState extends State<WalletScreen> {
             ),
           ],
         ),
-      );
+      ));
     },
   );
 }
