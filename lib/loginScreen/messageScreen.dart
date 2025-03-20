@@ -1,6 +1,5 @@
 
 import 'package:adhisree_foundation/utils/customButton.dart';
-import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:adhisree_foundation/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -2,27 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:adhisree_foundation/homescreen/donation_model/donation_details_screen.dart';
 import 'package:adhisree_foundation/homescreen/donation_model/donation_form_details.dart';
 import 'package:adhisree_foundation/homescreen/donation_model/donation_pride_card.dart';
+import 'package:adhisree_foundation/utils/customButton.dart';
 
 class DonationModalScreen {
   static void showDonationPopup(BuildContext context) {
     showGeneralDialog(
       context: context,
-      barrierDismissible: true, // Close on tap outside
+      barrierDismissible: true,
       barrierLabel: "DonationPopup",
-      transitionDuration: const Duration(milliseconds: 300), // Smooth animation
+      transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (context, animation, secondaryAnimation) {
+        double width = MediaQuery.of(context).size.width;
+        double height = MediaQuery.of(context).size.height;
+
         return Stack(
-          clipBehavior: Clip.none, // Allows positioning outside modal
+          clipBehavior: Clip.none,
           children: [
-            // The Bottom Modal
             Positioned(
-              bottom: 0, // Attach modal to the bottom
+              bottom: 0,
               left: 0,
               right: 0,
               child: Container(
                 width: double.infinity,
-                height: 606,
-                padding: const EdgeInsets.fromLTRB(25, 30, 25, 42),
+                height: height * 0.68,
+                padding: EdgeInsets.fromLTRB(
+                  width * 0.05, width * 0.07, width * 0.05, width * 0.02),
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
@@ -30,7 +34,6 @@ class DonationModalScreen {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Image with GestureDetector
                     Center(
                       child: GestureDetector(
                         onTap: () {
@@ -38,39 +41,26 @@ class DonationModalScreen {
                             context,
                             MaterialPageRoute(
                               builder: (context) => DonationDetailsScreen(
-                                imagePath: 'assets/images/Png/slider1.png',
+                                imagePath: "assets/images/Png/child.png",
                                 title: "Below Poverty Level Students",
-                                description:
-                                    "Supporting Below Poverty Level (BPL) students can make a significant impact on their education and future.",
+                                description: "Supporting Below Poverty Level (BPL) students can make a significant impact on their education and future.",
                                 donationOptions: [
-                                  {
-                                    "amount": "₹1000",
-                                    "name": "Basic school kits for 5 students"
-                                  },
-                                  {
-                                    "amount": "₹2000",
-                                    "name": "School uniform for 5 students"
-                                  },
-                                  {
-                                    "amount": "₹5000",
-                                    "name": "Full meals for 8 students"
-                                  },
-                                  {
-                                    "amount": "₹8000",
-                                    "name": "Full Year Support"
-                                  },
+                                  {"amount": "₹1000", "name": "Basic school kits for 5 students"},
+                                  {"amount": "₹2000", "name": "School uniform for 5 students"},
+                                  {"amount": "₹5000", "name": "Full meals for 8 students"},
+                                  {"amount": "₹8000", "name": "Full Year Support"},
                                 ],
                               ),
                             ),
                           );
                         },
                         child: Container(
-                          width: 300,
-                          height: 120,
+                          width: width,
+                          height: height * 0.18,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: const DecorationImage(
-                              image: AssetImage('assets/images/Png/slider1.png'),
+                              image: AssetImage("assets/images/Png/child.png"),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -78,23 +68,16 @@ class DonationModalScreen {
                       ),
                     ),
                     const SizedBox(height: 28),
-
                     _buildTextSection(
                       title: "Below Poverty Level Students",
-                      description:
-                          "Supporting Below Poverty Level (BPL) students can make a significant impact on their education and future.",
+                      description: "Supporting Below Poverty Level (BPL) students can make a significant impact on their education and future.",
                     ),
-
                     const SizedBox(height: 20),
-
                     _buildTextSection(
                       title: "School Supplies",
-                      description:
-                          "Notebooks, Textbooks, pens, bags, uniforms, and shoes. Helping students who can't afford them.",
+                      description: "Notebooks, Textbooks, pens, bags, uniforms, and shoes. Helping students who can't afford them.",
                     ),
-
                     const SizedBox(height: 20),
-
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
@@ -109,10 +92,7 @@ class DonationModalScreen {
                         ],
                       ),
                     ),
-
-                    const Spacer(), // Push button to bottom
-
-                    // Donate Now Button
+                    const Spacer(),
                     Center(
                       child: SizedBox(
                         width: 343,
@@ -121,19 +101,14 @@ class DonationModalScreen {
                           onPressed: () {
                             showDialog(
                               context: context,
-                              barrierDismissible: true, // Close popup when tapping outside
+                              barrierDismissible: true,
                               builder: (context) {
-                                return Stack(
-                                  children: [
-                                    Positioned(
-                                      top: 233,
-                                      left: 25,
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        child: DonationPopupForm(), // Your popup widget
-                                      ),
-                                    ),
-                                  ],
+                                return Align(
+                                  alignment: Alignment.center,
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: DonationPopupForm(),
+                                  ),
                                 );
                               },
                             );
@@ -157,15 +132,14 @@ class DonationModalScreen {
                         ),
                       ),
                     ),
+                    SizedBox(height: height * 0.03),
                   ],
                 ),
               ),
             ),
-
-            // Close Button above the modal
             Positioned(
-              top: 182, // Adjust height above modal
-              left: MediaQuery.of(context).size.width / 2 - 20, // Center horizontally
+              top: height * 0.23,
+              left: width * 0.45,
               child: GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
@@ -187,38 +161,27 @@ class DonationModalScreen {
     );
   }
 
-  /// Extracted common text sections to avoid repetition
   static Widget _buildTextSection({required String title, required String description}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          width: 347,
-          child: Text(
-            title,
-            style: const TextStyle(
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w700,
-              fontSize: 16,
-              letterSpacing: 0,
-              color: Colors.black,
-            ),
+        Text(
+          title,
+          style: const TextStyle(
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w700,
+            fontSize: 16,
+            color: Colors.black,
           ),
         ),
         const SizedBox(height: 9),
-        Container(
-          width: 347,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            description,
-            style: const TextStyle(
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w400,
-              fontSize: 12,
-              letterSpacing: 0,
-              color: Colors.black,
-            ),
-            textAlign: TextAlign.center,
+        Text(
+          description,
+          style: const TextStyle(
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.w400,
+            fontSize: 12,
+            color: Colors.black,
           ),
         ),
       ],

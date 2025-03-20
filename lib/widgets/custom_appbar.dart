@@ -4,19 +4,22 @@ import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
-  final String title; // Optional title parameter
+  final String title; 
   final VoidCallback? onMenuPressed;
   final VoidCallback? onNotificationPressed;
 
   const CustomAppBar({
     Key? key,
-    this.title = "", // Default to empty if no title is provided
+    this.title = "",
     this.onMenuPressed,
     this.onNotificationPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Container(
       height: 223,
       decoration: BoxDecoration(
@@ -94,6 +97,7 @@ class CustomAppBar extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 6),
                 child: TextField(
+                  textAlignVertical: TextAlignVertical.center,
                   decoration: InputDecoration(
                     hintText: "Search...",
                     prefixIcon: Icon(Icons.search, color: Colors.black),
