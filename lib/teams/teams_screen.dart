@@ -12,12 +12,12 @@ class _TeamsScreenState extends State<TeamsScreen> {
 
   final List<Map<String, String>> primaryReferrals = [
     {
-      'name': 'John Doe',
+      'name': 'Vikaram',
       'role': 'CEO',
       'image': 'assets/images/Png/teams1.png'
     },
     {
-      'name': 'Jane Smith',
+      'name': 'Smith',
       'role': 'CTO',
       'image': 'assets/images/Png/teams1.png'
     },
@@ -25,7 +25,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
 
   final List<Map<String, String>> secondaryReferrals = [
     {
-      'name': 'Mike Johnson',
+      'name': 'Mike',
       'role': 'Designer',
       'image': 'assets/images/Png/teams1.png'
     },

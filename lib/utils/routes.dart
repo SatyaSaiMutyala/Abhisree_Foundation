@@ -1,11 +1,13 @@
+
+import 'package:flutter/material.dart';
+
 import 'package:adhisree_foundation/homescreen/donation_model/volunteer_membership.dart';
+import 'package:adhisree_foundation/homescreen/searchScreen.dart';
 import 'package:adhisree_foundation/teams/viewActivitesScreen.dart';
 import 'package:adhisree_foundation/wallet/paymentDetailsScreen.dart';
 import 'package:adhisree_foundation/wallet/refferedPaymentScreen.dart';
 import 'package:adhisree_foundation/bottomNav/bottom_nav_bar.dart';
 import 'package:adhisree_foundation/widgets/success_screen.dart';
-import 'package:flutter/material.dart';
-
 import 'package:adhisree_foundation/homescreen/MainScreen.dart';
 import 'package:adhisree_foundation/homescreen/volunteerScreen.dart';
 import 'package:adhisree_foundation/loginScreen/OtpScreen.dart';
@@ -26,6 +28,7 @@ class AppRoutes {
   static const String bottomNavBar = '/bottomNav';
   static const String volunteerMembership = '/volunteerMembership' ;
   static const String successScreen = '/successScreen' ;
+  static const String searchScreen ='/search';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -61,6 +64,9 @@ class AppRoutes {
 
       case successScreen :
       return MaterialPageRoute(builder: (_) => SuccessScreen());
+
+      case searchScreen :
+      return MaterialPageRoute(builder: (_) => SearchScreen());
       
       case bottomNavBar:
       final int initialIndex = settings.arguments as int? ?? 0;
