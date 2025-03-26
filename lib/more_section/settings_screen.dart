@@ -140,7 +140,7 @@ class MoreScreen extends StatelessWidget {
                 },
               ),
 
-              SizedBox(height: width * 0.05),
+              SizedBox(height: width * 0.02),
 
               // Delete Account (Centered)
               Center(

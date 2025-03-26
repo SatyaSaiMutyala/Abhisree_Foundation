@@ -20,7 +20,7 @@ class MenuScreen extends StatelessWidget {
             Container(
               width: width * 0.68,
               height: height * 0.06,
-              padding: EdgeInsets.symmetric(horizontal: width * 0.025),
+              // padding: EdgeInsets.symmetric(horizontal: width * 0.025),
               child: Row(
                 children: [
                   // Profile Image
@@ -41,38 +41,41 @@ class MenuScreen extends StatelessWidget {
                   SizedBox(width: width * 0.025),
 
                   // Name & Email
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: width * 0.4,
-                        height: height * 0.026,
-                        child: Text(
-                          "Prasanth Varma",
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w500,
-                            fontSize: Dimensions.fontSizeDefault,
-                            height: 1.0,
-                            color: Colors.black,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: width * 0.4,
+                          height: height * 0.026,
+                          child: Text(
+                            "Prasanth Varma",
+                            style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w500,
+                              fontSize: Dimensions.fontSizeDefault,
+                              height: 1.0,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: width * 0.4,
-                        height: height * 0.014,
-                        child: Text(
-                          "Prasanthvarma23@gmail.com",
-                          style: TextStyle(
-                            fontFamily: "Inter",
-                            fontWeight: FontWeight.w500,
-                            fontSize: width * 0.025,
-                            height: 1.0,
-                            color: Color(0xFF6F6B6B),
+                        SizedBox(
+                          width: width * 0.4,
+                          height: height * 0.014,
+                          child: Text(
+                            "Prasanthvarma23@gmail.com",
+                            style: TextStyle(
+                              fontFamily: "Inter",
+                              fontWeight: FontWeight.w500,
+                              fontSize: width * 0.025,
+                              height: 1.0,
+                              color: Color(0xFF6F6B6B),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   Spacer(),
 
@@ -101,26 +104,63 @@ class MenuScreen extends StatelessWidget {
                 height: height * 0.026,
                 fit: BoxFit.contain,
               ),
-              title: Text("Teams"),
-              subtitle: Text("You can view your team members here"),
+              title: Text(
+                "Teams",
+                style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  height: 1.0,
+                  color: Colors.black,
+                ),
+              ),
+              subtitle: Text(
+                "You can view your team members here",
+                style: TextStyle(
+                  fontFamily: "Inter",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  height: 1.0,
+                  color: Color(0xFF6F6B6B),
+                ),
+              ),
               onTap: () {
-  Get.find<BottomNavController>().changePage(BnbItem.teams);
-},
-
+                Navigator.of(context).pop();
+                Get.find<BottomNavController>().changePage(BnbItem.teams);
+              },
             ),
             Divider(),
             ListTile(
               leading: Image.asset(
                 "assets/icons/refer_color_icon.png",
-               width: width * 0.05,
+                width: width * 0.05,
                 height: height * 0.026,
                 fit: BoxFit.contain,
               ),
-              title: Text("Refer"),
-              subtitle: Text("You can view your referral earnings"),
+              title: Text(
+                "Refer",
+                style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  height: 1.0,
+                  color: Colors.black,
+                ),
+              ),
+              subtitle: Text(
+                "You can view your referral earnings",
+                style: TextStyle(
+                  fontFamily: "Inter",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  height: 1.0,
+                  color: Color(0xFF6F6B6B),
+                ),
+              ),
               onTap: () {
-  Get.find<BottomNavController>().changePage(BnbItem.referrals);
-},
+                Navigator.of(context).pop();
+                Get.find<BottomNavController>().changePage(BnbItem.referrals);
+              },
             ),
             Divider(),
             ListTile(
@@ -130,11 +170,30 @@ class MenuScreen extends StatelessWidget {
                 height: height * 0.026,
                 fit: BoxFit.contain,
               ),
-              title: Text("Wallet"),
-              subtitle: Text("You can withdraw your wallet amount"),
+              title: Text(
+                "Wallet",
+                style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  height: 1.0,
+                  color: Colors.black,
+                ),
+              ),
+              subtitle: Text(
+                "You can withdraw your wallet amount",
+                style: TextStyle(
+                  fontFamily: "Inter",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  height: 1.0,
+                  color: Color(0xFF6F6B6B),
+                ),
+              ),
               onTap: () {
-  Get.find<BottomNavController>().changePage(BnbItem.wallet);
-},
+                Navigator.of(context).pop();
+                Get.find<BottomNavController>().changePage(BnbItem.wallet);
+              },
             ),
             Divider(),
             ListTile(
@@ -144,9 +203,32 @@ class MenuScreen extends StatelessWidget {
                 height: height * 0.026,
                 fit: BoxFit.contain,
               ),
-              title: Text("Customer Support"),
-              subtitle: Text(
-                  "You can solve your issues through sending emails and contact through calls"),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Customer Support",
+                    style: TextStyle(
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      height: 1.0,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(height: 6), // Add spacing between title and subtitle
+                  Text(
+                    "You can solve your issues through sending emails and contact through calls",
+                    style: TextStyle(
+                      fontFamily: "Inter",
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                      height: 1.0,
+                      color: Color(0xFF6F6B6B),
+                    ),
+                  ),
+                ],
+              ),
               onTap: () {
                 Navigator.push(
                     context,
@@ -164,9 +246,24 @@ class MenuScreen extends StatelessWidget {
               ),
               title: Text(
                 "Logout",
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  height: 1.0,
+                  color: Colors.black,
+                ),
               ),
-              subtitle: Text("You can exit from this account"),
+              subtitle: Text(
+                "You can exit from this account",
+                style: TextStyle(
+                  fontFamily: "Inter",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  height: 1.0,
+                  color: Color(0xFF6F6B6B),
+                ),
+              ),
               onTap: () {
                 showCustomPopup(
                   context: context,
@@ -174,7 +271,7 @@ class MenuScreen extends StatelessWidget {
                   message: "Are you sure you want to Logout?",
                   buttonText: "Logout",
                   onConfirm: () {
-                    // Perform logout action
+                    Navigator.of(context).pop();
                   },
                 );
               },

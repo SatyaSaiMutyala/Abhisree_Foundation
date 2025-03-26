@@ -1,3 +1,4 @@
+import 'package:adhisree_foundation/homescreen/donation_model/donation_details_screen.dart';
 import 'package:adhisree_foundation/homescreen/donation_model/donation_modal_screen.dart';
 import 'package:adhisree_foundation/utils/customButton.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +6,8 @@ import 'package:flutter/material.dart';
 class ActiveCampaigns extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width ;
-    double height = MediaQuery.of(context).size.height ;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,14 +41,44 @@ class ActiveCampaigns extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Campaign Image
-                Container(
-                  width: double.infinity,
-                  height: height * 0.16,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(width * 0.04),
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/Png/campaign1.png'),
-                      fit: BoxFit.cover,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DonationDetailsScreen(
+                          imagePath: "assets/images/Png/child.png",
+                          title: "Below Poverty Level Students",
+                          description:
+                              "Supporting Below Poverty Level (BPL) students can make a significant impact on their education and future.",
+                          donationOptions: [
+                            {
+                              "amount": "₹1000",
+                              "name": "Basic school kits for 5 students"
+                            },
+                            {
+                              "amount": "₹2000",
+                              "name": "School uniform for 5 students"
+                            },
+                            {
+                              "amount": "₹5000",
+                              "name": "Full meals for 8 students"
+                            },
+                            {"amount": "₹8000", "name": "Full Year Support"},
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: height * 0.16,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(width * 0.04),
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/Png/campaign1.png'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -139,7 +170,12 @@ class ActiveCampaigns extends StatelessWidget {
                 // ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: width * 0.00),
-                  child: CustomButton(text: "Donate Now", onPressed: () => DonationModalScreen.showDonationPopup(context), outlined: true, ),
+                  child: CustomButton(
+                    text: "Donate Now",
+                    onPressed: () =>
+                        DonationModalScreen.showDonationPopup(context),
+                    outlined: true,
+                  ),
                 )
               ],
             ),
@@ -148,6 +184,4 @@ class ActiveCampaigns extends StatelessWidget {
       ],
     );
   }
-
- 
 }

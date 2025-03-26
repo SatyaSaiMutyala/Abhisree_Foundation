@@ -11,12 +11,24 @@ class _TeamsScreenState extends State<TeamsScreen> {
   bool showPrimary = true; // To track which data to show
 
   final List<Map<String, String>> primaryReferrals = [
-    {'name': 'John Doe', 'role': 'CEO', 'image': 'assets/images/Png/teams1.png'},
-    {'name': 'Jane Smith', 'role': 'CTO', 'image': 'assets/images/Png/teams1.png'},
+    {
+      'name': 'John Doe',
+      'role': 'CEO',
+      'image': 'assets/images/Png/teams1.png'
+    },
+    {
+      'name': 'Jane Smith',
+      'role': 'CTO',
+      'image': 'assets/images/Png/teams1.png'
+    },
   ];
 
   final List<Map<String, String>> secondaryReferrals = [
-    {'name': 'Mike Johnson', 'role': 'Designer', 'image': 'assets/images/Png/teams1.png'},
+    {
+      'name': 'Mike Johnson',
+      'role': 'Designer',
+      'image': 'assets/images/Png/teams1.png'
+    },
     {
       'name': 'Emily Davis',
       'role': 'Marketing Head',
@@ -60,6 +72,33 @@ class _TeamsScreenState extends State<TeamsScreen> {
               ),
 
               Positioned(
+                          top: height * 0.065,
+                          left: width * 0.05,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              width: width * 0.1,
+                              height: height * 0.05,
+                              padding: EdgeInsets.fromLTRB(
+                                  8, 7, 8, 7), // Padding as required
+                              decoration: BoxDecoration(
+                                color: Colors.white, // Background color (Change if needed)
+                                shape: BoxShape.circle, // Circular button
+                                // border: Border.all(color: Color(0XFF338D9B), width: 2), // Border
+                              ),
+                              child: Icon(
+                                Icons.arrow_back, // Back icon
+                                size: width *
+                                    0.05, // Adjust size inside container
+                                color: Colors.black, // Icon color
+                              ),
+                            ),
+                          ),
+                        ),
+
+              Positioned(
                 top: width * 0.15,
                 child: Container(
                   width: width * 0.25,
@@ -83,8 +122,8 @@ class _TeamsScreenState extends State<TeamsScreen> {
                     "PRASANTH VARMA",
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w800,
-                      fontSize: width * 0.05,
+                      fontWeight: FontWeight.w600,
+                      fontSize: width * 0.04,
                       color: Colors.white,
                     ),
                     textAlign: TextAlign.center,
@@ -92,16 +131,15 @@ class _TeamsScreenState extends State<TeamsScreen> {
                 ),
               ),
               Positioned(
-                left: 130,
                 top: width * 0.504,
                 child: Container(
                   alignment: Alignment.center,
                   child: Text(
                     "VICE-CHAIRMAN",
                     style: TextStyle(
-                      fontFamily: 'Poppins',
+                      fontFamily: 'Inter',
                       fontWeight: FontWeight.w400,
-                      fontSize: width * 0.04,
+                      fontSize: width * 0.036,
                       color: Colors.white,
                     ),
                     textAlign: TextAlign.center,
@@ -116,35 +154,36 @@ class _TeamsScreenState extends State<TeamsScreen> {
                   onTap: () => {
                     Navigator.pushNamed(context, AppRoutes.viewActivityScreen)
                   },
-                  child:  Container(
-                  padding: EdgeInsets.symmetric(
-                      vertical: height * 0.01, horizontal: width * 0.06),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF3F3F3),
-                    border: Border.all(color: Color(0xFFCFCBCB), width: 0.55),
-                    borderRadius: BorderRadius.circular(width * 0.03),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "View activities",
-                        style: TextStyle(
-                          fontSize: width * 0.03,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                          fontFamily: 'Poppins',
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        vertical: height * 0.01, horizontal: width * 0.06),
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF3F3F3),
+                      border: Border.all(color: Color(0xFFCFCBCB), width: 0.55),
+                      borderRadius: BorderRadius.circular(width * 0.03),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "View activities",
+                          style: TextStyle(
+                            fontSize: width * 0.028,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                            fontFamily: 'Inter',
+                          ),
                         ),
-                      ),
-                      SizedBox(width: width * 0.01),
-                      Icon(
-                        Icons.arrow_forward,
-                        size: 16,
-                        color: Colors.black,
-                      ),
-                    ],
+                        SizedBox(width: width * 0.01),
+                        Icon(
+                          Icons.arrow_forward,
+                          size: 16,
+                          color: Colors.black,
+                        ),
+                      ],
+                    ),
                   ),
-                ),),
+                ),
               ),
 
               Positioned(
@@ -156,7 +195,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
                     Stack(
                       children: [
                         Container(
-                      width: width * 0.7, 
+                          width: width * 0.7,
                           height: height * 0.01,
                           decoration: BoxDecoration(
                             color: Color(0xFFEDEDED),
@@ -179,7 +218,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
 
                     // Donation Info Row
                     SizedBox(
-                      width: width * 0.7, 
+                      width: width * 0.7,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -231,8 +270,8 @@ class _TeamsScreenState extends State<TeamsScreen> {
                       "Primary Referrals",
                       style: TextStyle(
                         fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w800,
-                        fontSize: width * 0.04,
+                        fontWeight: showPrimary ? FontWeight.w600 : FontWeight.w500,
+                        fontSize: width * 0.038,
                         color: showPrimary ? Colors.black : Color(0xFFB8B5B5),
                       ),
                       textAlign: TextAlign.center,
@@ -254,8 +293,8 @@ class _TeamsScreenState extends State<TeamsScreen> {
                       "Secondary Referral",
                       style: TextStyle(
                         fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w800,
-                        fontSize: width * 0.04,
+                        fontWeight: showPrimary ? FontWeight.w500 : FontWeight.w600,
+                        fontSize: width * 0.038,
                         color: showPrimary ? Color(0xFFB8B5B5) : Colors.black,
                       ),
                       textAlign: TextAlign.center,
@@ -268,18 +307,18 @@ class _TeamsScreenState extends State<TeamsScreen> {
 
           Container(
             width: width * 0.9,
-            margin: EdgeInsets.only(top: width * 0.02), 
+            margin: EdgeInsets.only(top: width * 0.02),
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(
-                    color: Color(0xFFDEDEDE), width: 1), 
+                bottom: BorderSide(color: Color(0xFFDEDEDE), width: 1),
               ),
             ),
           ),
 
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.only(left: width * 0.01, right: width * 0.02, top: width * 0.02),
+              padding: EdgeInsets.only(
+                  left: width * 0.01, right: width * 0.02, top: width * 0.02),
               itemCount: showPrimary
                   ? primaryReferrals.length
                   : secondaryReferrals.length,
@@ -292,7 +331,8 @@ class _TeamsScreenState extends State<TeamsScreen> {
                   children: [
                     Container(
                       width: width * 0.9,
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.01, vertical: width * 0.015),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: width * 0.01, vertical: width * 0.015),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -302,7 +342,9 @@ class _TeamsScreenState extends State<TeamsScreen> {
                                 backgroundImage: AssetImage(member['image']!),
                                 radius: width * 0.07, // Profile size
                               ),
-                              SizedBox( width: width * 0.03), // Space between image and text
+                              SizedBox(
+                                  width: width *
+                                      0.03), // Space between image and text
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -310,12 +352,12 @@ class _TeamsScreenState extends State<TeamsScreen> {
                                   Text(
                                     member['name']!,
                                     style: TextStyle(
-                                      fontSize: width * 0.035,
-                                      fontWeight: FontWeight.w700,
+                                      fontSize: width * 0.034,
+                                      fontWeight: FontWeight.w500,
                                       color: Colors.black,
                                     ),
                                   ),
-                                  SizedBox(height: height *0.003),
+                                  SizedBox(height: height * 0.003),
                                   Text(
                                     member['role']!,
                                     style: TextStyle(
@@ -335,7 +377,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
                             // height: 33,
                             alignment: Alignment.center,
                             child: Text(
-                              "64392564805", 
+                              "64392564805",
                               style: TextStyle(
                                 fontFamily: 'Inter',
                                 fontWeight: FontWeight.w400,

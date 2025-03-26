@@ -30,8 +30,8 @@ class _WalletScreenState extends State<WalletScreen> {
               "Wallet",
               style: TextStyle(
                 fontFamily: 'Poppins',
-                fontWeight: FontWeight.w800,
-                fontSize: width * 0.045,
+                fontWeight: FontWeight.w600,
+                fontSize: width * 0.04,
                 color: Theme.of(context).shadowColor.withOpacity(0.8),
               ),
             ),
@@ -59,8 +59,8 @@ class _WalletScreenState extends State<WalletScreen> {
                     child: Text(
                       "Transaction History",
                       style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w800,
+                        fontFamily: 'Outfit',
+                        fontWeight: FontWeight.w600,
                         fontSize: width * 0.04,
                         color: showTransactions ? Colors.black : Color(0xFFB8B5B5),
                       ),
@@ -80,8 +80,8 @@ class _WalletScreenState extends State<WalletScreen> {
                     child: Text(
                       "Withdrawal History",
                       style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w800,
+                        fontFamily: 'Outfit',
+                        fontWeight: FontWeight.w600,
                         fontSize: width * 0.04,
                         color: showTransactions ? Color(0xFFB8B5B5) : Colors.black,
                       ),
@@ -90,17 +90,6 @@ class _WalletScreenState extends State<WalletScreen> {
                   ),
                 ),
               ],
-            ),
-          ),
-
-          // Line Divider
-          Container(
-            width: width * 0.9,
-            margin: EdgeInsets.only(top: width * 0.03, left: width * 0.06), // Aligning with toggle
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(color: Color(0xFFDEDEDE), width: 1),
-              ),
             ),
           ),
 
@@ -176,7 +165,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: width * 0.035,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
                         color: Colors.black,
                       ),
                     ),
@@ -228,14 +217,14 @@ class _WalletScreenState extends State<WalletScreen> {
         padding: EdgeInsets.fromLTRB(width * 0.02, width * 0.03, width * 0.04, width * 0.03),
         decoration: BoxDecoration(
           color: Color(0xFFF3F3F3), 
-          borderRadius: BorderRadius.circular(3), 
+          borderRadius: BorderRadius.circular(10), 
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Date & Time Bar
             Container(
-              width: 322,
+              width: width * 0.9,
               height: 15, // Updated height
               padding: EdgeInsets.symmetric(horizontal: width * 0.02),
               child: Row(

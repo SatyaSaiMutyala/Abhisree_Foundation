@@ -77,11 +77,17 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
             top: height * 0.16, // Top padding
             child: Container(
               width: width * 0.9,
-              height: height * 0.39,
-              padding: EdgeInsets.symmetric(horizontal: width * 0.026, vertical: height * 0.028),
+              height: height * 0.41,
+              padding: EdgeInsets.only(
+                top: height * 0.028,
+                bottom: height * 0.0,
+                left: width * 0.03,
+                right: width * 0.026,
+              ),
               decoration: BoxDecoration(
                 color: Color(0xFFF5F5F5),
-                borderRadius: BorderRadius.circular(Dimensions.radiusDefaultExpand),
+                borderRadius:
+                    BorderRadius.circular(Dimensions.radiusDefaultExpand),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +111,8 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                         ),
                       ),
 
-                      SizedBox(width: width * 0.025), // Gap between icon and text
+                      SizedBox(
+                          width: width * 0.025), // Gap between icon and text
 
                       // Account Number & Bank Name
                       Column(
@@ -140,7 +147,6 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                   _buildDetailRow("Holder name", accountHolder),
                   _buildDetailRow("Account No", accountNo),
                   _buildDetailRow("IFSC", ifscCode),
-
 
 // Set as Primary Account
                   Row(

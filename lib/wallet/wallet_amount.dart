@@ -45,9 +45,9 @@ class WalletAmountWidget extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Column(children: [
                     
-                    SizedBox(height: showTransactions ? height * 0.06 : height * 0.02 ),
+                    SizedBox(height: height * 0.02 ),
                     Text(
-                      "\$500.00",
+                      "₹ 50,000.00",
                       style: TextStyle(
                         fontSize: width * 0.085,
                         fontWeight: FontWeight.bold,
@@ -55,7 +55,7 @@ class WalletAmountWidget extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: height * 0.01,),
-                    if (!showTransactions)
+                    // if (!showTransactions)
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: width * 0.06),
                         child: CustomButton(text: 'Withdrawal', onPressed:  () => _showWithdrawalPopup(context)),

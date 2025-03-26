@@ -31,63 +31,41 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: Obx(() => _getBody(Get.find<BottomNavController>().currentPage.value)),
-        ),
-        Container(
-          decoration: const BoxDecoration(
-            color: Color(0xFFF0F0F0),
-          ),
-          child: BottomNavigationBar(
-            backgroundColor: Color(0xFFF0F0F0),
-            currentIndex: _pageIndex,
-            onTap: (index) {
-              setState(() {
-                _pageIndex = index;
-              });
-              Get.find<BottomNavController>().changePage(BnbItem.values[index]);
-            },
-            selectedItemColor: Color(0xFF338D9B),
-            unselectedItemColor: Color(0xFF747272),
-            type: BottomNavigationBarType.fixed,
-            items: [
-              BottomNavigationBarItem(
-                icon: _getNavIcon("House", _pageIndex == 0),
-                label: "Home",
-              ),
-              BottomNavigationBarItem(
-                icon: _getNavIcon("UsersThree", _pageIndex == 1),
-                label: "Teams",
-              ),
-              BottomNavigationBarItem(
-                icon: _getNavIcon("Wallet", _pageIndex == 2),
-                label: "Wallet",
-              ),
-              BottomNavigationBarItem(
-                icon: _getNavIcon("UserSwitch", _pageIndex == 3),
-                label: "Refer",
-              ),
-              BottomNavigationBarItem(
-                icon: _getNavIcon("DotsThreeOutline", _pageIndex == 4),
-                label: "More",
-              ),
-            ],
-          ),
-        ),
-      ],
+    return Scaffold(
+      body: Obx(() => _getBody(Get.find<BottomNavController>().currentPage.value)),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xFFF0F0F0),
+        currentIndex: _pageIndex,
+        onTap: (index) {
+          setState(() {
+            _pageIndex = index;
+          });
+          Get.find<BottomNavController>().changePage(BnbItem.values[index]);
+        },
+        selectedItemColor: Color(0xFF338D9B),
+        unselectedItemColor: Color(0xFF747272),
+        type: BottomNavigationBarType.fixed,
+        items: [
+          _buildNavItem("home_icon", "Home", 0),
+          _buildNavItem("teams_icon", "Teams", 1),
+          _buildNavItem("wallet_icon", "Wallet", 2),
+          _buildNavItem("refer_icon", "Refer", 3),
+          _buildNavItem("more_icon", "More", 4),
+        ],
+      ),
     );
   }
 
-  Widget _getNavIcon(String iconName, bool isSelected) {
-    String iconPath = isSelected
-        ? "assets/images/Png/active_$iconName.png"
-        : "assets/images/Png/Inactive_$iconName.png";
-    return Image.asset(
-      iconPath,
-      width: 24,
-      height: 24,
+  BottomNavigationBarItem _buildNavItem(String assetName, String label, int index) {
+    return BottomNavigationBarItem(
+      icon: ColorFiltered(
+        colorFilter: ColorFilter.mode(
+          _pageIndex == index ? Color(0xFF338D9B) : Color(0xFF747272),
+          BlendMode.srcIn,
+        ),
+        child: Image.asset("assets/icons/$assetName.png", width: 24, height: 24),
+      ),
+      label: label,
     );
   }
 
@@ -106,5 +84,3 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     }
   }
 }
-
-

@@ -4,7 +4,7 @@ import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
-  final String title; 
+  final String title;
   final VoidCallback? onMenuPressed;
   final VoidCallback? onNotificationPressed;
 
@@ -21,7 +21,7 @@ class CustomAppBar extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
 
     return Container(
-      height: 223,
+      height: height * 0.255,
       decoration: BoxDecoration(
         color: Color(0XFF97D7E0),
         borderRadius: BorderRadius.only(
@@ -32,60 +32,55 @@ class CustomAppBar extends StatelessWidget {
       child: Stack(
         children: [
           // Menu Button
+          // Menu Button
           Positioned(
-            top: 59,
-            left: 24,
-            child: Container(
-              width: 40,
-              height: 41,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
+            top: height * 0.068,
+            left: width * 0.055,
+            child: IconButton(
+              iconSize: width * 0.1125, // Increase the icon size
+              padding: EdgeInsets.zero, // Remove extra padding
+              icon: SizedBox(
+                width: width * 0.1125, // Adjust width
+                height: height * 0.058, // Adjust height
+                child: Image.asset('assets/icons/menu_icon.png'),
               ),
-              child: IconButton(
-                icon: Image.asset(
-  'assets/icons/menu_icon.png',
-),
-                onPressed: onMenuPressed ?? () => showMenuDialog(context),
-              ),
+              onPressed: onMenuPressed ?? () => showMenuDialog(context),
             ),
           ),
 
-          // Notification Button
+// Notification Button
           Positioned(
-            top: 59,
-            right: 24,
-            child: Container(
-              width: 40,
-              height: 41,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
+            top: height * 0.068,
+            right: width * 0.055,
+            child: IconButton(
+              iconSize: width * 0.1125, // Increase the icon size
+              padding: EdgeInsets.zero, // Remove extra padding
+              icon: SizedBox(
+                width: width * 0.1125, // Adjust width
+                height: height * 0.058, // Adjust height
+                child: Image.asset('assets/icons/notification_icon.png'),
               ),
-              child: IconButton(
-                icon: Image.asset('assets/icons/notification_icon.png',),
-                onPressed: onNotificationPressed ??
-                    () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NotificationsScreen()),
-                      );
-                    },
-              ),
+              onPressed: onNotificationPressed ??
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NotificationsScreen()),
+                    );
+                  },
             ),
           ),
 
           // Search Bar
           Positioned(
-            top: 127,
-            left: 24,
-            right: 24,
+            top: height * 0.146,
+            left: width * 0.055,
+            right: width * 0.055,
             child: Container(
-              height: 47,
+              height: height * 0.055,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(Dimensions.radiusDefaultExpand),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black12,
@@ -100,7 +95,18 @@ class CustomAppBar extends StatelessWidget {
                   textAlignVertical: TextAlignVertical.center,
                   decoration: InputDecoration(
                     hintText: "Search...",
-                    prefixIcon: Icon(Icons.search, color: Colors.black),
+                    prefixIcon: Container(
+                      width: 12,
+                      height: 12,
+                      padding: EdgeInsets.all(width *
+                          0.034), // Adjust padding to fine-tune the size
+                      child: Image.asset(
+                        "assets/icons/search_icon.png",
+                        color: Colors.black,
+                        fit: BoxFit
+                            .contain, // Ensures the image fits inside the container
+                      ),
+                    ),
                     border: InputBorder.none,
                   ),
                 ),
@@ -128,6 +134,8 @@ class CustomAppBar extends StatelessWidget {
   }
 
   void showMenuDialog(BuildContext context) {
+    double width = MediaQuery.of(context).size.width; // Define width here
+  double height = MediaQuery.of(context).size.height;
     showGeneralDialog(
       context: context,
       barrierDismissible: true,
@@ -139,8 +147,8 @@ class CustomAppBar extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: SizedBox(
-              width: 333, // Custom width
-              height: 852, // Custom height
+              width: width * 0.81, // Custom width
+              height: height, // Custom height
               child: MenuScreen(), // Ensure MenuScreen is being used
             ),
           ),

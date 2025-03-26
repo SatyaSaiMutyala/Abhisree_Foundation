@@ -12,8 +12,8 @@ class DonationPriceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width ;
-    double height = MediaQuery.of(context).size.height ;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return Container(
       width: width * 0.3,
@@ -48,6 +48,9 @@ class DonationPriceCard extends StatelessWidget {
               fontFamily: 'Poppins',
               color: Colors.black,
             ),
+            maxLines: 2, // Ensures only one line is displayed
+            overflow:
+                TextOverflow.ellipsis, // Adds "..." when the text overflows
             textAlign: TextAlign.center,
           ),
         ],
@@ -55,8 +58,6 @@ class DonationPriceCard extends StatelessWidget {
     );
   }
 }
-
-
 
 // import 'package:flutter/material.dart';
 

@@ -161,7 +161,7 @@ SizedBox(width:  width * 0.03,),
                           child: Image.asset("assets/icons/share_icon.png", width: 24, height: 24,),
                         ),
                         Container(
-                          width: width * 0.3,
+                          width: width * 0.25,
                           height: 34,
                           alignment: Alignment.center,
                           child: Text(

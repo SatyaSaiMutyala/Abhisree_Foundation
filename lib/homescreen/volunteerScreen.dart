@@ -1,5 +1,6 @@
 import 'package:adhisree_foundation/bottomNav/bottom_nav_bar.dart';
 import 'package:adhisree_foundation/utils/customButton.dart';
+import 'package:adhisree_foundation/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -189,7 +190,7 @@ class _VolunteerscreenState extends State<Volunteerscreen>{
                   
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                    child: CustomButton(text: 'Countinue', onPressed: () => Get.to(() => BottomNavScreen(initialPageIndex: 0))),
+                    child: CustomButton(text: 'Countinue', onPressed: () => Navigator.pushNamed(context, AppRoutes.volunteerMembership)),
                   )
 
                 ],

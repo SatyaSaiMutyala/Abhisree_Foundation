@@ -16,6 +16,7 @@ class _PaymentDetails extends State<Paymentdetailsscreen> {
         title: Text("Successfully received"),
         titleTextStyle: TextStyle(
             fontSize: width * 0.045,
+            fontFamily: "Poppins",
             color: Colors.black,
             fontWeight: FontWeight.w500),
       ),
@@ -33,7 +34,7 @@ class _PaymentDetails extends State<Paymentdetailsscreen> {
                   style: TextStyle(
                     fontSize: width * 0.04,
                     color: Color(0XFF000000),
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 Text(
@@ -55,19 +56,20 @@ class _PaymentDetails extends State<Paymentdetailsscreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Image.asset(
-                  'assets/teams1.png',
+                  'assets/images/Png/teams1.png',
                   width: width * 0.2,
                   height: height * 0.1,
                 ),
-                SizedBox(width: width * 0.01),
+                SizedBox(width: width * 0.03),
                 Expanded(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Prasanth Varma ',
                         style: TextStyle(
                           fontSize: width * 0.04,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -76,6 +78,8 @@ class _PaymentDetails extends State<Paymentdetailsscreen> {
                         'XXXXXXXXX546',
                         style: TextStyle(
                           fontSize: width * 0.03,
+                          fontFamily: "Inter",
+                          fontWeight: FontWeight.w400,
                         ),
                       )
                     ],
@@ -104,7 +108,7 @@ class _PaymentDetails extends State<Paymentdetailsscreen> {
                     'Transaction ID',
                     style: TextStyle(
                       fontSize: width * 0.045,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
@@ -115,6 +119,7 @@ class _PaymentDetails extends State<Paymentdetailsscreen> {
                     '6827485353495673',
                     style: TextStyle(
                       fontSize: width * 0.03,
+                      fontFamily: "Inter",
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -125,35 +130,35 @@ class _PaymentDetails extends State<Paymentdetailsscreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                // Inside Row
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start, // Ensures left alignment
                   children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Bank name',
-                        style: TextStyle(
-                          fontSize: width * 0.045,
-                          fontWeight: FontWeight.w700,
-                        ),
+                    Text(
+                      'Bank name',
+                      style: TextStyle(
+                        fontSize: width * 0.045,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     SizedBox(height: height * 0.006),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'State bank of india',
-                        style: TextStyle(
-                          fontSize: width * 0.03,
-                          fontWeight: FontWeight.w400,
-                        ),
+                    Text(
+                      'State Bank of India',
+                      style: TextStyle(
+                        fontSize: width * 0.03,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ],
                 ),
+
                 Row(
                   children: [
-                    Image.asset('assets/images/Png/sbi.png', width: width * 0.13,)
+                    Image.asset(
+                      'assets/images/Png/sbi.png',
+                      width: width * 0.13,
+                    )
                   ],
                 )
               ],
@@ -163,27 +168,21 @@ class _PaymentDetails extends State<Paymentdetailsscreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Debited to',
-                        style: TextStyle(
-                          fontSize: width * 0.045,
-                          fontWeight: FontWeight.w700,
-                        ),
+                    Text(
+                      'Debited to',
+                      style: TextStyle(
+                        fontSize: width * 0.045,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     SizedBox(height: height * 0.006),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'xxxxxxxxx34',
-                        style: TextStyle(
-                          fontSize: width * 0.03,
-                          fontWeight: FontWeight.w400,
-                        ),
+                    Text(
+                      'xxxxxxxxx34',
+                      style: TextStyle(
+                        fontSize: width * 0.03,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ],

@@ -38,8 +38,8 @@ Widget build(BuildContext context) {
                   "Below poverty level students",
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
-                    fontSize: width * 0.04,
+                    fontWeight: FontWeight.w500,
+                    fontSize: width * 0.032,
                     color: Colors.black,
                   ),
                 ),
@@ -75,18 +75,18 @@ Widget build(BuildContext context) {
                     Text(
                       "\$2,500 Raised",
                       style: TextStyle(
-                        fontFamily: 'Poppins',
+                        fontFamily: 'Inter',
                         fontSize: width * 0.035,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         color: Color(0XFF6F6B6B),
                       ),
                     ),
                     Text(
                       "\$20,000 Goal",
                       style: TextStyle(
-                        fontFamily: 'Poppins',
+                        fontFamily: 'Inter',
                         fontSize: width * 0.035,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         color: Color(0XFF6F6B6B),
                       ),
                     ),
@@ -99,7 +99,7 @@ Widget build(BuildContext context) {
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w700,
-                    fontSize: width * 0.04,
+                    fontSize: width * 0.038,
                     color: Colors.black,
                   ),
                 ),
@@ -121,8 +121,8 @@ Widget build(BuildContext context) {
                   "School Supplies",
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w800,
-                    fontSize: width * 0.04,
+                    fontWeight: FontWeight.w600,
+                    fontSize: width * 0.034,
                     color: Colors.black,
                   ),
                 ),
@@ -144,8 +144,8 @@ Widget build(BuildContext context) {
                   "Select your amount",
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w800,
-                    fontSize: width * 0.04,
+                    fontWeight: FontWeight.w600,
+                    fontSize: width * 0.034,
                     color: Colors.black,
                   ),
                 ),
@@ -231,7 +231,7 @@ Widget build(BuildContext context) {
           right: width * 0.02,
           child: SizedBox(
             child: IconButton(
-              icon: Icon(Icons.share, color: Colors.black, size: 24),
+              icon: Image.asset("assets/icons/share_icon.png", color: Colors.black, width: 24),
               onPressed: () {
                 // Share Functionality
                 // Share.share("Check out this donation opportunity: $title\n\n$description");

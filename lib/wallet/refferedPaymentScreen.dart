@@ -44,7 +44,7 @@ class _RefferedPayment extends State<Refferedpaymentscreen>{
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Image.asset(
-                  'assets/teams1.png',
+                  'assets/images/Png/teams1.png',
                   width: width * 0.2,
                   height: height * 0.1,
                 ),
@@ -56,7 +56,7 @@ class _RefferedPayment extends State<Refferedpaymentscreen>{
                         'Prasanth Varma ',
                         style: TextStyle(
                           fontSize: width * 0.04,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -84,7 +84,7 @@ class _RefferedPayment extends State<Refferedpaymentscreen>{
                     'Transaction ID',
                     style: TextStyle(
                       fontSize: width * 0.045,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
@@ -114,7 +114,7 @@ class _RefferedPayment extends State<Refferedpaymentscreen>{
                         'wallet',
                         style: TextStyle(
                           fontSize: width * 0.04,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
@@ -138,10 +138,10 @@ class _RefferedPayment extends State<Refferedpaymentscreen>{
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Debited to',
+                        'Credited',
                         style: TextStyle(
                           fontSize: width * 0.04,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
