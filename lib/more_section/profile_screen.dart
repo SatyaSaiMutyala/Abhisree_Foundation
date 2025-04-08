@@ -1,9 +1,19 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:adhisree_foundation/controllers/profileUpdateController.dart';
+import 'package:adhisree_foundation/models/getuserModal.dart';
+import 'package:adhisree_foundation/utils/constants.dart';
 import 'package:adhisree_foundation/utils/customButton.dart';
 import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:adhisree_foundation/widgets/text_feilds.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../controllers/UserDetailsController.dart';
+import '../controllers/userController.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -11,27 +21,108 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final UserProgressController _controller = Get.put(UserProgressController());
+  final Profileupdatecontroller profileController = Get.put(Profileupdatecontroller());
+
   File? _image;
   final ImagePicker _picker = ImagePicker();
   bool _isEditing = false;
+  int? userId;
+  String? photoPath;
 
   final TextEditingController _firstNameController =
-      TextEditingController(text: "Prasanth");
+      TextEditingController(text: "");
   final TextEditingController _lastNameController =
-      TextEditingController(text: "Varma");
+      TextEditingController(text: "");
   final TextEditingController _emailController =
-      TextEditingController(text: "prasanthvarma23@gmail.com");
+      TextEditingController(text: "");
   final TextEditingController _phoneController =
-      TextEditingController(text: "9876543210");
+      TextEditingController(text: "");
   final TextEditingController _genderController =
-      TextEditingController(text: "Male");
+      TextEditingController(text: "");
 
-  Future<void> _pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+  void _showImageSourcePicker(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("Select Image From",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _getImageFromSource(ImageSource.camera);
+                  },
+                  icon: Icon(Icons.camera_alt),
+                  label: Text("Camera"),
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _getImageFromSource(ImageSource.gallery);
+                  },
+                  icon: Icon(Icons.photo_library),
+                  label: Text("Gallery"),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _getImageFromSource(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
       });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? userJson = prefs.getString('user');
+
+    if (userJson != null) {
+      Map<String, dynamic> decodedUserData = jsonDecode(userJson);
+
+      userId = decodedUserData['id'];
+
+      if (userId != null) {
+        await _controller.fetchUserProgress(userId.toString());
+
+        final user = _controller.userProgress.value;
+        if (user != null) {
+          setState(() {
+            _firstNameController.text = user.firstName ?? '';
+            _lastNameController.text = user.lastName ?? '';
+            _emailController.text = user.email ?? '';
+            _phoneController.text = user.phoneNumber;
+            _genderController.text = user.gender ?? '';
+            photoPath = user.photoPath ?? '';
+          });
+        }
+      }
+
+      print("User ID: $userId");
     }
   }
 
@@ -73,15 +164,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: ClipOval(
                       child: _image != null
                           ? Image.file(_image!, fit: BoxFit.cover)
-                          : Image.asset('assets/images/Png/teams1.png',
-                              fit: BoxFit.cover),
+                          : (photoPath != null && photoPath!.isNotEmpty)
+                              ? Image.network('${imagePath}/${photoPath!}', fit: BoxFit.cover)
+                              : Image.asset('assets/images/Png/user.png',
+                                  fit: BoxFit.cover),
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        _isEditing = !_isEditing;
-                      });
+                      if (!_isEditing) {
+                        setState(() {
+                          _isEditing = true;
+                        });
+                      } else {
+                        _showImageSourcePicker(context);
+                      }
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -123,20 +220,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
             SizedBox(height: height * 0.02),
-            textFieldScreen(
-                "Email ID", keyboardType: TextInputType.emailAddress, controller: _emailController),
+            textFieldScreen("Email ID",
+                keyboardType: TextInputType.emailAddress,
+                controller: _emailController),
             SizedBox(height: height * 0.02),
-            textFieldScreen(
-                "Phone Number", keyboardType: TextInputType.phone, controller: _phoneController),
+            textFieldScreen("Phone Number",
+                keyboardType: TextInputType.phone,
+                controller: _phoneController),
             SizedBox(height: height * 0.02),
-            textFieldScreen(
-                "Gender", keyboardType: TextInputType.text, controller: _genderController),
+            textFieldScreen("Gender",
+                keyboardType: TextInputType.text,
+                controller: _genderController),
 
             if (_isEditing) ...[
               SizedBox(height: height * 0.04),
               CustomButton(
                 text: 'SAVE DETAILS',
                 onPressed: () {
+                  final updatedData = {
+                    "user_id": userId,
+                    "first_name": _firstNameController.text.trim(),
+                    "last_name": _lastNameController.text.trim(),
+                    "email": _emailController.text.trim(),
+                    "phone_number": _phoneController.text.trim(),
+                    "gender": _genderController.text.trim(),
+                    "photo_path": _image != null ? _image!.path : "",
+                  };
+
+                  profileController.submitUserData('updateProfile', updatedData);
+
                   setState(() {
                     _isEditing = false;
                   });

@@ -40,7 +40,7 @@ class ReferralAmountWidget extends StatelessWidget {
             ),
             SizedBox(height: width * 0.02),
             Text(
-              "₹500.00",
+              "₹120",
               style: TextStyle(
                 fontSize: Dimensions.fontSizeMoreLarge,
                 fontWeight: FontWeight.w700,

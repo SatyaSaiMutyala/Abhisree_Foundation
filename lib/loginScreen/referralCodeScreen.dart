@@ -1,5 +1,7 @@
 import 'package:adhisree_foundation/bottomNav/bottom_nav_bar.dart';
+import 'package:adhisree_foundation/loginScreen/userDetailsScreen.dart';
 import 'package:adhisree_foundation/utils/customButton.dart';
+import 'package:adhisree_foundation/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -11,7 +13,7 @@ class Referralcodescreen extends StatefulWidget {
 
 class _ReferralcodeState extends State<Referralcodescreen> {
   List<TextEditingController> controllers =
-      List.generate(4, (index) => TextEditingController());
+      List.generate(5, (index) => TextEditingController());
 
   @override
   Widget build(BuildContext context) {
@@ -64,14 +66,14 @@ class _ReferralcodeState extends State<Referralcodescreen> {
                   SizedBox(height: height * 0.025),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(4, (index) {
+                    children: List.generate(5, (index) {
                       return Container(
                         width: width * 0.12,
                         margin: EdgeInsets.symmetric(horizontal: 5),
                         child: TextFormField(
                           controller: controllers[index],
                           textAlign: TextAlign.center,
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.text,
                           maxLength: 1,
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.bold),
@@ -87,7 +89,7 @@ class _ReferralcodeState extends State<Referralcodescreen> {
                             ),
                           ),
                           onChanged: (value) {
-                            if (value.isNotEmpty && index < 3) {
+                            if (value.isNotEmpty && index < 4) {
                               FocusScope.of(context).nextFocus();
                             } else if (value.isEmpty && index > 0) {
                               FocusScope.of(context).previousFocus();
@@ -97,12 +99,20 @@ class _ReferralcodeState extends State<Referralcodescreen> {
                       );
                     }),
                   ),
-
                   SizedBox(height: height * 0.05),
-
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: width * 0.1),
-                    child:  CustomButton(text: 'Confirm', onPressed: () => Get.to(() => BottomNavScreen(initialPageIndex: 0))),
+                    // child:  CustomButton(text: 'Confirm',
+                    //  onPressed: () => Navigator.pushNamed(context, AppRoutes.userDetails)),
+                    child: CustomButton(
+                      text: 'Confirm',
+                      onPressed: () {
+                        String referralCode =
+                            controllers.map((c) => c.text).join();
+                        Get.to(() => UserDetailsScreen(),
+                            arguments: {'referralCode': referralCode});
+                      },
+                    ),
                   ),
                 ],
               ),

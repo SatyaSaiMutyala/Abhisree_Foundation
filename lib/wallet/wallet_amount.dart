@@ -3,25 +3,25 @@ import 'package:adhisree_foundation/wallet/withdrawalBottomSheetModal.dart';
 import 'package:flutter/material.dart';
 
 class WalletAmountWidget extends StatelessWidget {
-   final bool showTransactions;
-
-  WalletAmountWidget({required this.showTransactions});
+  final bool showTransactions;
+  final int amount;
+  WalletAmountWidget({required this.showTransactions, required this.amount});
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-      void _showWithdrawalPopup(BuildContext context) {
-    showModalBottomSheet(
-      isScrollControlled: true, 
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => WithdrawalBottomSheet(), 
-    );
-  }
+    void _showWithdrawalPopup(BuildContext context) {
+      showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        builder: (context) => WithdrawalBottomSheet(),
+      );
+    }
 
     return SizedBox(
       height: height * 0.22,
@@ -44,22 +44,25 @@ class WalletAmountWidget extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: Column(children: [
-                    
-                    SizedBox(height: height * 0.02 ),
+                    SizedBox(height: height * 0.02),
                     Text(
-                      "₹ 50,000.00",
+                      '₹${(amount ?? '0')}',
                       style: TextStyle(
-                        fontSize: width * 0.085,
+                        fontSize: width * 0.080,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: height * 0.01,),
+                    // SizedBox(
+                    //   height: height * 0.01,
+                    // ),
                     // if (!showTransactions)
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: width * 0.06),
-                        child: CustomButton(text: 'Withdrawal', onPressed:  () => _showWithdrawalPopup(context)),
-                      ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.06),
+                      child: CustomButton(
+                          text: 'Withdrawal',
+                          onPressed: () => _showWithdrawalPopup(context)),
+                    ),
                   ])),
             ),
           ),

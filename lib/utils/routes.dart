@@ -1,4 +1,5 @@
 
+import 'package:adhisree_foundation/loginScreen/userDetailsScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:adhisree_foundation/homescreen/donation_model/volunteer_membership.dart';
@@ -29,6 +30,7 @@ class AppRoutes {
   static const String volunteerMembership = '/volunteerMembership' ;
   static const String successScreen = '/successScreen' ;
   static const String searchScreen ='/search';
+  static const String userDetails = '/userDetails';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -51,12 +53,13 @@ class AppRoutes {
       return MaterialPageRoute(builder: (_) => Volunteerscreen());
 
       case withdrawPaymentDetails :
-      return MaterialPageRoute(builder: (_) => Paymentdetailsscreen());
+      return MaterialPageRoute(builder: (_) => Paymentdetailsscreen(), settings: settings);
 
       case refferedPaymentScreen :
-      return MaterialPageRoute(builder: (_) => Refferedpaymentscreen());
+      final args = settings.arguments as Map<String, dynamic>;
+      return MaterialPageRoute(builder: (_) => Refferedpaymentscreen(data: args));
 
-      case viewActivityScreen : 
+      case viewActivityScreen :             
       return MaterialPageRoute(builder: (_) => Viewactivitesscreen());
 
       case volunteerMembership :
@@ -67,6 +70,9 @@ class AppRoutes {
 
       case searchScreen :
       return MaterialPageRoute(builder: (_) => SearchScreen());
+
+      case userDetails :
+      return MaterialPageRoute(builder: (_) => UserDetailsScreen());
       
       case bottomNavBar:
       final int initialIndex = settings.arguments as int? ?? 0;
