@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:adhisree_foundation/bottomNav/bottom_nav_bar.dart';
 import 'package:adhisree_foundation/utils/customButton.dart';
 import 'package:adhisree_foundation/utils/routes.dart';
@@ -95,7 +94,7 @@ class _MainState extends State<Mainscreen> {
                     SizedBox(height: height * 0.02),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                        child:  CustomButton(text: 'Donate Now', onPressed: ()=> Get.to(() => BottomNavScreen(initialPageIndex: 0))),
+                        child:  CustomButton(text: 'Donate Now', onPressed: ()=> Get.offAll(() => BottomNavScreen(initialPageIndex: 0))),
                       ),
 
                       SizedBox(height: height * 0.04),

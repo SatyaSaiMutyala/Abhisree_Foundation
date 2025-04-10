@@ -27,6 +27,7 @@ class _DonationDetailsScreenState extends State<DonationDetailsScreen> {
   final CampaignController controller = Get.find();
   int? selectedId;
   String? amount;
+  String? name;
 
   @override
   void initState() {
@@ -182,10 +183,11 @@ class _DonationDetailsScreenState extends State<DonationDetailsScreen> {
                               amount: price.price,
                               name: price.priceName,
                               isSelected: selectedId == price.id,
-                              onSelect: (selectedIdNew, amount) {
+                              onSelect: (selectedIdNew, amount, selectedName) {
                                 setState(() {
                                   selectedId = selectedIdNew;
                                   amount = amount;
+                                  name = selectedName;
                                 });
                               },
                             ),

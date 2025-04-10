@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:adhisree_foundation/teams/InnerReferalScreen.dart';
+import 'package:adhisree_foundation/bottomNav/bottom_nav_bar.dart';
 import 'package:adhisree_foundation/utils/constants.dart';
 import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:adhisree_foundation/utils/routes.dart';
@@ -12,12 +12,15 @@ import 'package:url_launcher/url_launcher.dart';
 import '../controllers/teamsController.dart';
 import '../models/referralModel.dart';
 
-class TeamsScreen extends StatefulWidget {
+class Innerreferalscreen extends StatefulWidget {
+  final int id;
+  const Innerreferalscreen({Key? key, required this.id}) : super(key: key);
+
   @override
-  _TeamsScreenState createState() => _TeamsScreenState();
+  _InnerreferalscreenState createState() => _InnerreferalscreenState();
 }
 
-class _TeamsScreenState extends State<TeamsScreen> {
+class _InnerreferalscreenState extends State<Innerreferalscreen> {
   final ReferralController referralController = Get.put(ReferralController());
   Key _refreshKey = UniqueKey();
   bool showPrimary = true;
@@ -28,27 +31,11 @@ class _TeamsScreenState extends State<TeamsScreen> {
   @override
   void initState() {
     super.initState();
-    _loadUserData();
+    fetchData();
   }
 
-  Future<void> _loadUserData() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? userJson = prefs.getString('user');
-    role = prefs.getString('role');
-
-    if (userJson != null) {
-      Map<String, dynamic> decodedUserData = jsonDecode(userJson);
-
-      userId = decodedUserData['id'];
-      userData = decodedUserData;
-
-      if (userId != null) {
-        referralController.fetchReferralData(userId.toString());
-      }
-
-      print("User ID: $userId");
-      print("User Role: $role");
-    }
+  void fetchData() {
+    referralController.fetchReferralData(widget.id.toString());
   }
 
   Future<void> _refreshData() async {
@@ -62,9 +49,23 @@ class _TeamsScreenState extends State<TeamsScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      body: Obx(() {
 
+    return WillPopScope(
+    onWillPop: () async {
+      Get.off(BottomNavScreen(initialPageIndex: 1));
+      return false; 
+    },
+   child:   Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+           onPressed: () => Get.off(BottomNavScreen(initialPageIndex: 1)),
+        ),
+      ),
+      extendBodyBehindAppBar: true,
+      body: Obx(() {
         if (referralController.isLoading.value) {
           return Center(child: CircularProgressIndicator());
         }
@@ -161,7 +162,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
                   child: Container(
                     alignment: Alignment.center,
                     child: Text(
-                      (currentUserData?.userType?.isNotEmpty == true)
+                      (currentUserData?.userType.isNotEmpty == true)
                           ? '${currentUserData!.userType}'.toUpperCase()
                           : 'No Role',
                       style: TextStyle(
@@ -323,16 +324,15 @@ class _TeamsScreenState extends State<TeamsScreen> {
                 ),
               ),
             ),
-           
             Expanded(
               child: RefreshIndicator(
                 onRefresh: _refreshData,
                 child: currentList.isEmpty
                     ? ListView(
-                      key: _refreshKey,
+                        key: _refreshKey,
                         physics: AlwaysScrollableScrollPhysics(),
                         children: [
-                          SizedBox(height: 100), 
+                          SizedBox(height: 100),
                           Center(
                             child: Text(
                               "No Referrals",
@@ -347,7 +347,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
                         ],
                       )
                     : ListView.builder(
-                      key: _refreshKey,
+                        key: _refreshKey,
                         physics: AlwaysScrollableScrollPhysics(),
                         padding: EdgeInsets.only(
                           left: width * 0.01,
@@ -369,46 +369,48 @@ class _TeamsScreenState extends State<TeamsScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     GestureDetector(
-                                      onTap: () => Get.off(() => Innerreferalscreen(id: member.id)),
-                                   child:  Row(
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundImage: member.photoPath !=
-                                                  null
-                                              ? NetworkImage(member.photoPath!)
-                                              : AssetImage(
-                                                      'assets/images/Png/user.png')
-                                                  as ImageProvider,
-                                          radius: width * 0.07,
-                                        ),
-                                        SizedBox(width: width * 0.03),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              member.firstName ?? '',
-                                              style: TextStyle(
-                                                fontSize: width * 0.034,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black,
+                                      onTap: () => Get.offAll(
+                                          Innerreferalscreen(id: member.id)),
+                                      child: Row(
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundImage: member.photoPath !=
+                                                    null
+                                                ? NetworkImage(
+                                                    member.photoPath!)
+                                                : AssetImage(
+                                                        'assets/images/Png/user.png')
+                                                    as ImageProvider,
+                                            radius: width * 0.07,
+                                          ),
+                                          SizedBox(width: width * 0.03),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                member.firstName ?? '',
+                                                style: TextStyle(
+                                                  fontSize: width * 0.034,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(height: height * 0.003),
-                                            Text(
-                                              member.lastName ?? '',
-                                              style: TextStyle(
-                                                fontSize: width * 0.03,
-                                                fontWeight: FontWeight.w400,
-                                                color: Color(0xFF7D7D7D),
+                                              SizedBox(height: height * 0.003),
+                                              Text(
+                                                member.lastName ?? '',
+                                                style: TextStyle(
+                                                  fontSize: width * 0.03,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color(0xFF7D7D7D),
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                     GestureDetector(
                                       onTap: () async {
@@ -455,6 +457,6 @@ class _TeamsScreenState extends State<TeamsScreen> {
           ],
         );
       }),
-    );
-  }
+    ),
+ ); }
 }

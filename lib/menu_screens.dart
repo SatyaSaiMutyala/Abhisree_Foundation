@@ -3,14 +3,10 @@ import 'dart:convert';
 import 'package:adhisree_foundation/bottomNav/controller/bottom_navbar_controller.dart';
 import 'package:adhisree_foundation/teams/customer_support_screen.dart';
 import 'package:adhisree_foundation/utils/constants.dart';
-import 'package:adhisree_foundation/utils/dimensions.dart';
-import 'package:adhisree_foundation/utils/routes.dart';
 import 'package:adhisree_foundation/widgets/logout_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'bottomNav/bottom_nav_bar.dart';
 import 'loginScreen/loginWithNumberScreen.dart';
 import 'more_section/profile_screen.dart';
 import 'utils/storageService.dart';
@@ -37,7 +33,6 @@ class _MenuScreenState extends State<MenuScreen> {
    Future<void> clearUserData() async {
     final storageService = StorageService();
     await storageService.clearUserData();
-
     Get.offAll(() => Loginwithnumberscreen());
   }
 
@@ -89,7 +84,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       child: ClipOval(
                         child: image != null && image!.isNotEmpty
                             ? Image.network(
-                                '${imagePath}${image}',
+                                '${imagePath}/uploads/user_photos${image}',
                                 fit: BoxFit.cover,
                               )
                             : Image.asset(
@@ -103,7 +98,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
                     // Name & Email
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(6.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

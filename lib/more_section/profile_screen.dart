@@ -165,7 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: _image != null
                           ? Image.file(_image!, fit: BoxFit.cover)
                           : (photoPath != null && photoPath!.isNotEmpty)
-                              ? Image.network('${imagePath}/${photoPath!}', fit: BoxFit.cover)
+                              ? Image.network('${imagePath}/uploads/user_photos/${photoPath!}', fit: BoxFit.cover)
                               : Image.asset('assets/images/Png/user.png',
                                   fit: BoxFit.cover),
                     ),

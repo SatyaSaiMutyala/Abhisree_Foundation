@@ -1,6 +1,8 @@
 import 'package:adhisree_foundation/bottomNav/bottom_nav_bar.dart';
+import 'package:adhisree_foundation/controllers/TaskController.dart';
 import 'package:adhisree_foundation/utils/customButton.dart';
 import 'package:adhisree_foundation/utils/routes.dart';
+import 'package:adhisree_foundation/utils/snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -10,33 +12,28 @@ class Volunteerscreen extends StatefulWidget {
   _VolunteerscreenState createState() => _VolunteerscreenState();
 }
 
-class _VolunteerscreenState extends State<Volunteerscreen>{
+class _VolunteerscreenState extends State<Volunteerscreen> {
+  final Taskcontroller taskcontroller = Get.put(Taskcontroller());
+
   bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    const textData = [
-      {'text': 'Raise funds by volunteering.'},
-      {
-        'text':
-            'Join as a freelancer and support our initiatives while earning.'
-      },
-      {
-        'text':
-            'Earn rewards through referrals and withdraw your earnings easily.'
-      },
-      {'text': 'Get instant joining confirmation with lifetime validity.'},
-      {'text': ' Participate in meaningful social work and events.'},
-      {
-        'text':
-            'Receive a personalized visiting card for professional networking.'
-      }
-    ];
+    @override
+    void initState() {
+      super.initState();
+      taskcontroller.FetchTasks('getVolunteerResponsibility');
+    }
 
-    return Scaffold(
-      body: Container(
+    return Scaffold(body: Obx(() {
+      if (taskcontroller.loading.value) {
+        return Center(child: CircularProgressIndicator());
+      }
+      var taskData = taskcontroller.taskList.value;
+      
+      return Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -73,8 +70,6 @@ class _VolunteerscreenState extends State<Volunteerscreen>{
                 ],
               ),
             ),
-
-
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -120,7 +115,7 @@ class _VolunteerscreenState extends State<Volunteerscreen>{
                       horizontal: width * 0.04,
                     ),
                     child: Column(
-                      children: textData
+                      children: taskData
                           .map(
                             (item) => Padding(
                               padding:
@@ -135,7 +130,7 @@ class _VolunteerscreenState extends State<Volunteerscreen>{
                                   SizedBox(width: width * 0.02),
                                   Expanded(
                                     child: Text(
-                                      item['text']!,
+                                      item.title,
                                       style: TextStyle(
                                         fontSize: width * 0.035,
                                       ),
@@ -187,18 +182,28 @@ class _VolunteerscreenState extends State<Volunteerscreen>{
                     ),
                   ),
                   SizedBox(height: height * 0.01),
-                  
+
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                    child: CustomButton(text: 'Countinue', onPressed: () => Navigator.pushNamed(context, AppRoutes.volunteerMembership)),
+                    child: CustomButton(
+                      text: 'Countinue',
+                      onPressed: () {
+                        if (!isChecked) {
+                          showErrorSnackbar(
+                              'Please agree to the terms and conditions to continue.');
+                        } else {
+                          Navigator.pushNamed(
+                              context, AppRoutes.volunteerMembership);
+                        }
+                      },
+                    ),
                   )
-
                 ],
               ),
             ),
           ],
         ),
-      ),
-    );
+      );
+    }));
   }
 }

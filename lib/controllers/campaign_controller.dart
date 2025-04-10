@@ -8,7 +8,7 @@ class CampaignController extends GetxController {
   final ApiProvider apiProvider = ApiProvider();
   
   var campaigns = <Campaign>[].obs;
-  var selectedCampaign = Rxn<CampaignDetails>(); // Stores the campaign with prices
+  var selectedCampaign = Rxn<CampaignDetails>(); 
   var isLoading = false.obs;
 
   @override

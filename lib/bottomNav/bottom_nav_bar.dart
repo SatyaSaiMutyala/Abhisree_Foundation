@@ -85,8 +85,6 @@
 //   }
 // }
 
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:adhisree_foundation/bottomNav/controller/bottom_navbar_controller.dart';
@@ -122,12 +120,44 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
+      // onWillPop: () async {
+      //   if (_pageIndex != 0) {
+      //     setState(() {
+      //       _pageIndex = 0;
+      //     });
+      //     Get.find<BottomNavController>().changePage(BnbItem.home);
+      //     return false;
+      //   }
+
+      //   final now = DateTime.now();
+      //   if (_lastBackPressed == null ||
+      //       now.difference(_lastBackPressed!) > Duration(seconds: 2)) {
+      //     _lastBackPressed = now;
+      //     Get.rawSnackbar(
+      //       message: 'Press back again to exit',
+      //       duration: Duration(seconds: 2),
+      //       backgroundColor: Colors.black87,
+      //       snackPosition: SnackPosition.BOTTOM,
+      //       margin: EdgeInsets.all(10),
+      //       borderRadius: 12,
+      //     );
+      //     return false;
+      //   }
+      //   return true;
+      // },
+
       onWillPop: () async {
         if (_pageIndex != 0) {
           setState(() {
             _pageIndex = 0;
           });
           Get.find<BottomNavController>().changePage(BnbItem.home);
+          return false;
+        }
+
+        // Prevent popping if this is not the only route (just in case)
+        if (Navigator.of(context).canPop()) {
+          Navigator.of(context).popUntil((route) => route.isFirst);
           return false;
         }
 
@@ -145,8 +175,9 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
           );
           return false;
         }
-        return true; 
+        return true;
       },
+
       child: Scaffold(
         body: Obx(
             () => _getBody(Get.find<BottomNavController>().currentPage.value)),

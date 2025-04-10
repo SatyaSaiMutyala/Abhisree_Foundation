@@ -1,4 +1,5 @@
 import 'package:adhisree_foundation/controllers/DonationAmountController.dart';
+import 'package:adhisree_foundation/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -211,7 +212,8 @@ class _DonationPopupFormState extends State<DonationPopupForm> {
                     SizedBox(height: height * 0.005),
                     Center(
                       child: TextButton(
-                        onPressed: () => {_razorpay.open(options)},
+                        // onPressed: () => {_razorpay.open(options)},
+                        onPressed: () => { Navigator.pushNamed(context, AppRoutes.donationSummary)},
                         child: Text(
                           "Skip",
                           style: TextStyle(

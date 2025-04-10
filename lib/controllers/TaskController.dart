@@ -9,10 +9,10 @@ class Taskcontroller extends GetxController {
   var loading = false.obs;
   var taskList = <Taskmodel>[].obs;
 
-  Future<void> FetchTasks(endpoint, userId) async {
+  Future<void> FetchTasks(endpoint) async {
       try{
           loading.value = true;
-           var response = await apiProvider.getRequestWithId(endpoint, userId);
+           var response = await apiProvider.getRequest(endpoint);
            if(response != null && response is List) {
             taskList.value = response.map((e) => Taskmodel.fromJson(e)).toList();
            }

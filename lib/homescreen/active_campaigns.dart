@@ -137,6 +137,8 @@ class _ActiveCampaignsState extends State<ActiveCampaigns> {
             return Center(child: Text("No Active Campaigns"));
           }
 
+          print('this is Donation ***********${controller.campaigns[0].totalDonation}');
+
           return ListView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),

@@ -92,7 +92,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                   // Skip Button
                   Center(
                     child: TextButton(
-                      onPressed: ()=> Get.to(() => BottomNavScreen(initialPageIndex: 0)),
+                      onPressed: ()=> Get.offAll(() => BottomNavScreen(initialPageIndex: 0)),
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                         minimumSize: Size(292.48, 26),
