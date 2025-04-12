@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import '../controllers/userController.dart';
 import '../widgets/text_feilds.dart';
 import 'package:adhisree_foundation/utils/customButton.dart';
@@ -46,6 +45,8 @@ class _UserDetailsState extends State<UserDetailsScreen> {
       'address': _addressController.text,
       'ref_id': referralCode,
     };
+    print('this is ref code ------------>$referralCode');
+    print('User Data ***********------------->${userData}');
     userController.submitUserDataViaRefId("save_user_with_refereal",userData);
 
   }

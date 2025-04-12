@@ -64,6 +64,7 @@ Widget textFieldScreen(
   String? Function(String?)? validator,
   TextCapitalization textCapitalization = TextCapitalization.none,
   List<TextInputFormatter>? inputFormatters,
+  bool? readOnly,
 }) {
   return LayoutBuilder(builder: (context, constraints) {
     double width = MediaQuery.of(context).size.width;
@@ -95,6 +96,7 @@ Widget textFieldScreen(
           child: TextFormField(
             controller: controller,
             keyboardType: keyboardType,
+            readOnly: readOnly ?? false,
             validator: validator,
             textCapitalization: textCapitalization,
             inputFormatters: inputFormatters,

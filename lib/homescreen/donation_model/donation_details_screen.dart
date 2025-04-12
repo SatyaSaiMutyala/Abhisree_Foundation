@@ -55,7 +55,7 @@ class _DonationDetailsScreenState extends State<DonationDetailsScreen> {
         }
 
         double progressPercent = 0.0;
-        int goal = int.tryParse(widget.golePrice) ?? 1;
+        double goal = double.tryParse(widget.golePrice.toString()) ?? 1;
         progressPercent = (widget.totalDonation / goal).clamp(0.0, 1.0);
 
         return Stack(
@@ -213,9 +213,11 @@ class _DonationDetailsScreenState extends State<DonationDetailsScreen> {
                                     child: Material(
                                       color: Colors.transparent,
                                       child: DonationPopupForm(
-                                        campaignId: data!.id,
+                                        campaignId: data.id,
                                         priceId: selectedId,
                                         amount: amount,
+                                        name: name,
+                                        image: data.innerImage,
                                       ),
                                     ),
                                   ),

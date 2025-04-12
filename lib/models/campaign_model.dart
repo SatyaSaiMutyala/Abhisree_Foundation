@@ -21,8 +21,9 @@ class Campaign {
       image: json['image'],
       name: json['name'],
       goalPrice: json['goal_price'].toString(),
+      // goalPrice: double.tryParse(json['goal_price'].toString())?.toInt() ?? 0,
       donationCount: json['donation_count'].toString(),
-      totalDonation: int.tryParse(json['total_donation'].toString()) ?? 0,
+      totalDonation: double.tryParse(json['total_donation'].toString())?.toInt() ?? 0,
     );
   }
 }

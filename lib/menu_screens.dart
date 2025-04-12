@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:adhisree_foundation/bottomNav/controller/bottom_navbar_controller.dart';
+import 'package:adhisree_foundation/controllers/UserDetailsController.dart';
 import 'package:adhisree_foundation/teams/customer_support_screen.dart';
 import 'package:adhisree_foundation/utils/constants.dart';
 import 'package:adhisree_foundation/widgets/logout_form.dart';
@@ -19,6 +20,7 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
+  final UserProgressController userProgressController = Get.put(UserProgressController());
   int? userId;
   String? name;
   String? email;
@@ -45,9 +47,11 @@ class _MenuScreenState extends State<MenuScreen> {
         userId = userData['id'];
         name = userData['first_name'];
         email = userData['email'];
-        image = userData['photo_path'];
+        image = userData['photo_url'];
       });
     }
+    userProgressController.fetchUserProgress(userId.toString());
+    print('image --------->${image}');
   }
 
   @override
@@ -55,7 +59,13 @@ class _MenuScreenState extends State<MenuScreen> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Padding(
+      body: Obx((){ 
+        if(userProgressController.isLoading.value){
+          return Center(child:  CircularProgressIndicator());
+        }
+        final data = userProgressController.userProgress.value;
+
+        return Padding(
         padding: EdgeInsets.only(left: width * 0.053, top: height * 0.096),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +94,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       child: ClipOval(
                         child: image != null && image!.isNotEmpty
                             ? Image.network(
-                                '${imagePath}/uploads/user_photos${image}',
+                                '${data!.photoPath}',
                                 fit: BoxFit.cover,
                               )
                             : Image.asset(
@@ -106,7 +116,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             // width: width * 0.4,
                             // height: height * 0.026,
                             child: Text(
-                              name ?? "No Name",
+                              data!.firstName ?? "No Name",
                               style: TextStyle(
                                 fontFamily: "Poppins",
                                 fontWeight: FontWeight.w500,
@@ -120,7 +130,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             // width: width * 0.4,
                             // height: height * 0.014,
                             child: Text(
-                              email ?? "example@gmail.com",
+                              data.email ?? "example@gmail.com",
                               style: TextStyle(
                                 fontFamily: "Inter",
                                 fontWeight: FontWeight.w500,
@@ -323,7 +333,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const TermsConditionsScreen()),
+                      builder: (context) =>  TermsConditionsScreen()),
                 );
               },
             ),
@@ -353,7 +363,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const PrivacyPolicyScreen()),
+                      builder: (context) =>  PrivacyPolicyScreen()),
                 );
               },
             ),
@@ -400,7 +410,7 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
           ],
         ),
-      ),
-    );
+      );
+  }));
   }
 }

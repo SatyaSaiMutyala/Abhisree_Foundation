@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 
 // class Paymentdetailsscreen extends StatefulWidget {
-  
+
 //   @override
 //   _PaymentDetails createState() => _PaymentDetails();
 // }
@@ -208,14 +208,10 @@
 //   }
 // }
 
-
-
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../models/withdrawalDetailsModal.dart';
-
 
 class Paymentdetailsscreen extends StatelessWidget {
   @override
@@ -228,14 +224,20 @@ class Paymentdetailsscreen extends StatelessWidget {
 
     // Format date and time
     DateTime dateTime = DateTime.parse(detail.createdAt);
-    String formattedDate = DateFormat('dd-MMM-yyyy').format(dateTime); // e.g., 07-Apr-2025
-    String formattedTime = DateFormat('hh:mm a').format(dateTime);     // e.g., 12:59 PM
+    String formattedDate =
+        DateFormat('dd-MMM-yyyy').format(dateTime); // e.g., 07-Apr-2025
+    String formattedTime =
+        DateFormat('hh:mm a').format(dateTime); // e.g., 12:59 PM
     String dateTimeDisplay = "$formattedDate | $formattedTime";
 
-    // Fallback for image
-    String userImage = (detail.image == null || detail.image!.isEmpty)
-        ? 'assets/images/Png/user.png'
-        : detail.image!;
+    print('Image *********************${detail.photoPath}');
+
+    // // Fallback for image
+    // String userImage = (detail.photoPath == null || detail.photoPath!.isEmpty)
+    //     ? 'assets/images/Png/user.png'
+    //     : detail.photoPath!;
+
+    // print('Image *********************${userImage}');
 
     return Scaffold(
       appBar: AppBar(
@@ -284,11 +286,29 @@ class Paymentdetailsscreen extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(
-                  userImage,
-                  width: width * 0.2,
-                  height: height * 0.1,
-                  fit: BoxFit.cover,
+                ClipOval(
+                  child:
+                      detail.photoPath != null && detail.photoPath!.isNotEmpty
+                          ? Image.network(
+                              detail.photoPath!,
+                              width: width * 0.2,
+                              height: width * 0.2,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Image.asset(
+                                  'assets/images/Png/user.png',
+                                  width: width * 0.2,
+                                  height: width * 0.2,
+                                  fit: BoxFit.cover,
+                                );
+                              },
+                            )
+                          : Image.asset(
+                              'assets/images/Png/user.png',
+                              width: width * 0.2,
+                              height: width * 0.2,
+                              fit: BoxFit.cover,
+                            ),
                 ),
                 SizedBox(width: width * 0.03),
                 Expanded(
@@ -322,7 +342,7 @@ class Paymentdetailsscreen extends StatelessWidget {
                 ),
                 SizedBox(width: width * 0.02),
                 Text(
-                  '₹25,000', // You can replace this with actual amount if available
+                  detail.amount?.toString() ?? '0',
                   style: TextStyle(
                     fontSize: width * 0.04,
                     color: Color(0XFF039200),
@@ -346,11 +366,20 @@ class Paymentdetailsscreen extends StatelessWidget {
                 ),
                 SizedBox(height: height * 0.006),
                 Text(
-                  detail.refId,
+                  detail?.status == "Approved"
+                      ? detail?.transctionDetails ?? 'No Details'
+                      : detail?.status == "Pending"
+                          ? "Pending"
+                          : "Rejected",
                   style: TextStyle(
                     fontSize: width * 0.03,
                     fontFamily: "Inter",
                     fontWeight: FontWeight.w400,
+                    color: detail?.status == "Approved"
+                        ? Colors.black
+                        : detail?.status == "Pending"
+                            ? Colors.orange
+                            : Colors.red,
                   ),
                 ),
               ],
@@ -416,7 +445,7 @@ class Paymentdetailsscreen extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  '₹25,000', // Again, make this dynamic if you want
+                  detail.amount.toString() ?? '0', 
                   style: TextStyle(
                     fontSize: width * 0.04,
                     fontWeight: FontWeight.w800,

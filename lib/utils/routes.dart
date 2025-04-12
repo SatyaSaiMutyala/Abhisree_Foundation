@@ -82,10 +82,12 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => UserDetailsScreen());
 
       case donationSummary:
-        return MaterialPageRoute(builder: (_) => Donationsummary());
+      final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(builder: (_) => Donationsummary(data : args));
 
       case volunteerSummary:
-        return MaterialPageRoute(builder: (_) => Volunteersummary());
+      final args = settings.arguments as Map<String, dynamic> ;
+        return MaterialPageRoute(builder: (_) => Volunteersummary( data : args));
 
       case InnerReferalScreen:
         final args = settings.arguments as int;

@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class StorageService {
-  Future<void> saveUserData(String token, Map<String, dynamic> userData, String role) async {
+  Future<void> saveUserData(String token, Map<String, dynamic> userData, String role,) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', token);
     await prefs.setString('role', role);

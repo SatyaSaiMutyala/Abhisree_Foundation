@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:adhisree_foundation/teams/InnerReferalScreen.dart';
-import 'package:adhisree_foundation/utils/constants.dart';
 import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:adhisree_foundation/utils/routes.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +63,6 @@ class _TeamsScreenState extends State<TeamsScreen> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Obx(() {
-
         if (referralController.isLoading.value) {
           return Center(child: CircularProgressIndicator());
         }
@@ -79,6 +77,13 @@ class _TeamsScreenState extends State<TeamsScreen> {
 
         ReferralUser? currentUserData =
             referralController.referralData.value?.user;
+
+        if (referralData == null || currentUserData == null) {
+          return Center(
+              child: CircularProgressIndicator()); // or a skeleton loader
+        }
+
+        // print('IMAGE ----------->${currentUserData!.photoPath}');
 
         List<ReferralUser> currentList =
             showPrimary ? primaryReferrals : secondaryReferrals;
@@ -126,10 +131,9 @@ class _TeamsScreenState extends State<TeamsScreen> {
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.white, width: 6),
                       image: DecorationImage(
-                        image: (currentUserData?.photoPath != null &&
-                                currentUserData!.photoPath!.isNotEmpty)
-                            ? NetworkImage(
-                                '${imagePath}${currentUserData.photoPath!}')
+                        image: (currentUserData!.photoPath != null &&
+                                currentUserData.photoPath!.isNotEmpty)
+                            ? NetworkImage('${currentUserData.photoPath!}')
                             : const AssetImage('assets/images/Png/user.png')
                                 as ImageProvider,
                         fit: BoxFit.cover,
@@ -323,16 +327,15 @@ class _TeamsScreenState extends State<TeamsScreen> {
                 ),
               ),
             ),
-           
             Expanded(
               child: RefreshIndicator(
                 onRefresh: _refreshData,
                 child: currentList.isEmpty
                     ? ListView(
-                      key: _refreshKey,
+                        key: _refreshKey,
                         physics: AlwaysScrollableScrollPhysics(),
                         children: [
-                          SizedBox(height: 100), 
+                          SizedBox(height: 100),
                           Center(
                             child: Text(
                               "No Referrals",
@@ -347,7 +350,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
                         ],
                       )
                     : ListView.builder(
-                      key: _refreshKey,
+                        key: _refreshKey,
                         physics: AlwaysScrollableScrollPhysics(),
                         padding: EdgeInsets.only(
                           left: width * 0.01,
@@ -369,46 +372,48 @@ class _TeamsScreenState extends State<TeamsScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     GestureDetector(
-                                      onTap: () => Get.off(() => Innerreferalscreen(id: member.id)),
-                                   child:  Row(
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundImage: member.photoPath !=
-                                                  null
-                                              ? NetworkImage(member.photoPath!)
-                                              : AssetImage(
-                                                      'assets/images/Png/user.png')
-                                                  as ImageProvider,
-                                          radius: width * 0.07,
-                                        ),
-                                        SizedBox(width: width * 0.03),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              member.firstName ?? '',
-                                              style: TextStyle(
-                                                fontSize: width * 0.034,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black,
+                                      onTap: () => Get.off(() =>
+                                          Innerreferalscreen(id: member.id)),
+                                      child: Row(
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundImage: member.photoPath !=
+                                                    null
+                                                ? NetworkImage(
+                                                    member.photoPath!)
+                                                : AssetImage(
+                                                        'assets/images/Png/user.png')
+                                                    as ImageProvider,
+                                            radius: width * 0.07,
+                                          ),
+                                          SizedBox(width: width * 0.03),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                member.firstName ?? '',
+                                                style: TextStyle(
+                                                  fontSize: width * 0.034,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(height: height * 0.003),
-                                            Text(
-                                              member.lastName ?? '',
-                                              style: TextStyle(
-                                                fontSize: width * 0.03,
-                                                fontWeight: FontWeight.w400,
-                                                color: Color(0xFF7D7D7D),
+                                              SizedBox(height: height * 0.003),
+                                              Text(
+                                                member.lastName ?? '',
+                                                style: TextStyle(
+                                                  fontSize: width * 0.03,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color(0xFF7D7D7D),
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                     GestureDetector(
                                       onTap: () async {

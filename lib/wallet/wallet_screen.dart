@@ -182,97 +182,99 @@ class _WalletScreenState extends State<WalletScreen> {
     }
 
     return RefreshIndicator(
-      onRefresh: _refreshData, child: ListView.builder(
-        key: _refreshKey,
-        physics: AlwaysScrollableScrollPhysics(),
-      itemCount: userData.length,
-      itemBuilder: (context, index) {
-        final user = userData[index];
-        String formattedDate = user.createdAt.split(" ").first;
+        onRefresh: _refreshData,
+        child: ListView.builder(
+          key: _refreshKey,
+          physics: AlwaysScrollableScrollPhysics(),
+          itemCount: userData.length,
+          itemBuilder: (context, index) {
+            final user = userData[index];
+            String formattedDate = user.createdAt.split(" ").first;
 
-        return GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              AppRoutes.refferedPaymentScreen,
-              arguments: {
-                'firstName': user.firstName,
-                'lastName': user.lastName,
-                'photoPath': user.photoPath,
-                'createdAt': formattedDate,
+            return GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.refferedPaymentScreen,
+                  arguments: {
+                    'firstName': user.firstName,
+                    'lastName': user.lastName,
+                    'photoPath': user.photoPath,
+                    'createdAt': formattedDate,
+                  },
+                );
               },
-            );
-          },
-          child: Container(
-            width: width * 0.4,
-            margin: EdgeInsets.only(bottom: width * 0.02),
-            padding: EdgeInsets.fromLTRB(
-              width * 0.02,
-              width * 0.03,
-              width * 0.04,
-              width * 0.03,
-            ),
-            decoration: BoxDecoration(
-              color: Color(0xFFF3F3F3),
-              borderRadius: BorderRadius.circular(3),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Date & Time Bar
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: width * 0.02),
-                  child: Text(
-                    formattedDate,
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: width * 0.03,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFF6F6B6B),
-                    ),
-                  ),
+              child: Container(
+                width: width * 0.4,
+                margin: EdgeInsets.only(bottom: width * 0.02),
+                padding: EdgeInsets.fromLTRB(
+                  width * 0.02,
+                  width * 0.03,
+                  width * 0.04,
+                  width * 0.03,
                 ),
-                SizedBox(height: height * 0.01),
-
-                // Name and Amount
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                decoration: BoxDecoration(
+                  color: Color(0xFFF3F3F3),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Date & Time Bar
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: width * 0.02),
                       child: Text(
-                        "${user.firstName} ${user.lastName}",
+                        formattedDate,
                         style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: width * 0.035,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
+                          fontFamily: 'Inter',
+                          fontSize: width * 0.03,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF6F6B6B),
                         ),
                       ),
                     ),
+                    SizedBox(height: height * 0.01),
+
+                    // Name and Amount
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(Icons.add, color: Color(0xFF039200), size: 16),
-                        SizedBox(width: 2),
-                        Text(
-                          "₹120",
-                          style: TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: width * 0.035,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF039200),
+                        Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: width * 0.02),
+                          child: Text(
+                            "${user.firstName} ${user.lastName}",
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: width * 0.035,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ),
                           ),
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.add, color: Color(0xFF039200), size: 16),
+                            SizedBox(width: 2),
+                            Text(
+                              "₹120",
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: width * 0.035,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF039200),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-        );
-      },
-    ));
+              ),
+            );
+          },
+        ));
   }
 
   Widget buildWithdrawalList(List<WithdrawaldetailsModal> withdrawDetails) {
@@ -292,54 +294,122 @@ class _WalletScreenState extends State<WalletScreen> {
       );
     }
 
-    return RefreshIndicator( onRefresh: _refreshData, 
-    child :ListView.builder(
-      key: _refreshKey,
-      physics:AlwaysScrollableScrollPhysics(),
-      itemCount: withdrawDetails.length,
-      itemBuilder: (context, index) {
-        final detail = withdrawDetails[index];
+    return RefreshIndicator(
+        onRefresh: _refreshData,
+        child: ListView.builder(
+          key: _refreshKey,
+          physics: AlwaysScrollableScrollPhysics(),
+          itemCount: withdrawDetails.length,
+          itemBuilder: (context, index) {
+            final detail = withdrawDetails[index];
 
-        DateTime dateTime = DateTime.parse(detail.createdAt);
-        String formattedDate =
-            DateFormat('dd-MMM-yyyy').format(dateTime); 
-        String formattedTime =
-            DateFormat('hh:mm a').format(dateTime); 
-        String dateTimeDisplay = "$formattedDate | $formattedTime";
+            DateTime dateTime = DateTime.parse(detail.createdAt);
+            String formattedDate = DateFormat('dd-MMM-yyyy').format(dateTime);
+            String formattedTime = DateFormat('hh:mm a').format(dateTime);
+            String dateTimeDisplay = "$formattedDate | $formattedTime";
 
-        String accountDisplay = detail.accountNumber.length > 4
-            ? "xxxxxxx${detail.accountNumber.substring(detail.accountNumber.length - 4)}"
-            : detail.accountNumber;
+            String accountDisplay = detail.accountNumber.length > 4
+                ? "xxxxxxx${detail.accountNumber.substring(detail.accountNumber.length - 4)}"
+                : detail.accountNumber;
 
-        return GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              AppRoutes.withdrawPaymentDetails,
-              arguments: detail,
-            );
-          },
-          child: Container(
-            margin: EdgeInsets.only(bottom: width * 0.02),
-            padding: EdgeInsets.fromLTRB(
-                width * 0.02, width * 0.03, width * 0.04, width * 0.03),
-            decoration: BoxDecoration(
-              color: Color(0xFFF3F3F3),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Date & Time
-                Container(
-                  width: width * 0.9,
-                  height: 15,
-                  padding: EdgeInsets.symmetric(horizontal: width * 0.02),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        dateTimeDisplay,
+            return GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.withdrawPaymentDetails,
+                  arguments: detail,
+                );
+              },
+              child: Container(
+                margin: EdgeInsets.only(bottom: width * 0.02),
+                padding: EdgeInsets.fromLTRB(
+                    width * 0.02, width * 0.03, width * 0.04, width * 0.03),
+                decoration: BoxDecoration(
+                  color: Color(0xFFF3F3F3),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Date & Time
+                    Container(
+                      width: width * 0.9,
+                      height: 15,
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.02),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            dateTimeDisplay,
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: width * 0.03,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xFF6F6B6B),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: height * 0.006),
+
+                    // Debited To + Amount
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.02),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Debited to",
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: width * 0.035,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                detail!.status == "Approved"
+                                    ? Icons.check_circle
+                                    : detail.status == "Rejected"
+                                        ? Icons.cancel
+                                        : Icons.hourglass_empty,
+                                color: detail.status == "Approved"
+                                    ? Color(0xFF039200)
+                                    : detail.status == "Rejected"
+                                        ? Colors.red
+                                        : Colors.orange,
+                                size: width * 0.05,
+                              ),
+                              SizedBox(width: width * 0.02),
+                              Text(
+                                detail.status ?? '',
+                                style: TextStyle(
+                                  fontFamily: 'Outfit',
+                                  fontSize: width * 0.04,
+                                  fontWeight: FontWeight.w600,
+                                  color: detail.status == "Approved"
+                                      ? Color(0xFF039200)
+                                      : detail.status == "Rejected"
+                                          ? Colors.red
+                                          : Colors.orange,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+
+                    // Account Number
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.02),
+                      child: Text(
+                        accountDisplay,
                         style: TextStyle(
                           fontFamily: 'Inter',
                           fontSize: width * 0.03,
@@ -347,67 +417,13 @@ class _WalletScreenState extends State<WalletScreen> {
                           color: Color(0xFF6F6B6B),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: height * 0.006),
-
-                // Debited To + Amount
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width * 0.02),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          "Debited to",
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: width * 0.035,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Image.asset('assets/images/Png/success.png',
-                              width: width * 0.04),
-                          SizedBox(width: width * 0.02),
-                          Text(
-                            "₹25,000", // You can make this dynamic
-                            style: TextStyle(
-                              fontFamily: 'Outfit',
-                              fontSize: width * 0.04,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF039200),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Account Number
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width * 0.02),
-                  child: Text(
-                    accountDisplay,
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: width * 0.03,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFF6F6B6B),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        );
-      },
-    ));
+              ),
+            );
+          },
+        ));
   }
 
   // Widget buildWithdrawalList(List<WithdrawaldetailsModal> withdrawDetails ) {

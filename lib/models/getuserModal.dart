@@ -44,7 +44,7 @@ class UserDetailsModal {
       gender: json['user']['gender'] ?? '',
       userType: json['user']['user_type'] ?? '',
       phoneNumber: json['user']['phone_number'] ?? '',
-      photoPath: json['user']['photo_path'] ?? '',
+      photoPath: json['user']['photo_url'] ?? '',
       otp: json['user']['otp'] ?? '',
       otpExpiry: json['user']['otp_expiry'] ?? '',
       refId: json['user']['ref_id'] ?? '',

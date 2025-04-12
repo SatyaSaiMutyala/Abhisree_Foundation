@@ -10,9 +10,15 @@ class DonationPopupForm extends StatefulWidget {
   final int campaignId;
   final int? priceId;
   final String? amount;
+  final String? name;
+  final String? image;
 
   DonationPopupForm(
-      {required this.campaignId, required this.priceId, required this.amount});
+      {required this.campaignId,
+      required this.priceId,
+      required this.amount,
+      required this.name,
+      required this.image});
 
   @override
   _DonationPopupFormState createState() => _DonationPopupFormState();
@@ -33,35 +39,7 @@ class _DonationPopupFormState extends State<DonationPopupForm> {
   @override
   void initState() {
     super.initState();
-    _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     _loadUserId();
-  }
-
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    print('handleSkipDetails ${response.paymentId}');
-    final details = {
-      "user_id": userId,
-      "name": _nameController.text,
-      "price_id": widget.priceId,
-      "campaign_id": widget.campaignId,
-      "pan": _panController.text,
-      "aadhar": _aadharController.text,
-      "transaction_details": response.paymentId,
-    };
-
-    print("Collected Data: $details");
-    donationamountcontroller.DonateAmount('send_donot_donation', details);
-  }
-
-  void _handlePaymentError(PaymentFailureResponse response) {
-    print('Payment Error: ${response.message}');
-  }
-
-  void _handleExternalWallet(ExternalWalletResponse response) {
-    print('External Wallet Selected: ${response.walletName}');
   }
 
   Future<void> _loadUserId() async {
@@ -77,36 +55,10 @@ class _DonationPopupFormState extends State<DonationPopupForm> {
     }
   }
 
-  // void handleSkipDetails() {
-  //   final details = {
-  //     "user_id": userId,
-  //     "name": _nameController.text,
-  //     "price_id": widget.priceId,
-  //     "campaign_id": widget.campaignId,
-  //     "pan": '',
-  //     "aadhar": '',
-  //     "transaction_details": '',
-  //   };
-
-  //   print("Collected Data skip ------------------: $details");
-  //   donationamountcontroller.DonateAmount('send_donot_donation', details);
-  // }
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    int donationAmountInPaise =
-        ((double.tryParse(widget.amount ?? '0') ?? 0) * 100).toInt();
-        print('this is amount ------------->${donationAmountInPaise}');
-
-    var options = {
-      'key': 'rzp_test_K2jWf5oO6jmHLb',
-      'amount': donationAmountInPaise,
-      'name': 'Abhisree Foundation',
-      'description': 'Donation for Education',
-      'prefill': {'contact': '9912821123', 'email': 'abhisree@gmail.com'},
-    };
 
     return Dialog(
       shape: RoundedRectangleBorder(
@@ -195,7 +147,25 @@ class _DonationPopupFormState extends State<DonationPopupForm> {
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              _razorpay.open(options);
+                              final Map<String, dynamic> args = {
+                                'campaignId': widget.campaignId,
+                                'amount': widget.amount,
+                                'name': widget.name,
+                                'image': widget.image,
+                                'userName': _nameController.text,
+                                'pan': _panController.text,
+                                'aadhar': _aadharController.text,
+                              };
+
+                              if (widget.priceId != 0) {
+                                args['priceId'] = widget.priceId;
+                              }
+
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.donationSummary,
+                                arguments: args,
+                              );
                             }
                           },
                           child: Text(
@@ -212,8 +182,19 @@ class _DonationPopupFormState extends State<DonationPopupForm> {
                     SizedBox(height: height * 0.005),
                     Center(
                       child: TextButton(
-                        // onPressed: () => {_razorpay.open(options)},
-                        onPressed: () => { Navigator.pushNamed(context, AppRoutes.donationSummary)},
+                        onPressed: () => {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.donationSummary,
+                            arguments: {
+                              'campaignId': widget.campaignId,
+                              'priceId': widget.priceId,
+                              'amount': widget.amount,
+                              'name': widget.name,
+                              'image': widget.image,
+                            },
+                          )
+                        },
                         child: Text(
                           "Skip",
                           style: TextStyle(
@@ -316,7 +297,7 @@ class _DonationPopupFormState extends State<DonationPopupForm> {
 
   @override
   void dispose() {
-    _razorpay.clear(); // to avoid memory leaks
+    _razorpay.clear();
     super.dispose();
   }
 }

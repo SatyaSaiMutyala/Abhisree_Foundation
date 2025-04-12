@@ -22,7 +22,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final UserProgressController _controller = Get.put(UserProgressController());
-  final Profileupdatecontroller profileController = Get.put(Profileupdatecontroller());
+  final Profileupdatecontroller profileController =
+      Get.put(Profileupdatecontroller());
 
   File? _image;
   final ImagePicker _picker = ImagePicker();
@@ -119,10 +120,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             _genderController.text = user.gender ?? '';
             photoPath = user.photoPath ?? '';
           });
+          await prefs.setString('user', jsonEncode(user));
         }
       }
 
       print("User ID: $userId");
+      print("User ID: $photoPath");
     }
   }
 
@@ -165,7 +168,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: _image != null
                           ? Image.file(_image!, fit: BoxFit.cover)
                           : (photoPath != null && photoPath!.isNotEmpty)
-                              ? Image.network('${imagePath}/uploads/user_photos/${photoPath!}', fit: BoxFit.cover)
+                              ? Image.network('${photoPath!}',
+                                  fit: BoxFit.cover)
                               : Image.asset('assets/images/Png/user.png',
                                   fit: BoxFit.cover),
                     ),
@@ -226,7 +230,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(height: height * 0.02),
             textFieldScreen("Phone Number",
                 keyboardType: TextInputType.phone,
-                controller: _phoneController),
+                controller: _phoneController,
+                readOnly: true),
             SizedBox(height: height * 0.02),
             textFieldScreen("Gender",
                 keyboardType: TextInputType.text,
@@ -247,7 +252,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     "photo_path": _image != null ? _image!.path : "",
                   };
 
-                  profileController.submitUserData('updateProfile', updatedData);
+                  profileController.submitUserData(
+                      'updateProfile', updatedData);
 
                   setState(() {
                     _isEditing = false;

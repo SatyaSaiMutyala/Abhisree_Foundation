@@ -224,7 +224,7 @@ class _RefferedPayment extends State<Refferedpaymentscreen> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: photoPath != null
+                  child: (photoPath != null && photoPath.isNotEmpty)
                       ? Image.network(
                           photoPath,
                           width: width * 0.2,
@@ -235,6 +235,7 @@ class _RefferedPayment extends State<Refferedpaymentscreen> {
                           'assets/images/Png/user.png',
                           width: width * 0.2,
                           height: height * 0.1,
+                          fit: BoxFit.cover,
                         ),
                 ),
                 SizedBox(width: width * 0.03),

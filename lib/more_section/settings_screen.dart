@@ -275,15 +275,7 @@
 //   }
 // }
 
-
-
-
-
-
-
-
-
-
+import 'dart:convert';
 
 import 'package:adhisree_foundation/loginScreen/loginWithNumberScreen.dart';
 import 'package:adhisree_foundation/more_section/bank_details.dart';
@@ -293,12 +285,39 @@ import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:adhisree_foundation/widgets/logout_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/storageService.dart';
 import '../widgets/privacy_policy_screen.dart';
 import '../widgets/terms_conditions_screen.dart';
 
-class MoreScreen extends StatelessWidget {
+class MoreScreen extends StatefulWidget {
+  _MoreScreenState createState() => _MoreScreenState();
+}
+
+class _MoreScreenState extends State<MoreScreen> {
+  String? userId;
+  String? role;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserId();
+  }
+
+  Future<void> _loadUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? userJson = prefs.getString('user');
+    String? storedRole = prefs.getString('role');
+    if (userJson != null && storedRole != null) {
+      Map<String, dynamic> userData = jsonDecode(userJson);
+      setState(() {
+        userId = userData['id'].toString();
+        role = storedRole;
+      });
+    }
+  }
+
   Future<void> clearUserData() async {
     final storageService = StorageService();
     await storageService.clearUserData();
@@ -397,35 +416,36 @@ class MoreScreen extends StatelessWidget {
                 },
               ),
               Divider(),
-
               // Documents Section
-              ListTile(
-                leading: Image.asset("assets/icons/document_icon.png"),
-                title: Text(
-                  "Documents",
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                ),
-                subtitle: Text(
-                  "You can download your documents like ID Card, visiting card",
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w400,
+              if (role == 'volunteer') ...[
+                ListTile(
+                  leading: Image.asset("assets/icons/document_icon.png"),
+                  title: Text(
+                    "Documents",
+                    style: TextStyle(fontWeight: FontWeight.w500),
                   ),
-                ),
-                trailing: Icon(Icons.arrow_forward_ios,
-                    size: width * 0.04, color: Colors.black),
-                onTap: () {
-                  Navigator.push(
+                  subtitle: Text(
+                    "You can download your documents like ID Card, visiting card",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios,
+                      size: width * 0.04, color: Colors.black),
+                  onTap: () {
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => DocumentsScreen()));
-                },
-              ),
-              Divider(),
+                          builder: (context) => DocumentsScreen()),
+                    );
+                  },
+                ),
+                Divider(),
+              ],
               ListTile(
-                leading: Icon(Icons.description,
-                    color: Colors.blue),
+                leading: Icon(Icons.description, color: Colors.blue),
                 title: Text(
                   "Terms & Conditions",
                   style: TextStyle(
@@ -450,14 +470,13 @@ class MoreScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const TermsConditionsScreen()),
+                        builder: (context) => TermsConditionsScreen()),
                   );
                 },
               ),
               Divider(),
               ListTile(
-                leading: Icon(Icons.privacy_tip,
-                    color: Colors.green),
+                leading: Icon(Icons.privacy_tip, color: Colors.green),
                 title: Text(
                   "Privacy Policy",
                   style: TextStyle(
@@ -482,7 +501,7 @@ class MoreScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const PrivacyPolicyScreen()),
+                        builder: (context) => PrivacyPolicyScreen()),
                   );
                 },
               ),

@@ -34,7 +34,7 @@ class ReferralUser {
       gender: json['gender'] ?? '',
       userType: json['user_type'],
       phoneNumber: json['phone_number'],
-      photoPath: json['photo_path'],
+      photoPath: json['photo_url'],
       refId: json['ref_id'],
       token: json['token'],
       progress: json['progress']?.toString(),

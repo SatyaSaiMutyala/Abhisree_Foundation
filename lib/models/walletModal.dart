@@ -46,7 +46,7 @@ class WalletModal {
       gender: json['gender'] ?? '',
       userType: json['user_type'] ?? '',
       phoneNumber: json['phone_number'] ?? '',
-      photoPath: json['photo_path'] ?? '',
+      photoPath: json['photo_url'] ?? '',
       otp: json['otp'] ?? '',
       otpExpiry: json['otp_expiry'] ?? '', 
       refId: json['ref_id'] ?? '',
