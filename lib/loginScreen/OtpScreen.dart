@@ -1,7 +1,8 @@
+import 'package:adhisree_foundation/controllers/userController.dart';
 import 'package:adhisree_foundation/utils/customButton.dart';
-import 'package:adhisree_foundation/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class Otpscreen extends StatefulWidget {
   @override
@@ -9,11 +10,39 @@ class Otpscreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<Otpscreen> {
+  final UserController userController = Get.put(UserController());
+
   final List<TextEditingController> _controllers = List.generate(6, (index) => TextEditingController());
+  String phoneNumber = '';
+
+  @override
+  void initState() {
+    super.initState();
+    phoneNumber = Get.arguments?['phoneNumber'] ?? '';
+    print('Phone Number Received: $phoneNumber');
+  }
+
+  String getMaskedPhone() {
+    if (phoneNumber.length >= 4) {
+      return '**** ${phoneNumber.substring(phoneNumber.length - 4)}';
+    }
+    return '****';
+  }
+
+  void verifyOtp() {
+    String otp = _controllers.map((c) => c.text).join();
+    if (otp.length == 6) {
+      userController.verifyOtp(phoneNumber, otp);
+    } else {
+      Get.snackbar("Error", "Please enter a valid 6-digit OTP");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -48,33 +77,23 @@ class _OtpScreenState extends State<Otpscreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height: height * 0.05 ),
+                  SizedBox(height: height * 0.05),
                   Text(
-                    'We Just send you an SMS',
-                    style: TextStyle(
-                      fontFamily: 'poppins',
-                      fontSize: width*0.07,
-                      fontWeight: FontWeight.bold
-                    ),
+                    'We Just sent you an SMS',
+                    style: TextStyle(fontSize: width * 0.07, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: height * 0.01),
                   Text(
                     'Enter the security code we sent to',
-                    style: TextStyle(
-                      color: Color(0XFF747272),
-                      fontSize: width * 0.04
-                    ),
+                    style: TextStyle(color: Color(0XFF747272), fontSize: width * 0.04),
                   ),
                   Text(
-                    '***123',
-                    style: TextStyle(
-                      fontSize: width * 0.04,
-                      color: Color(0XFF747272),
-                    ),
+                    getMaskedPhone(),
+                    style: TextStyle(fontSize: width * 0.04, color: Color(0XFF747272), fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: height * 0.03 ),
+                  SizedBox(height: height * 0.03),
 
-                    Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(6, (index) {
                       return Container(
@@ -92,9 +111,7 @@ class _OtpScreenState extends State<Otpscreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                           onChanged: (value) {
                             if (value.isNotEmpty && index < 5) {
                               FocusScope.of(context).nextFocus();
@@ -107,23 +124,19 @@ class _OtpScreenState extends State<Otpscreen> {
                     }),
                   ),
 
-                  SizedBox(height: height * 0.05 ),
+                  SizedBox(height: height * 0.05),
 
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                    child : CustomButton(text: 'confirm', onPressed: () => Navigator.pushNamed(context, AppRoutes.mainScreen))
+                    child: CustomButton(text: 'Confirm', onPressed: verifyOtp),
                   ),
 
-                  SizedBox(height:  height * 0.03),
+                  SizedBox(height: height * 0.03),
 
                   Text(
-                    'Didn`t received a code ?',
-                    style:  TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: width * 0.04,
-                    ),
-                  )
-
+                    'Didn’t receive a code?',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: width * 0.04),
+                  ),
                 ],
               ),
             )));

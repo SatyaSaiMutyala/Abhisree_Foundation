@@ -1,8 +1,16 @@
+import 'dart:convert';
+
+import 'package:adhisree_foundation/controllers/teamsController.dart';
 import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:adhisree_foundation/teams/referral_amount.dart';
 import 'package:adhisree_foundation/widgets/custom_appbar.dart';
+import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/referralModel.dart';
 
 class ReferralsScreen extends StatefulWidget {
   @override
@@ -10,7 +18,40 @@ class ReferralsScreen extends StatefulWidget {
 }
 
 class _ReferralsScreenState extends State<ReferralsScreen> {
-  final String referralCode = "A1234"; // Example referral code
+  final ReferralController referralController = Get.put(ReferralController());
+  
+  int? userId;
+  String refCode = '';
+  final String playStoreLink =
+      "https://play.google.com/store/apps/details?id=com.adhisree.foundation";
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? userJson = prefs.getString('user');
+    String? role = prefs.getString('role');
+
+    if (userJson != null) {
+      Map<String, dynamic> decodedUserData = jsonDecode(userJson);
+
+      setState(() {
+        userId = decodedUserData['id'];
+        refCode = decodedUserData['ref_id'];
+      });
+
+      print("User ID: $userId");
+      print("User REF-ID: $refCode");
+      print('User REF-ID: $role');
+    }
+    if (userId != null) {
+        referralController.fetchReferralData(userId.toString());
+      }
+  }
 
   // Dummy list of referred users
   final List<Map<String, String>> referredUsers = [
@@ -38,7 +79,7 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
   ];
 
   void copyToClipboard() {
-    Clipboard.setData(ClipboardData(text: referralCode));
+    Clipboard.setData(ClipboardData(text: refCode));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("Referral code copied!")),
     );
@@ -49,7 +90,17 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Column(
+      body: Obx((){
+        if (referralController.isLoading.value) {
+          return Center(child: CircularProgressIndicator());
+        }
+        ReferralResponse? referralData = referralController.referralData.value;
+        List<ReferralUser> primaryReferrals =
+            referralData?.primaryReferral ?? [];
+
+            print('referal ------------>${primaryReferrals.length}');
+
+        return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomAppBar(),
@@ -83,14 +134,15 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
                 children: [
                   // Copy Referral Code Card
                   Container(
-                    width: (width / 2 ) * 0.845,
+                    width: (width / 2) * 0.845,
                     height: 66,
                     padding: EdgeInsets.all(width * 0.025),
                     margin: EdgeInsets.only(
                         right: width * 0.025), // Adds spacing between items
                     decoration: BoxDecoration(
                       color: Color(0xFFF6F2F2),
-                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                      borderRadius:
+                          BorderRadius.circular(Dimensions.radiusDefault),
                       border: Border.all(color: Color(0xFFE4DFDF)),
                     ),
                     child: Row(
@@ -102,7 +154,7 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
                           height: 34,
                           alignment: Alignment.center,
                           child: Text(
-                            referralCode.toUpperCase(),
+                            refCode,
                             style: TextStyle(
                               fontFamily: 'Inter',
                               fontSize: width * 0.04,
@@ -122,7 +174,8 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
                                 width: width * 0.07,
                                 height: 24,
                                 child: Icon(Icons.copy,
-                                    color: Color(0xFF338D9B), size: width * 0.04),
+                                    color: Color(0xFF338D9B),
+                                    size: width * 0.04),
                               ),
                               SizedBox(width: width * 0.01),
                               Text(
@@ -140,43 +193,53 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
                       ],
                     ),
                   ),
-SizedBox(width:  width * 0.03,),
+                  SizedBox(
+                    width: width * 0.03,
+                  ),
                   // Share Referral Code Card
-                  Container(
-                    width: (width / 2 ) * 0.845,
-                    height: 66,
-                    padding: EdgeInsets.all(width * 0.025),
-                    decoration: BoxDecoration(
-                      color: Color(0xFFF6F2F2),
-                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                      border: Border.all(color: Color(0xFFE4DFDF)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            // Code to share referral code
-                          },
-                          child: Image.asset("assets/icons/share_icon.png", width: 24, height: 24,),
-                        ),
-                        Container(
-                          width: width * 0.25,
-                          height: 34,
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Share",
-                            style: TextStyle(
-                              fontFamily: 'Inter',
-                              fontSize: width * 0.035,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF338D9B),
+                  GestureDetector(
+                    onTap: () {
+                      print('Container tapped');
+                      Share.share(
+                        "🎉 Join Adhisree Foundation!\n\nUse my referral code: $refCode to sign up.\n\n📲 Download the app now:\n$playStoreLink",
+                      );
+                    },
+                    child: Container(
+                      width: (width / 2) * 0.845,
+                      height: 66,
+                      padding: EdgeInsets.all(width * 0.025),
+                      decoration: BoxDecoration(
+                        color: Color(0xFFF6F2F2),
+                        borderRadius:
+                            BorderRadius.circular(Dimensions.radiusDefault),
+                        border: Border.all(color: Color(0xFFE4DFDF)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Image.asset(
+                            "assets/icons/share_icon.png",
+                            width: 24,
+                            height: 24,
+                          ),
+                          Container(
+                            width: width * 0.25,
+                            height: height * 0.02,
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Share",
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: width * 0.035,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF338D9B),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
@@ -201,7 +264,7 @@ SizedBox(width:  width * 0.03,),
           Expanded(
             child: ListView.separated(
               padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-              itemCount: referredUsers.length,
+              itemCount: primaryReferrals.length,
               separatorBuilder: (context, index) => Column(
                 children: [
                   SizedBox(height: width * 0.025), // 83px gap
@@ -210,13 +273,18 @@ SizedBox(width:  width * 0.03,),
                 ],
               ),
               itemBuilder: (context, index) {
-                final user = referredUsers[index];
+                final user = primaryReferrals[index];
                 return Row(
                   children: [
                     // User Profile Image
                     CircleAvatar(
                       radius: Dimensions.radiusDoubleExtraLarge,
-                      backgroundImage: AssetImage(user["image"]!),
+                      backgroundImage:  user.photoPath !=
+                                                null
+                                            ? NetworkImage(user.photoPath!)
+                                            : AssetImage(
+                                                    'assets/images/Png/user.png')
+                                                as ImageProvider,
                     ),
                     SizedBox(width: width * 0.03),
 
@@ -226,7 +294,7 @@ SizedBox(width:  width * 0.03,),
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          user["name"]!,
+                          '${user.firstName} ${user.lastName}' ?? '',
                           style: TextStyle(
                             fontFamily: 'Inter',
                             fontSize: width * 0.035,
@@ -236,7 +304,8 @@ SizedBox(width:  width * 0.03,),
                         ),
                         SizedBox(height: width * 0.0125),
                         Text(
-                          "${user["date"]} - ${user["time"]}",
+                          // "${user.} - ${user["time"]}",
+                          user.phoneNumber ?? '',
                           style: TextStyle(
                             fontFamily: 'Inter',
                             fontSize: width * 0.03,
@@ -251,7 +320,8 @@ SizedBox(width:  width * 0.03,),
 
                     // Amount
                     Text(
-                      user["amount"]!,
+                      // user["amount"]!,
+                      '₹120',
                       style: TextStyle(
                         fontFamily: 'Inter',
                         fontSize: width * 0.04,
@@ -265,7 +335,7 @@ SizedBox(width:  width * 0.03,),
             ),
           ),
         ],
-      ),
-    );
+      );
+   }) );
   }
 }

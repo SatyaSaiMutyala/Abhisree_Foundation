@@ -1,11 +1,19 @@
+import 'package:adhisree_foundation/controllers/GetBankDetailsController.dart';
 import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BankDetailsScreen extends StatefulWidget {
   final String bankName;
+  final String acNumber;
+  final String holderName;
+  final String ifsc;
 
   BankDetailsScreen({
     required this.bankName,
+    required this.acNumber,
+    required this.holderName,
+    required this.ifsc,
   });
 
   @override
@@ -13,6 +21,9 @@ class BankDetailsScreen extends StatefulWidget {
 }
 
 class _BankDetailsScreenState extends State<BankDetailsScreen> {
+  final BankDetailsController bankDetailsController =
+      Get.put(BankDetailsController());
+
   bool isPrimary = false;
   String accountHolder = "Prasad";
   String accountNo = "68023820893";
@@ -27,7 +38,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
         children: [
           Positioned(
             top: height * 0.07,
-            left: width * 0.35, // Centered dynamically
+            left: width * 0.35,
             child: Container(
               width: width * 0.3,
               height: height * 0.04,
@@ -38,7 +49,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                   fontFamily: "Inter",
                   fontWeight: FontWeight.w600,
                   fontSize: Dimensions.fontSizeExtraLarge,
-                  height: 33 / 16, // Line-height equivalent
+                  height: 33 / 16,
                   letterSpacing: 0,
                   color: Colors.black,
                 ),
@@ -100,33 +111,37 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                         width: width * 0.125, // Increased width
                         height: height * 0.06, // Increased height
                         child: Center(
-                          child: Image.asset(
-                            "assets/icons/sbi_icon.png",
-                            width: width * 0.125, // Increased icon width
-                            height: height * 0.06, // Increased icon height
-                            color: Colors.blue,
-                            fit: BoxFit
-                                .contain, // Ensures the image fits well inside the container
-                          ),
+                          // child: Image.asset(
+                          //   "assets/icons/sbi_icon.png",
+                          //   width: width * 0.125, // Increased icon width
+                          //   height: height * 0.06, // Increased icon height
+                          //   color: Colors.blue,
+                          //   fit: BoxFit.contain, 
+                          // ),
+                        child: Icon(
+                      Icons.account_balance,
+                      size: width * 0.08,
+                      color: Colors.black, 
+                    ),
                         ),
                       ),
 
                       SizedBox(
-                          width: width * 0.025), // Gap between icon and text
+                          width: width * 0.025), 
 
                       // Account Number & Bank Name
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "XXXXXXXX893", // Masked account number
+                            "XXXXXXXX${widget.acNumber.substring(widget.acNumber.length - 4)}",
                             style: TextStyle(
                               fontSize: width * 0.034,
                               fontWeight: FontWeight.w500,
                               color: Colors.black,
                             ),
                           ),
-                          SizedBox(height: 2), // Small spacing
+                          SizedBox(height: 2),
                           Text(
                             widget.bankName,
                             style: TextStyle(
@@ -142,39 +157,37 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
 
                   SizedBox(height: height * 0.023),
 
-// Bank Details: Titles and values aligned from start
-                  _buildDetailRow("Bank", widget.bankName),
-                  _buildDetailRow("Holder name", accountHolder),
-                  _buildDetailRow("Account No", accountNo),
-                  _buildDetailRow("IFSC", ifscCode),
+                  _buildDetailRow("Bank", widget.bankName, context),
+                  _buildDetailRow("Holder name", widget.holderName, context),
+                  _buildDetailRow("Account No", widget.acNumber, context),
+                  _buildDetailRow("IFSC", widget.ifsc, context),
 
-// Set as Primary Account
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          "Set as primary account",
-                          style: TextStyle(
-                            fontSize: width * 0.034,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "Poppins",
-                            color: Color(0xFF039200),
-                          ),
-                        ),
-                      ),
-                      Radio(
-                        value: true,
-                        groupValue: isPrimary,
-                        activeColor: Color(0xFF039200),
-                        onChanged: (value) {
-                          setState(() {
-                            isPrimary = value as bool;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       flex: 2,
+                  //       child: Text(
+                  //         "Set as primary account",
+                  //         style: TextStyle(
+                  //           fontSize: width * 0.034,
+                  //           fontWeight: FontWeight.w400,
+                  //           fontFamily: "Poppins",
+                  //           color: Color(0xFF039200),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     Radio(
+                  //       value: true,
+                  //       groupValue: isPrimary,
+                  //       activeColor: Color(0xFF039200),
+                  //       onChanged: (value) {
+                  //         setState(() {
+                  //           isPrimary = value as bool;
+                  //         });
+                  //       },
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),
@@ -185,7 +198,8 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
   }
 
 // Method for Bank Details Row
-  Widget _buildDetailRow(String title, String value) {
+  Widget _buildDetailRow(String title, String value, context) {
+    double width = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 9.5),
       child: Row(
@@ -197,7 +211,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
             child: Text(
               title,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: width * 0.04,
                 fontWeight: FontWeight.w600,
                 fontFamily: "Poppins",
                 color: Color(0XFF6F6B6B),
@@ -209,7 +223,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
             child: Text(
               value,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: width * 0.035,
                 fontWeight: FontWeight.w400,
                 fontFamily: "Poppins",
                 color: Colors.black,

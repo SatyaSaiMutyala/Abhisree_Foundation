@@ -1,7 +1,22 @@
+import 'package:adhisree_foundation/controllers/TaskController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 
-class Viewactivitesscreen extends StatelessWidget {
+class Viewactivitesscreen extends StatefulWidget {
+  @override
+  _Viewactivescreen createState() => _Viewactivescreen();
+}
+
+class _Viewactivescreen extends State <Viewactivitesscreen> {
+  Taskcontroller taskcontroller = Get.put(Taskcontroller());
+
+  @override
+  void initState() {
+    super.initState();
+    taskcontroller.FetchTasks('getVolunteerTasks');
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -32,14 +47,17 @@ class Viewactivitesscreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Padding(
+      body: Obx(() { 
+       var taskData = taskcontroller.taskList.value;
+
+        return Padding(
         padding: EdgeInsets.only(
-          top: width * 0.1, // Add top padding
+          // top: width * 0.1, 
           left: width * 0.04,
           right: width * 0.04,
         ),
         child: Column(
-          children: textData
+          children: taskData
               .map(
                 (item) => Padding(
                   padding: EdgeInsets.symmetric(vertical: width * 0.01),
@@ -53,7 +71,7 @@ class Viewactivitesscreen extends StatelessWidget {
                       SizedBox(width: width * 0.02),
                       Expanded(
                         child: Text(
-                          item['text']!,
+                          item.title,
                           style: TextStyle(
                             fontSize: width * 0.035,
                           ),
@@ -65,7 +83,7 @@ class Viewactivitesscreen extends StatelessWidget {
               )
               .toList(),
         ),
-      ),
-    );
+      );
+  }));
   }
 }

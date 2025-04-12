@@ -1,6 +1,7 @@
 import 'package:adhisree_foundation/menu_screens.dart';
 import 'package:adhisree_foundation/notification_screen.dart';
 import 'package:adhisree_foundation/utils/dimensions.dart';
+import 'package:adhisree_foundation/utils/routes.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -80,7 +81,8 @@ class CustomAppBar extends StatelessWidget {
               height: height * 0.055,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(Dimensions.radiusDefaultExpand),
+                borderRadius:
+                    BorderRadius.circular(Dimensions.radiusDefaultExpand),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black12,
@@ -89,27 +91,37 @@ class CustomAppBar extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 6),
-                child: TextField(
-                  textAlignVertical: TextAlignVertical.center,
-                  decoration: InputDecoration(
-                    hintText: "Search...",
-                    prefixIcon: Container(
-                      width: 12,
-                      height: 12,
-                      padding: EdgeInsets.all(width *
-                          0.034), // Adjust padding to fine-tune the size
-                      child: Image.asset(
-                        "assets/icons/search_icon.png",
-                        color: Colors.black,
-                        fit: BoxFit
-                            .contain, // Ensures the image fits inside the container
+
+              child: Stack(
+                children: [
+                  TextField(
+                    enabled: false, 
+                    textAlignVertical: TextAlignVertical.center,
+                    decoration: InputDecoration(
+                      hintText: "Search...",
+                      prefixIcon: Container(
+                        width: 12,
+                        height: 12,
+                        padding: EdgeInsets.all(width * 0.034),
+                        child: Image.asset(
+                          "assets/icons/search_icon.png",
+                          color: Colors.black,
+                          fit: BoxFit.contain,
+                        ),
                       ),
+                      border: InputBorder.none,
                     ),
-                    border: InputBorder.none,
                   ),
-                ),
+                  Positioned.fill(
+                    child: InkWell(
+                      onTap: () =>
+                          Navigator.pushNamed(context, AppRoutes.searchScreen),
+                      splashColor:
+                          Colors.transparent, 
+                      highlightColor: Colors.transparent,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -135,7 +147,7 @@ class CustomAppBar extends StatelessWidget {
 
   void showMenuDialog(BuildContext context) {
     double width = MediaQuery.of(context).size.width; // Define width here
-  double height = MediaQuery.of(context).size.height;
+    double height = MediaQuery.of(context).size.height;
     showGeneralDialog(
       context: context,
       barrierDismissible: true,

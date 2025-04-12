@@ -1,9 +1,10 @@
+import 'dart:convert';
 import 'package:adhisree_foundation/bottomNav/bottom_nav_bar.dart';
 import 'package:adhisree_foundation/utils/customButton.dart';
 import 'package:adhisree_foundation/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Mainscreen extends StatefulWidget {
   const Mainscreen({super.key});
@@ -13,6 +14,29 @@ class Mainscreen extends StatefulWidget {
 }
 
 class _MainState extends State<Mainscreen> {
+   int? userId;
+   String? role;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+    Future<void> _loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? userJson = prefs.getString('user');
+    role = prefs.getString('role');
+
+    if (userJson != null) {
+      Map<String, dynamic> decodedUserData = jsonDecode(userJson);
+
+      userId = decodedUserData['id'];
+
+      print("User ID: $userId");
+      print("User Role: $role");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +94,7 @@ class _MainState extends State<Mainscreen> {
                     SizedBox(height: height * 0.02),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                        child:  CustomButton(text: 'Donate Now', onPressed: ()=> Get.to(() => BottomNavScreen(initialPageIndex: 0))),
+                        child:  CustomButton(text: 'Donate Now', onPressed: ()=> Get.offAll(() => BottomNavScreen(initialPageIndex: 0))),
                       ),
 
                       SizedBox(height: height * 0.04),

@@ -1,159 +1,282 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:adhisree_foundation/controllers/AddVoluntreeController.dart';
+import 'package:adhisree_foundation/homescreen/donation_model/VolunteerSummary.dart';
+import 'package:adhisree_foundation/utils/routes.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:adhisree_foundation/utils/customButton.dart';
 import 'package:adhisree_foundation/widgets/custom_cards.dart';
-import 'package:adhisree_foundation/widgets/success_screens.dart';
 import 'package:adhisree_foundation/widgets/text_feilds.dart';
-import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class VolunteerMembership extends StatelessWidget {
+class VolunteerMembership extends StatefulWidget {
+  const VolunteerMembership({Key? key}) : super(key: key);
+
+  @override
+  State<VolunteerMembership> createState() => _VolunteerMembershipState();
+}
+
+class _VolunteerMembershipState extends State<VolunteerMembership> {
+  final _formKey = GlobalKey<FormState>();
+  final Addvolunteercontroller addvolunteercontroller =
+      Get.put(Addvolunteercontroller());
+
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _panController = TextEditingController();
   final TextEditingController _aadharNumberController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _referralCodeController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
+
+  File? _photo;
+  File? _aadharImage;
+  int? userId;
+
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pickImage(bool isPhoto) async {
+    final pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 60);
+
+    if (pickedFile != null) {
+      setState(() {
+        if (isPhoto) {
+          _photo = File(pickedFile.path);
+        } else {
+          _aadharImage = File(pickedFile.path);
+        }
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserId();
+  }
+
+  Future<void> _loadUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? userJson = prefs.getString('user');
+    if (userJson != null) {
+      Map<String, dynamic> userData = jsonDecode(userJson);
+      setState(() {
+        userId = userData['id'];
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Get device width & height
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          children: [
-            // Back Button
-            Positioned(
-              top: height * 0.03, // Adjusted for better alignment
-              left: width * 0.05,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  width: width * 0.1,
-                  height: height * 0.05,
-                  decoration: BoxDecoration(
-                    color: Color(0XFFEFEEEE), // Background color
-                    shape: BoxShape.circle, // Circular button
-                  ),
-                  child: Icon(
-                    Icons.arrow_back, // Back icon
-                    size: width * 0.05, // Adjust size inside container
-                    color: Colors.black, // Icon color
-                  ),
-                ),
-              ),
-            ),
-
-            Positioned(
-              top: height * 0.03, // 56px from the top
-              left: width * 0.79, // 326px from the left
-              child: Container(
-                width: width * 0.11,
-                height: height * 0.04,
-                alignment: Alignment.center,
-                child: Text(
-                  'Help ?', // Display "HELP" text
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                    fontSize: width * 0.034,
-                    height: 33 / 14, // Equivalent to line-height: 33px
-                    letterSpacing: 0,
-                    color: Colors.black, // White text color for contrast
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-
-            // Scrollable Content
-            SingleChildScrollView(
-              physics: BouncingScrollPhysics(), // Smooth scrolling effect
-              padding: EdgeInsets.all(width * 0.052),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Padding(
+          padding: EdgeInsets.all(width * 0.052),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Top Row: Back & Help
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(height: height * 0.08), // Space for back button
-
-                  // Title Text
-                  Container(
-                    width: double.infinity, // Takes full width
-                    child: Text(
-                      'Volunteer Membership Enrollment Form',
-                      style: TextStyle(
-                        fontSize: width * 0.049,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: "Poppins",
+                  // Back Button
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: width * 0.1,
+                      height: height * 0.05,
+                      decoration: BoxDecoration(
+                        color: Color(0XFFEFEEEE),
+                        shape: BoxShape.circle,
                       ),
-                      softWrap: true, // Allows text to wrap to the next line
+                      child: Icon(
+                        Icons.arrow_back,
+                        size: width * 0.05,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-
-                  SizedBox(
-                      height:
-                          width * 0.02), // Space between title & description
-
-                  // Description
+                  // Help Text
                   Text(
-                    'Interested user must complete the membership form and pay a nominal fee of ₹1,000',
+                    'Help ?',
                     style: TextStyle(
-                        fontSize: width * 0.034,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w400,
-                        color: Color(0XFF6F6B6B)),
-                  ),
-
-                  SizedBox(height: height * 0.045),
-
-                  UploadCard("Upload your photo"),
-                  SizedBox(height: height * 0.03),
-
-                  UploadCard("Upload your Aadhar photo"),
-                  SizedBox(height: height * 0.03),
-
-                  textFieldScreen("First Name",
-                      keyboardType: TextInputType.name,
-                      controller: _firstNameController),
-                  SizedBox(height: height * 0.03),
-                  textFieldScreen("Last Name",
-                      keyboardType: TextInputType.name,
-                      controller: _lastNameController),
-                  SizedBox(height: height * 0.03),
-                  textFieldScreen("Email",
-                      keyboardType: TextInputType.name,
-                      controller: _emailController),
-                  SizedBox(height: height * 0.03),
-                  textFieldScreen("Pan",
-                      keyboardType: TextInputType.name,
-                      controller: _panController),
-                  SizedBox(height: height * 0.03),
-                  textFieldScreen("Aadhar Number",
-                      keyboardType: TextInputType.name,
-                      controller: _aadharNumberController),
-                  SizedBox(height: height * 0.03),
-                  textFieldScreen("Address",
-                      keyboardType: TextInputType.name,
-                      controller: _addressController),
-                  SizedBox(height: height * 0.03),
-                  textFieldScreen("Referral Code",
-                      keyboardType: TextInputType.name,
-                      controller: _referralCodeController),
-                  SizedBox(height: height * 0.06),
-                  CustomButton(
-                    text: 'Continue',
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessScreens()));
-                    },
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                      fontSize: width * 0.034,
+                      color: Colors.black,
+                    ),
                   ),
                 ],
               ),
-            ),
-          ],
+              SizedBox(height: height * 0.02),
+
+              // Scrollable Form
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Volunteer Membership Enrollment Form',
+                          style: TextStyle(
+                            fontSize: width * 0.049,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: "Poppins",
+                          ),
+                        ),
+                        SizedBox(height: width * 0.02),
+                        Text(
+                          'Interested user must complete the membership form and pay',
+                          style: TextStyle(
+                            fontSize: width * 0.034,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w400,
+                            color: Color(0XFF6F6B6B),
+                          ),
+                        ),
+                        SizedBox(height: height * 0.045),
+                        GestureDetector(
+                          onTap: () => _pickImage(true),
+                          child: UploadCard(
+                              title: "Upload your photo", image: _photo),
+                        ),
+                        SizedBox(height: height * 0.03),
+                        GestureDetector(
+                          onTap: () => _pickImage(false),
+                          child: UploadCard(
+                              title: "Upload your Aadhar photo",
+                              image: _aadharImage),
+                        ),
+                        SizedBox(height: height * 0.03),
+                        textFieldScreen(
+                          "First Name",
+                          keyboardType: TextInputType.name,
+                          controller: _firstNameController,
+                          validator: (value) => value == null || value.isEmpty
+                              ? "Please enter first name"
+                              : null,
+                        ),
+                        SizedBox(height: height * 0.03),
+                        textFieldScreen(
+                          "Last Name",
+                          keyboardType: TextInputType.name,
+                          controller: _lastNameController,
+                          validator: (value) => value == null || value.isEmpty
+                              ? "Please enter last name"
+                              : null,
+                        ),
+                        SizedBox(height: height * 0.03),
+                        textFieldScreen(
+                          "Email",
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _emailController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty)
+                              return 'Please enter email';
+                            final regex =
+                                RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$');
+                            return regex.hasMatch(value)
+                                ? null
+                                : 'Enter valid email';
+                          },
+                        ),
+                        SizedBox(height: height * 0.03),
+                        textFieldScreen(
+                          "Pan",
+                          keyboardType: TextInputType.name,
+                          controller: _panController,
+                          validator: (value) => value == null || value.isEmpty
+                              ? "Please enter PAN"
+                              : null,
+                        ),
+                        SizedBox(height: height * 0.03),
+                        textFieldScreen(
+                          "Aadhar Number",
+                          keyboardType: TextInputType.number,
+                          controller: _aadharNumberController,
+                          validator: (value) =>
+                              value == null || value.length != 12
+                                  ? "Enter 12-digit Aadhar number"
+                                  : null,
+                        ),
+                        SizedBox(height: height * 0.03),
+                        textFieldScreen(
+                          "Address",
+                          keyboardType: TextInputType.name,
+                          controller: _addressController,
+                          validator: (value) => value == null || value.isEmpty
+                              ? "Please enter address"
+                              : null,
+                        ),
+                        SizedBox(height: height * 0.03),
+                        textFieldScreen(
+                          "Gender",
+                          keyboardType: TextInputType.name,
+                          controller: _genderController,
+                          validator: (value) => value == null || value.isEmpty
+                              ? "Please enter gender"
+                              : null,
+                        ),
+                        SizedBox(height: height * 0.06),
+                        CustomButton(
+                          text: 'Continue',
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              if (_photo == null || _aadharImage == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text('Please upload both images')),
+                                );
+                              } else {
+                                handleSubmitData();
+                              }
+                            }
+                          },
+                        ),
+                        SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  void handleSubmitData() {
+    final Map<String, dynamic> details = {
+      "user_id": userId,
+      "first_name": _firstNameController.text.trim(),
+      "last_name": _lastNameController.text.trim(),
+      "email": _emailController.text.trim(),
+      "pan": _panController.text.trim(),
+      "aadhar_number": _aadharNumberController.text.trim(),
+      "address": _addressController.text.trim(),
+      "gender": _genderController.text.trim(),
+      "photo": _photo,
+      "aadhar_photo": _aadharImage,
+    };
+    Navigator.pushNamed(
+      context,
+      AppRoutes.volunteerSummary,
+      arguments: details,
+    );
+
+    // addvolunteercontroller.AddVolunteer('volunteer-create', details);
   }
 }
