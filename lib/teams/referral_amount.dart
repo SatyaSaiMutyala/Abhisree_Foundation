@@ -6,6 +6,7 @@ class ReferralAmountWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    
     return Center(
       child: Container(
         width: MediaQuery.of(context).size.width -
@@ -13,15 +14,15 @@ class ReferralAmountWidget extends StatelessWidget {
         height: 131,
         padding: EdgeInsets.symmetric(horizontal: width * 0.040, vertical: width * 0.05),
         decoration: BoxDecoration(
-          color: Color(0xFFDAF6FA), // Background color
-          borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge), // Border radius
+          color: Color(0xFFDAF6FA), 
+          borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge), 
           boxShadow: [
             BoxShadow(
-              color: Color(0x171A1F12), // First shadow
+              color: Color(0x171A1F12), 
               blurRadius: 1,
             ),
             BoxShadow(
-              color: Color(0x171A1F1F), // Second shadow
+              color: Color(0x171A1F1F), 
               blurRadius: 2,
             ),
           ],

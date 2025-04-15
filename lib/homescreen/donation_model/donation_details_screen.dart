@@ -47,6 +47,7 @@ class _DonationDetailsScreenState extends State<DonationDetailsScreen> {
       body: Obx(() {
         final isLoading = controller.isLoading.value;
         final data = controller.selectedCampaign.value;
+          final prices = data!.prices;
 
         if (isLoading) {
           return Center(
@@ -172,29 +173,300 @@ class _DonationDetailsScreenState extends State<DonationDetailsScreen> {
                       ),
                     ),
                     SizedBox(height: height * 0.025),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: data!.prices.map((price) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 16),
-                            child: DonationPriceCard(
-                              id: price.id,
-                              amount: price.price,
-                              name: price.priceName,
-                              isSelected: selectedId == price.id,
-                              onSelect: (selectedIdNew, amount, selectedName) {
-                                setState(() {
-                                  selectedId = selectedIdNew;
-                                  amount = amount;
-                                  name = selectedName;
-                                });
-                              },
+                    
+                    // SingleChildScrollView(
+                    //   scrollDirection: Axis.horizontal,
+                    //   child: Row(
+                    //     children: data!.prices.map((price) {
+                    //       return Padding(
+                    //         padding: const EdgeInsets.only(right: 16),
+                    //         child: DonationPriceCard(
+                    //           id: price.id,
+                    //           amount: price.price,
+                    //           name: price.priceName,
+                    //           isSelected: selectedId == price.id,
+                    //           onSelect: (selectedIdNew, amount, selectedName) {
+                    //             setState(() {
+                    //               selectedId = selectedIdNew;
+                    //               amount = amount;
+                    //               name = selectedName;
+                    //             });
+                    //           },
+                    //         ),
+                    //       );
+                    //     }).toList(),
+                    //   ),
+                    // ),
+
+
+                SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                // "Choose your amount" card
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 16),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedId =
+                                            0; // use a special ID for custom amount
+                                      });
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          String customAmount = '';
+
+                                          return StatefulBuilder(
+                                            builder: (context, setState) {
+                                              bool showError =
+                                                  customAmount.isEmpty;
+
+                                              return AlertDialog(
+                                                backgroundColor: Colors.white,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(16),
+                                                ),
+                                                title: Text(
+                                                  "Amount",
+                                                  style: TextStyle(
+                                                    fontSize: width * 0.05,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Enter the amount you wish to donate:",
+                                                      style: TextStyle(
+                                                        fontSize: width * 0.04,
+                                                        color: Colors.grey[700],
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                        height: height * 0.015),
+                                                    TextField(
+                                                      keyboardType:
+                                                          TextInputType.number,
+                                                      onChanged: (value) {
+                                                        customAmount = value;
+                                                        if (showError &&
+                                                            value.isNotEmpty) {
+                                                          setState(() {
+                                                            showError = false;
+                                                          });
+                                                        }
+                                                      },
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintText: "₹100",
+                                                        filled: true,
+                                                        fillColor:
+                                                            Colors.grey[100],
+                                                        contentPadding:
+                                                            EdgeInsets.symmetric(
+                                                                horizontal:
+                                                                    width *
+                                                                        0.03,
+                                                                vertical:
+                                                                    width *
+                                                                        0.03),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(12),
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: showError
+                                                                ? Colors.red
+                                                                : Colors
+                                                                    .transparent,
+                                                          ),
+                                                        ),
+                                                        focusedBorder:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(12),
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: showError
+                                                                ? Colors.red
+                                                                : Color(
+                                                                    0xFF1A73E8),
+                                                            width: 1.5,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              width * 0.05),
+                                                    ),
+                                                    if (showError)
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                top: 8.0,
+                                                                left: 4),
+                                                        child: Text(
+                                                          "Please enter an amount",
+                                                          style: TextStyle(
+                                                              color: Colors.red,
+                                                              fontSize: width *
+                                                                  0.035),
+                                                        ),
+                                                      ),
+                                                  ],
+                                                ),
+                                                actionsPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 8),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                    style: TextButton.styleFrom(
+                                                      foregroundColor:
+                                                          Colors.grey[600],
+                                                    ),
+                                                    child: Text("Cancel"),
+                                                  ),
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      if (customAmount
+                                                          .isEmpty) {
+                                                        setState(() {
+                                                          showError = true;
+                                                        });
+                                                      } else {
+                                                        Navigator.pop(
+                                                            context); // Close the input popup
+
+                                                        showDialog(
+                                                          context: context,
+                                                          barrierDismissible:
+                                                              true,
+                                                          builder: (context) {
+                                                            return Center(
+                                                              child: Material(
+                                                                color: Colors
+                                                                    .transparent,
+                                                                child:
+                                                                    DonationPopupForm(
+                                                                  campaignId:
+                                                                      data!.id,
+                                                                  priceId:
+                                                                      selectedId,
+                                                                  amount:
+                                                                      customAmount,
+                                                                  name:
+                                                                      'Custom Amount',
+                                                                  image: data
+                                                                      .innerImage,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        );
+                                                      }
+                                                    },
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          Color(0XFF338D9B),
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal:
+                                                                  width * 0.03,
+                                                              vertical:
+                                                                  width * 0.02),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                      ),
+                                                    ),
+                                                    child: Text(
+                                                      "OK",
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Container(
+                                      width: width * 0.3,
+                                      height: height * 0.12,
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16, 14, 16, 14),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFF4F4F4),
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(
+                                          color: selectedId == 0
+                                              ? Color(0xFF1A73E8)
+                                              : Colors.grey,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "Choose Your\nAmount",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: width * 0.030,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                // existing price cards
+                                ...prices.map((price) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 16),
+                                    child: DonationPriceCard(
+                                      id: price.id,
+                                      amount: price.price,
+                                      name: price.priceName,
+                                      isSelected: selectedId == price.id,
+                                      onSelect: (selectedIdNew, selectedAmount,
+                                          selectedName) {
+                                        setState(() {
+                                          selectedId = selectedIdNew;
+                                          amount = selectedAmount;
+                                          name = selectedName;
+                                        });
+                                      },
+                                    ),
+                                  );
+                                }).toList(),
+                              ],
                             ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
+                          ),
+
+
                     SizedBox(height: height * 0.03),
                     CustomButton(
                       text: 'SEND YOUR DONATION',
@@ -213,7 +485,7 @@ class _DonationDetailsScreenState extends State<DonationDetailsScreen> {
                                     child: Material(
                                       color: Colors.transparent,
                                       child: DonationPopupForm(
-                                        campaignId: data.id,
+                                        campaignId: data!.id,
                                         priceId: selectedId,
                                         amount: amount,
                                         name: name,

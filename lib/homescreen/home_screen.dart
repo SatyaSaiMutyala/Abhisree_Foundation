@@ -64,14 +64,14 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomAppBar(),
+              CustomAppBar(screenType: 'home'),
               SizedBox(height: Dimensions.sizedBoxSizeExtrsMedLarge),
               SliderScreen(),
               SizedBox(height: Dimensions.sizedBoxSizeExtraMoreLargeplus),
               DonationCategoryScreen(),
               SizedBox(height: Dimensions.sizedBoxSizeExtraMoreLargeplus),
               ActiveCampaigns(),
-              SizedBox(height: 20), // Extra space at the bottom
+              SizedBox(height: 20), 
             ],
           ),
         ),

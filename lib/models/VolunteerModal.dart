@@ -12,6 +12,8 @@ class VolunteerModal {
   final String? aadharPath;
   final String? idCardImage;
   final String? visitingCardImage;
+  final String? joiningLetter;
+  final String? nda;
   final String createdAt;
   final String updatedAt;
 
@@ -29,6 +31,8 @@ class VolunteerModal {
     this.aadharPath,
     this.idCardImage,
     this.visitingCardImage,
+    this.joiningLetter,
+    this.nda,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -48,6 +52,8 @@ class VolunteerModal {
       aadharPath: json['aadhar_path'],
       idCardImage: json['id_card_image'] is String ? json['id_card_image'] : null,
       visitingCardImage: json['visiting_card_image'] is String ? json['visiting_card_image'] : null,
+      joiningLetter: json['joining_letter_path'] is String ? json['joining_letter_path'] : null,
+      nda: json['nda_path'] is String ? json['nda_path'] : null,
       createdAt: json['created_at'] ?? '',
       updatedAt: json['updated_at'] ?? '',
     );

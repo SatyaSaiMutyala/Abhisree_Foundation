@@ -13,6 +13,7 @@ class WithdrawalDetailsController extends GetxController {
     try {
       isLoading.value = true;
 
+
       final response = await _apiProvider.getRequestWithId('getWithdrawrequestDetails', userId);
 
       if (response != null &&

@@ -55,6 +55,8 @@
 
 
 
+import 'package:adhisree_foundation/api/firebase_api.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,7 +68,11 @@ import 'package:adhisree_foundation/utils/routes.dart';
 import 'homescreen/splashScreen.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensures plugins are initialized
+  WidgetsFlutterBinding.ensureInitialized();
+  print('Im first One ***********');
+  await Firebase.initializeApp();
+  print('Im crossed *************'); 
+  await FirebaseApi().initNotification();
   Get.put(BottomNavController());
 
   // Retrieve token from local storage

@@ -1,0 +1,8 @@
+<resources>
+    <string name="google_app_id" translatable="false">1:296974117552:android:aee0bd9a31f5e6e77a6975</string>
+    <string name="google_api_key" translatable="false">AIzaSyDSMEBU-VU1WrGgclAxnUXC_iCwPY6_g7Q</string>
+    <string name="firebase_database_url" translatable="false">https://abhisree-5f839.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">296974117552</string>
+    <string name="google_storage_bucket" translatable="false">abhisree-5f839.appspot.com</string>
+    <string name="project_id" translatable="false">abhisree-5f839</string>
+</resources>

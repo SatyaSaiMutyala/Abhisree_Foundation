@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class NotificationsScreen extends StatelessWidget {
+  final RemoteMessage? message;
+
+  NotificationsScreen({Key? key, this.message}) : super(key: key);
   final List<Map<String, String>> todayNotifications = [
     {
       "image": "assets/images/Png/slider1.png",
@@ -31,10 +35,14 @@ class NotificationsScreen extends StatelessWidget {
     },
   ];
 
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
+    print('NOTIFIFCATIION ******** ${message?.notification?.title}');
+    print('NOTIFIFCATIION ******** ${message?.notification?.body}');
 
     return Scaffold(
       appBar: AppBar(
@@ -46,9 +54,9 @@ class NotificationsScreen extends StatelessWidget {
         child: ListView(
           children: [
             _buildSectionTitle("Today", height),
-            ..._buildNotificationList(todayNotifications, width, height), // ✅ Pass width & height
+            ..._buildNotificationList(todayNotifications, width, height),
             _buildSectionTitle("Most recent", height),
-            ..._buildNotificationList(yesterdayNotifications, width, height), // ✅ Pass width & height
+            ..._buildNotificationList(yesterdayNotifications, width, height), 
           ],
         ),
       ),
@@ -79,7 +87,7 @@ class NotificationsScreen extends StatelessWidget {
         height, // ✅ Pass height
       ));
       if (i != notifications.length - 1) {
-        widgets.add(Divider()); // Add divider after each notification
+        widgets.add(Divider()); 
       }
     }
     return widgets;
@@ -87,7 +95,7 @@ class NotificationsScreen extends StatelessWidget {
 
   Widget _buildNotificationItem(String imagePath, String title, String subtitle, double width, double height) { // ✅ Receive width & height
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: height * 0.008), // ✅ Use height safely
+      padding: EdgeInsets.symmetric(vertical: height * 0.008),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

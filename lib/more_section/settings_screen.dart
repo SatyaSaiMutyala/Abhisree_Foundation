@@ -287,6 +287,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../homescreen/donation_model/volunteer_membership.dart';
 import '../utils/storageService.dart';
 import '../widgets/privacy_policy_screen.dart';
 import '../widgets/terms_conditions_screen.dart';
@@ -443,7 +444,32 @@ class _MoreScreenState extends State<MoreScreen> {
                   },
                 ),
                 Divider(),
-              ],
+              ]  else ...[
+  ListTile(
+    leading: Icon(Icons.volunteer_activism, color: Colors.blue),
+    title: Text(
+      "Become a Volunteer",
+      style: TextStyle(fontWeight: FontWeight.w500),
+    ),
+    subtitle: Text(
+      "Join us and start contributing as a volunteer.",
+      style: TextStyle(
+        fontSize: 12,
+        fontFamily: "Poppins",
+        fontWeight: FontWeight.w400,
+      ),
+    ),
+    trailing: Icon(Icons.arrow_forward_ios,
+        size: width * 0.04, color: Colors.black),
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => VolunteerMembership()),
+      );
+    },
+  ),
+  Divider(),
+],
               ListTile(
                 leading: Icon(Icons.description, color: Colors.blue),
                 title: Text(
@@ -451,7 +477,7 @@ class _MoreScreenState extends State<MoreScreen> {
                   style: TextStyle(
                     fontFamily: "Poppins",
                     fontWeight: FontWeight.w500,
-                    fontSize: 14,
+                    // fontSize: 12,
                     color: Colors.black,
                   ),
                 ),
@@ -459,7 +485,7 @@ class _MoreScreenState extends State<MoreScreen> {
                   "Read our terms and conditions",
                   style: TextStyle(
                     fontFamily: "Inter",
-                    fontWeight: FontWeight.w500,
+                    // fontWeight: FontWeight.w500,
                     fontSize: 12,
                     color: Color(0xFF6F6B6B),
                   ),
@@ -482,7 +508,7 @@ class _MoreScreenState extends State<MoreScreen> {
                   style: TextStyle(
                     fontFamily: "Poppins",
                     fontWeight: FontWeight.w500,
-                    fontSize: 14,
+                    // fontSize: 14,
                     color: Colors.black,
                   ),
                 ),
@@ -490,7 +516,7 @@ class _MoreScreenState extends State<MoreScreen> {
                   "Check how your data is handled",
                   style: TextStyle(
                     fontFamily: "Inter",
-                    fontWeight: FontWeight.w500,
+                    // fontWeight: FontWeight.w500,
                     fontSize: 12,
                     color: Color(0xFF6F6B6B),
                   ),

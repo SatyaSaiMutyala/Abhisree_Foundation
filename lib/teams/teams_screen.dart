@@ -80,7 +80,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
 
         if (referralData == null || currentUserData == null) {
           return Center(
-              child: CircularProgressIndicator()); // or a skeleton loader
+              child: CircularProgressIndicator());
         }
 
         // print('IMAGE ----------->${currentUserData!.photoPath}');
@@ -88,11 +88,39 @@ class _TeamsScreenState extends State<TeamsScreen> {
         List<ReferralUser> currentList =
             showPrimary ? primaryReferrals : secondaryReferrals;
 
-        double totalProgress = 10.0;
-        double currentProgress =
-            double.tryParse(currentUserData?.progress ?? '0') ?? 0.0;
+        List<int> referralThresholds = [
+          0,
+          3,
+          6,
+          9,
+          12,
+          15,
+          18,
+          21,
+          24,
+          27,
+          30,
+          33
+        ];
+
+        int progress = int.parse(currentUserData?.progress ?? '0');
+
+        int level = 1;
+        for (int i = 0; i < referralThresholds.length; i++) {
+          if (progress >= referralThresholds[i]) {
+            level = i + 1;
+          }
+        }
+
+        int nextTarget = (level < referralThresholds.length)
+            ? referralThresholds[level]
+            : referralThresholds.last;
+
+            
+        // double currentProgress =
+        //     double.tryParse(currentUserData?.progress ?? '0') ?? 0.0;
         double progressValue =
-            (currentProgress / totalProgress).clamp(0.0, 1.0);
+            (progress / nextTarget).clamp(0.0, 1.0);
 
         return Column(
           children: [
@@ -250,7 +278,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
                               ),
                             ),
                             Text(
-                              "${currentUserData?.progress}/10",
+                              "${progress}/$nextTarget",
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: width * 0.034,

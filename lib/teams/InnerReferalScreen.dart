@@ -1,12 +1,9 @@
-import 'dart:convert';
 
 import 'package:adhisree_foundation/bottomNav/bottom_nav_bar.dart';
-import 'package:adhisree_foundation/utils/constants.dart';
 import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:adhisree_foundation/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../controllers/teamsController.dart';
@@ -136,7 +133,7 @@ class _InnerreferalscreenState extends State<Innerreferalscreen> {
                           image: (currentUserData?.photoPath != null &&
                                   currentUserData!.photoPath!.isNotEmpty)
                               ? NetworkImage(
-                                  '${imagePath}${currentUserData.photoPath!}')
+                                  '${currentUserData.photoPath!}')
                               : const AssetImage('assets/images/Png/user.png')
                                   as ImageProvider,
                           fit: BoxFit.cover,

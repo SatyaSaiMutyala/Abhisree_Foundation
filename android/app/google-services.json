@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "296974117552",
+    "project_id": "abhisree-5f839",
+    "storage_bucket": "abhisree-5f839.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296974117552:android:aee0bd9a31f5e6e77a6975",
+        "android_client_info": {
+          "package_name": "com.example.adhisree_foundation"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSMEBU-VU1WrGgclAxnUXC_iCwPY6_g7Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
