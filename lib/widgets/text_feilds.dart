@@ -1,11 +1,19 @@
+
+
+
+
 // import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
 
 // Widget textFieldScreen(
 //   String labelText, {
 //   required TextEditingController controller,
 //   TextInputType keyboardType = TextInputType.text,
 //   String hintText = "",
-//   String? Function(String?)? validator, // Added validator
+//   String? Function(String?)? validator,
+//   TextCapitalization textCapitalization = TextCapitalization.none,
+//   List<TextInputFormatter>? inputFormatters,
+//   bool? readOnly,
 // }) {
 //   return LayoutBuilder(builder: (context, constraints) {
 //     double width = MediaQuery.of(context).size.width;
@@ -28,7 +36,8 @@
 //         ),
 //         SizedBox(height: height * 0.01),
 //         Container(
-//           padding: EdgeInsets.symmetric(vertical: width * 0.01, horizontal: width * 0.03),
+//           padding: EdgeInsets.symmetric(
+//               vertical: width * 0.01, horizontal: width * 0.03),
 //           decoration: BoxDecoration(
 //             color: Color(0xFFE4E4E4),
 //             borderRadius: BorderRadius.circular(6.06),
@@ -36,7 +45,10 @@
 //           child: TextFormField(
 //             controller: controller,
 //             keyboardType: keyboardType,
-//             validator: validator, // Added validation
+//             readOnly: readOnly ?? false,
+//             validator: validator,
+//             textCapitalization: textCapitalization,
+//             inputFormatters: inputFormatters,
 //             decoration: InputDecoration(
 //               border: InputBorder.none,
 //               hintText: hintText.isNotEmpty ? hintText : "Enter $labelText",
@@ -53,8 +65,11 @@
 
 
 
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 
 Widget textFieldScreen(
   String labelText, {
@@ -65,6 +80,8 @@ Widget textFieldScreen(
   TextCapitalization textCapitalization = TextCapitalization.none,
   List<TextInputFormatter>? inputFormatters,
   bool? readOnly,
+  bool isDropdown = false,
+  List<String>? dropdownItems,
 }) {
   return LayoutBuilder(builder: (context, constraints) {
     double width = MediaQuery.of(context).size.width;
@@ -93,19 +110,42 @@ Widget textFieldScreen(
             color: Color(0xFFE4E4E4),
             borderRadius: BorderRadius.circular(6.06),
           ),
-          child: TextFormField(
-            controller: controller,
-            keyboardType: keyboardType,
-            readOnly: readOnly ?? false,
-            validator: validator,
-            textCapitalization: textCapitalization,
-            inputFormatters: inputFormatters,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: hintText.isNotEmpty ? hintText : "Enter $labelText",
-              hintStyle: TextStyle(color: Colors.black54),
-            ),
-          ),
+          child: isDropdown
+              ? DropdownButtonFormField<String>(
+                  value: controller.text.isNotEmpty ? controller.text : null,
+                  items: dropdownItems
+                      ?.map((item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(item),
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    controller.text = value!;
+                  },
+                  validator: validator,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: hintText.isNotEmpty
+                        ? hintText
+                        : "Select $labelText",
+                    hintStyle: TextStyle(color: Colors.black54),
+                  ),
+                )
+              : TextFormField(
+                  controller: controller,
+                  keyboardType: keyboardType,
+                  readOnly: readOnly ?? false,
+                  validator: validator,
+                  textCapitalization: textCapitalization,
+                  inputFormatters: inputFormatters,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: hintText.isNotEmpty
+                        ? hintText
+                        : "Enter $labelText",
+                    hintStyle: TextStyle(color: Colors.black54),
+                  ),
+                ),
         ),
       ],
     );

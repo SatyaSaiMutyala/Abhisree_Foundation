@@ -1,4 +1,6 @@
+import 'package:adhisree_foundation/controllers/DeleteBankDetailsController.dart';
 import 'package:adhisree_foundation/controllers/GetBankDetailsController.dart';
+import 'package:adhisree_foundation/more_section/bank_details.dart';
 import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,12 +10,14 @@ class BankDetailsScreen extends StatefulWidget {
   final String acNumber;
   final String holderName;
   final String ifsc;
+  final int id;
 
   BankDetailsScreen({
     required this.bankName,
     required this.acNumber,
     required this.holderName,
     required this.ifsc,
+    required this.id,
   });
 
   @override
@@ -24,10 +28,17 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
   final BankDetailsController bankDetailsController =
       Get.put(BankDetailsController());
 
+  final DeleteBankDetailsController delectBankDetailsController = Get.put(DeleteBankDetailsController());     
+
   bool isPrimary = false;
   String accountHolder = "Prasad";
   String accountNo = "68023820893";
   String ifscCode = "DFB0077";
+
+  void delectBank() async {
+   await delectBankDetailsController.DeleteBank('delete-bank', widget.id.toString());
+        Get.offAll(() => BankAccountsScreen());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -151,6 +162,11 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                             ),
                           ),
                         ],
+                      ),
+                      Spacer(),
+                      GestureDetector(
+                        onTap: () => delectBank(),
+                      child:  Icon(Icons.delete_forever_outlined, size: width * 0.08, color: Colors.red,)
                       ),
                     ],
                   ),

@@ -1,6 +1,6 @@
 class WithdrawaldetailsModal {
-  final int bankId;
-  final int userId;
+  final int? bankId;
+  final int? userId;
   final int id;
   final String firstName;
   final String lastName;
@@ -17,7 +17,7 @@ class WithdrawaldetailsModal {
   final String createdAt;
   final String updatedAt;
   final String progress;
-  final String password;
+  final String? password;
   final String bankName;
   final String accountNumber;
   final String ifsc;
@@ -26,6 +26,7 @@ class WithdrawaldetailsModal {
   final int? amount;
   final String? status;
   final String? transctionDetails;
+  final String? reqTime;
 
   WithdrawaldetailsModal({
     required this.bankId,
@@ -55,6 +56,7 @@ class WithdrawaldetailsModal {
     required this.amount,
     required this.status,
     required this.transctionDetails,
+    required this.reqTime,
   });
 
   factory WithdrawaldetailsModal.fromJson(Map<String, dynamic> json) {
@@ -84,8 +86,9 @@ class WithdrawaldetailsModal {
       holderName: json['holder_name'],
       image: json['image'],
       amount: json['amount'],
-      status: json['status'],
+      status: json['withdraw_status'],
       transctionDetails: json['transction_details'],
+      reqTime: json['req_time'],
     );
   }
 
@@ -114,5 +117,6 @@ class WithdrawaldetailsModal {
         "ifsc": ifsc,
         "holder_name": holderName,
         "image": image,
+        "reqTime" : reqTime,
       };
 }

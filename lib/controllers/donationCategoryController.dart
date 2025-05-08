@@ -21,7 +21,7 @@ class DonationCategoryController extends GetxController {
 
   void fetchDonationCategories() async {
     isLoading.value = true;
-    final response = await apiProvider.getRequest('getDonorCategories');
+    final response = await apiProvider.getRequest('get-active-camp-category');
 
     if (response is List) {
       categories.value =

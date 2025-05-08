@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
+import 'donation_model/donation_modal_screen.dart';
+
 class DonationCategoryScreen extends StatelessWidget {
   final controller = Get.put(DonationCategoryController());
 
@@ -11,6 +13,10 @@ class DonationCategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
+     void handleGetPopup(context, id) {
+    DonationModalScreen.showDonationPopup(context, id);
+  }
 
     return Obx(() {
       return Column(
@@ -36,7 +42,11 @@ class DonationCategoryScreen extends StatelessWidget {
                   padding: EdgeInsets.only(left: width * 0.07),
                   child: Row(
                     children: controller.categories.map((category) {
-                      return Padding(
+                      return GestureDetector(
+                        onTap: () => {
+                          handleGetPopup(context, category.campaign_id),
+                        },
+                        child:  Padding(
                         padding: EdgeInsets.only(right: width * 0.03),
                         child: Container(
                           width: width * 0.3,
@@ -54,7 +64,7 @@ class DonationCategoryScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.network(
-                                "${imagePath}/${category.image}",
+                                "${category.image}",
                                 width: width * 0.1,
                                 height: width * 0.1,
                                 fit: BoxFit.cover,
@@ -76,8 +86,8 @@ class DonationCategoryScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                      );
-                    }).toList(),
+                      ),
+                   ); }).toList(),
                   ),
                 ),
         ],
@@ -85,7 +95,7 @@ class DonationCategoryScreen extends StatelessWidget {
     });
   }
 
-  // 👇 Shimmer Skeleton Widget
+
   Widget shimmerList(double width, double height) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,

@@ -196,6 +196,9 @@ class CustomAppBar extends StatelessWidget {
   final String? startDate;
   final String? endDate;
   final VoidCallback? onClearDates;
+  final String? selectedType;
+  final Function(String)? onTypeChanged;
+  final int? notificationCount;
 
   const CustomAppBar({
     Key? key,
@@ -209,6 +212,9 @@ class CustomAppBar extends StatelessWidget {
     this.startDate,
     this.endDate,
     this.onClearDates,
+    this.selectedType,
+    this.onTypeChanged,
+    this.notificationCount,
   }) : super(key: key);
 
   @override
@@ -244,24 +250,70 @@ class CustomAppBar extends StatelessWidget {
           ),
 
           // Notification Button
+          // Positioned(
+          //   top: height * 0.068,
+          //   right: width * 0.055,
+          //   child: IconButton(
+          //     iconSize: width * 0.1125,
+          //     padding: EdgeInsets.zero,
+          //     icon: SizedBox(
+          //       width: width * 0.1125,
+          //       height: height * 0.058,
+          //       child: Image.asset('assets/icons/notification_icon.png'),
+          //     ),
+          //     onPressed: onNotificationPressed ??
+          //         () {
+          //           Navigator.pushNamed(context, AppRoutes.notification);
+          //         },
+          //   ),
+          // ),
+
+          // Notification Button with badge
           Positioned(
             top: height * 0.068,
             right: width * 0.055,
-            child: IconButton(
-              iconSize: width * 0.1125,
-              padding: EdgeInsets.zero,
-              icon: SizedBox(
-                width: width * 0.1125,
-                height: height * 0.058,
-                child: Image.asset('assets/icons/notification_icon.png'),
-              ),
-              onPressed: onNotificationPressed ??
-                  () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => NotificationsScreen()),
-                    );
-                  },
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                IconButton(
+                  iconSize: width * 0.1125,
+                  padding: EdgeInsets.zero,
+                  icon: SizedBox(
+                    width: width * 0.1125,
+                    height: height * 0.058,
+                    child: Image.asset('assets/icons/notification_icon.png'),
+                  ),
+                  onPressed: onNotificationPressed ??
+                      () =>
+                          Navigator.pushNamed(context, AppRoutes.notification),
+                ),
+                if (notificationCount != null && notificationCount! > 0)
+                  Positioned(
+                    top: -2,
+                    right: -2,
+                    child: Container(
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      constraints: BoxConstraints(
+                        minWidth: 20,
+                        minHeight: 20,
+                      ),
+                      child: Center(
+                        child: Text(
+                          notificationCount.toString(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
 
@@ -277,6 +329,7 @@ class CustomAppBar extends StatelessWidget {
                     children: [
                       // Start Date Picker
                       Expanded(
+                        flex: 5,
                         child: GestureDetector(
                           onTap: () async {
                             DateTime? picked = await showDatePicker(
@@ -300,17 +353,18 @@ class CustomAppBar extends StatelessWidget {
                               startDate ?? "Start Date",
                               style: TextStyle(
                                 color: Colors.black87,
-                                fontSize: width * 0.038,
+                                fontSize: width * 0.03,
                               ),
                             ),
                           ),
                         ),
                       ),
 
-                      SizedBox(width: 8),
+                      SizedBox(width: height * 0.008),
 
                       // End Date Picker
                       Expanded(
+                        flex: 5,
                         child: GestureDetector(
                           onTap: () async {
                             DateTime? picked = await showDatePicker(
@@ -334,28 +388,63 @@ class CustomAppBar extends StatelessWidget {
                               endDate ?? "End Date",
                               style: TextStyle(
                                 color: Colors.black87,
-                                fontSize: width * 0.038,
+                                fontSize: width * 0.03,
                               ),
                             ),
                           ),
                         ),
                       ),
 
-                      SizedBox(width: 8),
+                      SizedBox(width: height * 0.008),
 
-                      // Clear Button
-                      GestureDetector(
-                        onTap: onClearDates,
+                      // Dropdown for selecting Transaction / Withdrawal
+                      Expanded(
+                        flex: 6,
                         child: Container(
                           height: height * 0.055,
-                          padding: EdgeInsets.symmetric(horizontal: 12),
+                          padding: EdgeInsets.symmetric(horizontal: 5),
                           decoration: BoxDecoration(
-                            color: Colors.red[400],
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.grey.shade400),
                           ),
-                          alignment: Alignment.center,
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              value: selectedType,
+                              items: ['Transaction', 'Withdrawal'].map((type) {
+                                return DropdownMenuItem<String>(
+                                  value: type,
+                                  child: Text(type,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: width * 0.028)),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                if (onTypeChanged != null && value != null) {
+                                  onTypeChanged!(value);
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(width: height * 0.008),
+
+                      // Clear Button
+                      Container(
+                        height: height * 0.055,
+                        width: height * 0.055, // Keep it square and responsive
+                        decoration: BoxDecoration(
+                          color: Colors.red[400],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: GestureDetector(
+                          onTap: onClearDates,
                           child: Icon(
-                            Icons.refresh, 
+                            Icons.refresh,
                             color: Colors.white,
                             size: width * 0.05,
                           ),

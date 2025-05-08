@@ -1,7 +1,13 @@
+import 'package:adhisree_foundation/homescreen/EmployeeAgreementScreen.dart';
+import 'package:adhisree_foundation/homescreen/EmployeeScreen.dart';
 import 'package:adhisree_foundation/homescreen/donation_model/DonationSummary.dart';
+import 'package:adhisree_foundation/homescreen/donation_model/EmployeeSummary.dart';
 import 'package:adhisree_foundation/homescreen/donation_model/VolunteerSummary.dart';
 import 'package:adhisree_foundation/loginScreen/userDetailsScreen.dart';
+import 'package:adhisree_foundation/more_section/BrochureScreen.dart';
+import 'package:adhisree_foundation/notification_screen.dart';
 import 'package:adhisree_foundation/teams/InnerReferalScreen.dart';
+import 'package:adhisree_foundation/widgets/success_screens.dart';
 import 'package:flutter/material.dart';
 
 import 'package:adhisree_foundation/homescreen/donation_model/volunteer_membership.dart';
@@ -36,6 +42,12 @@ class AppRoutes {
   static const String donationSummary = '/donationSummary';
   static const String volunteerSummary = '/volunteerSummary';
   static const String InnerReferalScreen = '/innerReferalScreen';
+  static const String employeeScreen = '/employeeScreen';
+  static const String employeeSummary = '/employeeSummary';
+  static const String successScreens = '/successScreens';
+  static const String brochure = '/brochure';
+  static const String notification = '/notification';
+  static const String employeeagrement = '/employeeagrement';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -92,6 +104,29 @@ class AppRoutes {
       case InnerReferalScreen:
         final args = settings.arguments as int;
         return MaterialPageRoute(builder: (_) => Innerreferalscreen(id: args));
+
+      case successScreens:
+      final args = settings.arguments as String;
+      return MaterialPageRoute(builder: (_) => SuccessScreens(role: args));  
+
+      // case successScreens:
+      // return MaterialPageRoute(builder: (_) => SuccessScreens());  
+
+      case employeeScreen:
+      return MaterialPageRoute(builder: (_) => Employeescreen());  
+
+      case notification:
+      return MaterialPageRoute(builder: (_) => NotificationScreen());
+
+      case brochure:
+      return MaterialPageRoute(builder: (_) => Brochurescreen());
+
+      case employeeagrement:
+      return MaterialPageRoute(builder: (_) => Employeeagreementscreen());
+
+      case employeeSummary:
+      final args = settings.arguments as Map<String, dynamic> ;
+      return MaterialPageRoute(builder: (_) => Employeesummary(data: args));
 
       case bottomNavBar:
         final int initialIndex = settings.arguments as int? ?? 0;

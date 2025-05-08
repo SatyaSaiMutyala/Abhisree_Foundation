@@ -1,4 +1,3 @@
-
 import 'package:adhisree_foundation/bottomNav/bottom_nav_bar.dart';
 import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:adhisree_foundation/utils/routes.dart';
@@ -87,11 +86,25 @@ class _InnerreferalscreenState extends State<Innerreferalscreen> {
           List<ReferralUser> currentList =
               showPrimary ? primaryReferrals : secondaryReferrals;
 
-          double totalProgress = 10.0;
           double currentProgress =
               double.tryParse(currentUserData?.progress ?? '0') ?? 0.0;
-          double progressValue =
-              (currentProgress / totalProgress).clamp(0.0, 1.0);
+
+          final currentLevel = currentUserData.level ?? 0;
+          final target = currentUserData.targetValue ?? 0;
+          final progress = currentProgress / target;
+
+          Color getLevelColor(String role, int level) {
+            if (role == 'employee') {
+              if (level < 3) return Colors.red;
+              if (level == 3) return Colors.orange;
+              return Colors.green; // level 4 or 5
+            } else if (role == 'volunteer') {
+              if (level < 6) return Colors.red;
+              if (level < 9) return Colors.orange;
+              return Colors.green; // 9 or above
+            }
+            return Colors.grey; // default fallback
+          }
 
           return Column(
             children: [
@@ -116,7 +129,7 @@ class _InnerreferalscreenState extends State<Innerreferalscreen> {
                       width: width * 0.04,
                       height: height * 0.04,
                       decoration: BoxDecoration(
-                        color: Colors.red,
+                        color: getLevelColor(role.toString(), currentLevel),
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -132,8 +145,7 @@ class _InnerreferalscreenState extends State<Innerreferalscreen> {
                         image: DecorationImage(
                           image: (currentUserData?.photoPath != null &&
                                   currentUserData!.photoPath!.isNotEmpty)
-                              ? NetworkImage(
-                                  '${currentUserData.photoPath!}')
+                              ? NetworkImage('${currentUserData.photoPath!}')
                               : const AssetImage('assets/images/Png/user.png')
                                   as ImageProvider,
                           fit: BoxFit.cover,
@@ -225,7 +237,7 @@ class _InnerreferalscreenState extends State<Innerreferalscreen> {
                         SizedBox(
                           width: width * 0.7,
                           child: LinearProgressIndicator(
-                            value: progressValue,
+                            value: progress,
                             backgroundColor: Color(0xFFEDEDED),
                             valueColor: AlwaysStoppedAnimation<Color>(
                                 Color(0xFF136571)),
@@ -241,7 +253,7 @@ class _InnerreferalscreenState extends State<Innerreferalscreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Progress",
+                                "Level : $currentLevel",
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: width * 0.034,
@@ -250,7 +262,7 @@ class _InnerreferalscreenState extends State<Innerreferalscreen> {
                                 ),
                               ),
                               Text(
-                                "${currentUserData?.progress}/10",
+                                "${currentProgress.floor()}/$target",
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: width * 0.034,

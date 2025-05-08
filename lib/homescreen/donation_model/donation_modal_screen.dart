@@ -14,6 +14,7 @@ class DonationModalScreen {
     // Start fetching data
     controller.fetchCampaignwithPrice(campaignId);
 
+
     showGeneralDialog(
       context: context,
       barrierDismissible: true,
@@ -26,7 +27,6 @@ class DonationModalScreen {
         return Obx(() {
           if (controller.isLoading.value ||
               controller.selectedCampaign.value == null) {
-            // Skeleton loader while loading
             return Stack(
               children: [
                 Positioned(
@@ -163,7 +163,8 @@ class DonationModalScreen {
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(30)),
                       ),
-                      child: Column(
+                      child: SingleChildScrollView(
+                        child:  Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Center(
@@ -242,35 +243,11 @@ class DonationModalScreen {
                             ],
                           ),
                           SizedBox(height: height * 0.02),
-                          // SingleChildScrollView(
-                          //   scrollDirection: Axis.horizontal,
-                          //   child: Row(
-                          //     children: prices.map((price) {
-                          //       return Padding(
-                          //         padding: const EdgeInsets.only(right: 16),
-                          //         child: DonationPriceCard(
-                          //           id: price.id,
-                          //           amount: price.price,
-                          //           name: price.priceName,
-                          //           isSelected: selectedId == price.id,
-                          //           onSelect: (selectedIdNew, selectedAmount, selectedName) {
-                          //             setState(() {
-                          //               selectedId = selectedIdNew;
-                          //               amount = selectedAmount;
-                          //               name = selectedName;
-                          //             });
-                          //           },
-                          //         ),
-                          //       );
-                          //     }).toList(),
-                          //   ),
-                          // ),
 
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
-                                // "Choose your amount" card
                                 Padding(
                                   padding: const EdgeInsets.only(right: 16),
                                   child: GestureDetector(
@@ -566,7 +543,7 @@ class DonationModalScreen {
                             },
                           ),
                         ],
-                      ),
+                      ),),
                     ),
                   ),
                   Positioned(

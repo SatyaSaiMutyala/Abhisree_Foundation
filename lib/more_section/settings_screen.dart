@@ -275,9 +275,14 @@
 //   }
 // }
 
-import 'dart:convert';
 
+
+import 'dart:convert';
+import 'package:adhisree_foundation/controllers/DeleteUserController.dart';
+import 'package:adhisree_foundation/controllers/UserDetailsController.dart';
+import 'package:adhisree_foundation/homescreen/EmployeeScreen.dart';
 import 'package:adhisree_foundation/loginScreen/loginWithNumberScreen.dart';
+import 'package:adhisree_foundation/more_section/BrochureScreen.dart';
 import 'package:adhisree_foundation/more_section/bank_details.dart';
 import 'package:adhisree_foundation/more_section/documents_screen.dart';
 import 'package:adhisree_foundation/more_section/profile_screen.dart';
@@ -297,6 +302,11 @@ class MoreScreen extends StatefulWidget {
 }
 
 class _MoreScreenState extends State<MoreScreen> {
+  final DeleteUserController deleteUserController =
+      Get.put(DeleteUserController());
+
+  final UserProgressController userProgressController = Get.put(UserProgressController());
+
   String? userId;
   String? role;
 
@@ -314,8 +324,8 @@ class _MoreScreenState extends State<MoreScreen> {
       Map<String, dynamic> userData = jsonDecode(userJson);
       setState(() {
         userId = userData['id'].toString();
-        role = storedRole;
       });
+    userProgressController.fetchUserProgress(userId.toString());
     }
   }
 
@@ -323,6 +333,13 @@ class _MoreScreenState extends State<MoreScreen> {
     final storageService = StorageService();
     await storageService.clearUserData();
 
+    Get.offAll(() => Loginwithnumberscreen());
+  }
+
+  Future<void> deleteUser() async {
+    deleteUserController.DeleteUser('delete-user', userId.toString());
+    final storageService = StorageService();
+    await storageService.clearUserData();
     Get.offAll(() => Loginwithnumberscreen());
   }
 
@@ -344,7 +361,17 @@ class _MoreScreenState extends State<MoreScreen> {
           ),
         ),
       ),
-      body: Stack(
+      body: Obx((){
+        if(userProgressController.isLoading.value){
+          return Center(child:CircularProgressIndicator());
+        }
+
+        role = userProgressController.userProgress.value?.userType ?? 'donor';
+
+        print('This is Role Man 45***********${userProgressController.userProgress.value?.userType}');
+        print('This is Role Man ***********$role');
+
+        return Stack(
         children: [
           ListView(
             padding: EdgeInsets.symmetric(horizontal: width * 0.05),
@@ -393,7 +420,33 @@ class _MoreScreenState extends State<MoreScreen> {
               Divider(),
 
               // Bank Details Section
-              ListTile(
+              // ListTile(
+              //   leading: Image.asset("assets/icons/bank_icon.png"),
+              //   title: Text(
+              //     "Bank Details",
+              //     style: TextStyle(fontWeight: FontWeight.w500),
+              //   ),
+              //   subtitle: Text(
+              //     "You can add accounts for withdrawals and set your primary account accordingly.",
+              //     style: TextStyle(
+              //       fontSize: 12,
+              //       fontFamily: "Poppins",
+              //       fontWeight: FontWeight.w400,
+              //     ),
+              //   ),
+              //   trailing: Icon(Icons.arrow_forward_ios,
+              //       size: width * 0.04, color: Colors.black),
+              //   onTap: () {
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (context) => BankAccountsScreen()));
+              //   },
+              // ),
+              // Divider(),
+              // Documents Section
+              if (role == 'volunteer' || role =='employee') ...[
+                 ListTile(
                 leading: Image.asset("assets/icons/bank_icon.png"),
                 title: Text(
                   "Bank Details",
@@ -417,8 +470,6 @@ class _MoreScreenState extends State<MoreScreen> {
                 },
               ),
               Divider(),
-              // Documents Section
-              if (role == 'volunteer') ...[
                 ListTile(
                   leading: Image.asset("assets/icons/document_icon.png"),
                   title: Text(
@@ -444,32 +495,88 @@ class _MoreScreenState extends State<MoreScreen> {
                   },
                 ),
                 Divider(),
-              ]  else ...[
-  ListTile(
-    leading: Icon(Icons.volunteer_activism, color: Colors.blue),
-    title: Text(
-      "Become a Volunteer",
-      style: TextStyle(fontWeight: FontWeight.w500),
-    ),
-    subtitle: Text(
-      "Join us and start contributing as a volunteer.",
-      style: TextStyle(
-        fontSize: 12,
-        fontFamily: "Poppins",
-        fontWeight: FontWeight.w400,
-      ),
-    ),
-    trailing: Icon(Icons.arrow_forward_ios,
-        size: width * 0.04, color: Colors.black),
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => VolunteerMembership()),
-      );
-    },
-  ),
-  Divider(),
-],
+              ] else ...[
+                ListTile(
+                  leading: Icon(Icons.volunteer_activism, color: Colors.blue),
+                  title: Text(
+                    "Become a Volunteer",
+                    style: TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  subtitle: Text(
+                    "Join us and start contributing as a volunteer.",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios,
+                      size: width * 0.04, color: Colors.black),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => VolunteerMembership()),
+                    );
+                  },
+                ),
+                Divider(),
+                ListTile(
+                  leading: Icon(Icons.badge, color: Colors.blue),
+                  title: Text(
+                    "Become a Employee",
+                    style: TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  subtitle: Text(
+                    "Join us and start contributing as a volunteer.",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios,
+                      size: width * 0.04, color: Colors.black),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Employeescreen()),
+                    );
+                  },
+                ),
+                Divider(),
+              ],
+              ListTile(
+                leading: Icon(Icons.picture_as_pdf, color: Colors.blue),
+                title: Text(
+                  "Brochure",
+                  style: TextStyle(
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w500,
+                    // fontSize: 12,
+                    color: Colors.black,
+                  ),
+                ),
+                subtitle: Text(
+                   "View our detailed brochure",
+                  style: TextStyle(
+                    fontFamily: "Inter",
+                    // fontWeight: FontWeight.w500,
+                    fontSize: 12,
+                    color: Color(0xFF6F6B6B),
+                  ),
+                ),
+                trailing: Icon(Icons.arrow_forward_ios,
+                    size: width * 0.04, color: Colors.black),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Brochurescreen()),
+                  );
+                },
+              ),
+              Divider(),
               ListTile(
                 leading: Icon(Icons.description, color: Colors.blue),
                 title: Text(
@@ -574,7 +681,7 @@ class _MoreScreenState extends State<MoreScreen> {
                       message: "Are you sure you want to Delete Account",
                       buttonText: "Delete",
                       onConfirm: () {
-                        clearUserData();
+                        deleteUser();
                       },
                     );
                   },
@@ -591,7 +698,7 @@ class _MoreScreenState extends State<MoreScreen> {
             ],
           ),
         ],
-      ),
-    );
+      );
+   }), );
   }
 }

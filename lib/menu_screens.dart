@@ -50,7 +50,7 @@ class _MenuScreenState extends State<MenuScreen> {
         image = userData['photo_url'];
       });
     }
-    userProgressController.fetchUserProgress(userId.toString());
+   await userProgressController.fetchUserProgress(userId.toString());
     print('image --------->${image}');
   }
 
@@ -104,16 +104,16 @@ class _MenuScreenState extends State<MenuScreen> {
                       ),
                     ),
 
-                    SizedBox(width: width * 0.025),
+                    SizedBox(width: width * 0.035),
 
                     // Name & Email
                     Padding(
-                      padding: const EdgeInsets.all(6.0),
+                      padding: const EdgeInsets.all(4.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            // width: width * 0.4,
+                            width: width * 0.3,
                             // height: height * 0.026,
                             child: Text(
                               data!.firstName ?? "No Name",
@@ -124,10 +124,12 @@ class _MenuScreenState extends State<MenuScreen> {
                                 // height: 1.0,
                                 color: Colors.black,
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           SizedBox(
-                            // width: width * 0.4,
+                            width: width * 0.4,
                             // height: height * 0.014,
                             child: Text(
                               data.email ?? "example@gmail.com",
@@ -138,6 +140,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                 // height: 1.0,
                                 color: Color(0xFF6F6B6B),
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],

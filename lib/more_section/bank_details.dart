@@ -131,7 +131,7 @@ class _BankAccountScreenState extends State<BankAccountsScreen> {
       itemBuilder: (context, index) {
         final bank = banks[index];
         return _buildBankAccountCard(context, bank.bankName, bank.accountNumber,
-            bank.holderName, bank.ifsc, width, height);
+            bank.holderName, bank.ifsc, bank.id, width, height);
       },
     );
   }
@@ -142,6 +142,7 @@ class _BankAccountScreenState extends State<BankAccountsScreen> {
       String acNumber,
       String holderName,
       String ifsc,
+      int id,
       double width,
       double height) {
     return Column(
@@ -155,7 +156,8 @@ class _BankAccountScreenState extends State<BankAccountsScreen> {
                     bankName: bankName,
                     acNumber: acNumber,
                     holderName: holderName,
-                    ifsc: ifsc),
+                    ifsc: ifsc,
+                    id: id),
               ),
             );
           },

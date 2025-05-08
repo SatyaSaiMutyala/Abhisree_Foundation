@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:adhisree_foundation/controllers/GetBankDetailsController.dart';
+import 'package:adhisree_foundation/controllers/WithdrawalDetailsController.dart';
 import 'package:adhisree_foundation/controllers/walletRequestController.dart';
 import 'package:adhisree_foundation/utils/customButton.dart';
 import 'package:adhisree_foundation/utils/snackBar.dart';
@@ -22,6 +23,9 @@ class _WithdrawalBottomSheetState extends State<WithdrawalBottomSheet> {
 
   final Walletrequestcontroller walletrequestcontroller =
       Get.put(Walletrequestcontroller());
+
+  final WithdrawalDetailsController withdrawalDetailsController =
+      Get.put(WithdrawalDetailsController());
 
   final TextEditingController _amountController = TextEditingController();
 
@@ -159,9 +163,39 @@ class _WithdrawalBottomSheetState extends State<WithdrawalBottomSheet> {
                 SizedBox(height: height * 0.04),
 
                 // Withdraw Button
+                // CustomButton(
+                //   text: 'WITHDRAWAL',
+                // onPressed: () async {
+                //   if (selectedBank == null) {
+                //     showErrorSnackbar("Please select a bank account");
+                //     return;
+                //   }
+                //   if (_amountController.text.isEmpty) {
+                //     showErrorSnackbar("Please enter amount");
+                //     return;
+                //   }
+                //   print(
+                //       'this is amount ------------>${_amountController.text}');
+                //   print('this is id ------------>${selectedBank!.id}');
+                //   final bankData = {
+                //     'user_id': userId,
+                //     'amount': _amountController.text,
+                //     'bank_id': selectedBank!.id.toString(),
+                //   };
+                // await  walletrequestcontroller.submitWalletRequest(
+                //       'storeWithdrawRequest', bankData);
+
+                //  await withdrawalDetailsController
+                //       .fetchWithdrawalData(userId.toString());
+
+                //   Navigator.of(context).pop();
+                //   Get.find<BottomNavController>().changePage(BnbItem.wallet);
+                // },
+                // )
+
                 CustomButton(
                   text: 'WITHDRAWAL',
-                  onPressed: () {
+                  onPressed: () async {
                     if (selectedBank == null) {
                       showErrorSnackbar("Please select a bank account");
                       return;
@@ -170,22 +204,137 @@ class _WithdrawalBottomSheetState extends State<WithdrawalBottomSheet> {
                       showErrorSnackbar("Please enter amount");
                       return;
                     }
-                    print(
-                        'this is amount ------------>${_amountController.text}');
-                    print('this is id ------------>${selectedBank!.id}');
-                    final bankData = {
-                      'user_id': userId,
-                      'amount': _amountController.text,
-                      'bank_id': selectedBank!.id.toString(),
-                    };
-                    walletrequestcontroller.submitWalletRequest(
-                        'storeWithdrawRequest', bankData);
-                    // Get.offAll(() => WalletScreen());
-                    // Get.offAll(() => BottomNavScreen(initialPageIndex: 2));
-                    Navigator.of(context).pop();
-                    Get.find<BottomNavController>().changePage(BnbItem.wallet);
+
+                    DateTime now = DateTime.now();
+                    int weekday = now.weekday; // 1 = Monday, ..., 7 = Sunday
+                    int hour = now.hour;
+
+                    bool isWeekday = weekday >= 1 && weekday <= 5;
+                    bool isWithinTime = hour >= 10 && hour < 17;
+
+                    if (isWeekday && isWithinTime) {
+                      // Prepare the data
+                      final bankData = {
+                        'user_id': userId,
+                        'amount': _amountController.text,
+                        'bank_id': selectedBank!.id.toString(),
+                      };
+
+                      // Call API first
+                      await walletrequestcontroller.submitWalletRequest(
+                          'storeWithdrawRequest', bankData);
+                      await withdrawalDetailsController
+                          .fetchWithdrawalData(userId.toString());
+
+                      // Show confirmation dialog
+                      await showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          backgroundColor: Colors.white,
+                          title: Row(
+                            children: [
+                              Icon(Icons.check_circle_rounded,
+                                  color: Colors.green, size: 28),
+                              SizedBox(width: 10),
+                              Text(
+                                "Success",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ],
+                          ),
+                          content: Text(
+                            "Your withdrawal request has been submitted successfully.\n\nThe amount will be debited within 24 hours.",
+                            style: TextStyle(
+                              fontSize: 16,
+                              height: 1.5,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          actionsAlignment: MainAxisAlignment.end,
+                          actions: [
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: Color(0xFF338D9B),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context); // close dialog
+                                Navigator.of(context)
+                                    .pop(); // close bottom sheet
+                                Get.find<BottomNavController>().changePage(
+                                    BnbItem.wallet); // go to wallet tab
+                              },
+                              child: Text("OK"),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      // Not allowed time
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          backgroundColor: Colors.white,
+                          title: Row(
+                            children: [
+                              Icon(Icons.warning_amber_rounded,
+                                  color: Colors.orange, size: 28),
+                              SizedBox(width: 10),
+                              Text(
+                                "Notice",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ],
+                          ),
+                          content: Text(
+                            "Withdrawals are allowed only\nfrom *Monday to Friday*\nbetween *10 AM to 5 PM*.",
+                            style: TextStyle(
+                              fontSize: 16,
+                              height: 1.5,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          actionsAlignment: MainAxisAlignment.end,
+                          actions: [
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: Color(0xFF338D9B),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                              ),
+                              onPressed: () => Navigator.pop(context),
+                              child: Text("OK"),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
                   },
                 ),
+
                 SizedBox(height: height * 0.02),
               ],
             ),

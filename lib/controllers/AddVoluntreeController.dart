@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:adhisree_foundation/utils/constants.dart';
 import 'package:adhisree_foundation/widgets/success_screens.dart';
@@ -9,11 +10,12 @@ import '../utils/snackBar.dart';
 class Addvolunteercontroller extends GetxController {
   var isLoading = false.obs;
 
-  Future<void> AddVolunteer(String endpoint, Map<String, dynamic> userData) async {
+  Future<void> AddVolunteer(
+      String endpoint, Map<String, dynamic> userData) async {
     isLoading(true);
 
     try {
-      var uri = Uri.parse("${baseUrl}/$endpoint"); 
+      var uri = Uri.parse("${baseUrl}/$endpoint");
       var request = http.MultipartRequest('POST', uri);
 
       // Attach text fields
@@ -37,7 +39,8 @@ class Addvolunteercontroller extends GetxController {
       }
 
       // Attach Aadhar image
-      if (userData['aadhar_photo'] != null && userData['aadhar_photo'] is File) {
+      if (userData['aadhar_photo'] != null &&
+          userData['aadhar_photo'] is File) {
         File aadhar = userData['aadhar_photo'];
         request.files.add(await http.MultipartFile.fromPath(
           'aadhar',
@@ -55,9 +58,26 @@ class Addvolunteercontroller extends GetxController {
 
       if (response.statusCode == 200) {
         showSuccessSnackbar("Volunteer form submitted successfully");
-        Get.offAll(() => SuccessScreens());
+        Get.offAll(() => SuccessScreens(role: 'Volunteer'));
       } else {
-        showErrorSnackbar("Submission failed. Try again.");
+        try {
+          final errorData = jsonDecode(response.body);
+
+          if (errorData is Map<String, dynamic>) {
+            String errorMessages = errorData.entries.map((e) {
+              if (e.value is List) {
+                return "${e.value.join(', ')}";
+              }
+              return "${e.value}";
+            }).join('\n');
+
+            showErrorSnackbar(errorMessages);
+          } else {
+            showErrorSnackbar("Submission failed. Please try again.");
+          }
+        } catch (_) {
+          showErrorSnackbar("Submission failed. Please try again.");
+        }
       }
     } catch (e) {
       print("Exception: $e");

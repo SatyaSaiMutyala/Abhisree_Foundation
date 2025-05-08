@@ -47,13 +47,14 @@ class _DonationDetailsScreenState extends State<DonationDetailsScreen> {
       body: Obx(() {
         final isLoading = controller.isLoading.value;
         final data = controller.selectedCampaign.value;
-          final prices = data!.prices;
 
-        if (isLoading) {
+        if (isLoading || data == null) {
           return Center(
             child: CircularProgressIndicator(color: Color(0XFF338D9B)),
           );
         }
+
+        final prices = data.prices;
 
         double progressPercent = 0.0;
         double goal = double.tryParse(widget.golePrice.toString()) ?? 1;
@@ -69,7 +70,7 @@ class _DonationDetailsScreenState extends State<DonationDetailsScreen> {
                   children: [
                     SizedBox(height: height * 0.38),
                     Text(
-                      "Below poverty level students",
+                      "Below poverty level",
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w600,
@@ -535,17 +536,17 @@ class _DonationDetailsScreenState extends State<DonationDetailsScreen> {
             ),
 
             // Share button
-            Positioned(
-              top: width * 0.1,
-              right: width * 0.02,
-              child: IconButton(
-                icon: Image.asset("assets/icons/share_icon.png",
-                    color: Colors.black, width: 24),
-                onPressed: () {
-                  // Share functionality here
-                },
-              ),
-            ),
+            // Positioned(
+            //   top: width * 0.1,
+            //   right: width * 0.02,
+            //   child: IconButton(
+            //     icon: Image.asset("assets/icons/share_icon.png",
+            //         color: Colors.black, width: 24),
+            //     onPressed: () {
+            //       // Share functionality here
+            //     },
+            //   ),
+            // ),
           ],
         );
       }),

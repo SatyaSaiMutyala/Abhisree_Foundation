@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:adhisree_foundation/controllers/AddVoluntreeController.dart';
+import 'package:adhisree_foundation/controllers/GetRefDataController.dart';
 import 'package:adhisree_foundation/homescreen/donation_model/VolunteerSummary.dart';
 import 'package:adhisree_foundation/utils/routes.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class _VolunteerMembershipState extends State<VolunteerMembership> {
   final _formKey = GlobalKey<FormState>();
   final Addvolunteercontroller addvolunteercontroller =
       Get.put(Addvolunteercontroller());
+  final GetRefDataController getRefDataController = Get.put(GetRefDataController());    
 
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -30,10 +32,12 @@ class _VolunteerMembershipState extends State<VolunteerMembership> {
   final TextEditingController _aadharNumberController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _refController = TextEditingController();
 
   File? _photo;
   File? _aadharImage;
   int? userId;
+  String? refCode;
 
   final ImagePicker _picker = ImagePicker();
 
@@ -65,8 +69,18 @@ class _VolunteerMembershipState extends State<VolunteerMembership> {
       Map<String, dynamic> userData = jsonDecode(userJson);
       setState(() {
         userId = userData['id'];
+        refCode = userData['ref_id'];
       });
+      await getRefDataController.fetchRefData('get-user-data-withid', userId.toString());
+      final data = getRefDataController.user.value;
+      _firstNameController.text = data!.firstName ?? '';
+      _lastNameController.text = data.lastName ?? '';
+      // _addressController.text = data.
+      _emailController.text = data.email ?? '';
+      _genderController.text = data.gender ?? '';
+
     }
+    _refController.text = refCode ?? '';
   }
 
   @override
@@ -121,7 +135,7 @@ class _VolunteerMembershipState extends State<VolunteerMembership> {
               // Scrollable Form
               Expanded(
                 child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
+                  // physics: BouncingScrollPhysics(),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -192,14 +206,19 @@ class _VolunteerMembershipState extends State<VolunteerMembership> {
                           },
                         ),
                         SizedBox(height: height * 0.03),
-                        textFieldScreen(
-                          "Pan",
-                          keyboardType: TextInputType.name,
-                          controller: _panController,
-                          validator: (value) => value == null || value.isEmpty
-                              ? "Please enter PAN"
-                              : null,
-                        ),
+                        textFieldScreen("Pan",
+                            keyboardType: TextInputType.name,
+                            controller: _panController, validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter PAN";
+                          }
+
+                          final panRegex = RegExp(r'^[A-Z]{5}[0-9]{4}[A-Z]$');
+                          if (!panRegex.hasMatch(value)) {
+                            return "Invalid PAN format. Example: ABCDE1234F";
+                          }
+                          return null;
+                        }),
                         SizedBox(height: height * 0.03),
                         textFieldScreen(
                           "Aadhar Number",
@@ -220,13 +239,20 @@ class _VolunteerMembershipState extends State<VolunteerMembership> {
                               : null,
                         ),
                         SizedBox(height: height * 0.03),
+                        // textFieldScreen(
+                        //   "Referal Code",
+                        //   keyboardType: TextInputType.name,
+                        //   controller: _refController,
+                        // ),
+                        // SizedBox(height: height * 0.03),
                         textFieldScreen(
                           "Gender",
-                          keyboardType: TextInputType.name,
                           controller: _genderController,
                           validator: (value) => value == null || value.isEmpty
-                              ? "Please enter gender"
+                              ? "Please select gender"
                               : null,
+                          isDropdown: true,
+                          dropdownItems: ['Male', 'Female'],
                         ),
                         SizedBox(height: height * 0.06),
                         CustomButton(

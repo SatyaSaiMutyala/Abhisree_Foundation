@@ -21,7 +21,6 @@
 //   final ReferralController referralController = Get.put(ReferralController());
 //   final RxString searchQuery = ''.obs;
 
-
 //   int? userId;
 //   String refCode = '';
 //   final String playStoreLink =
@@ -344,12 +343,6 @@
 //   }
 // }
 
-
-
-
-
-
-
 import 'dart:convert';
 
 import 'package:adhisree_foundation/controllers/teamsController.dart';
@@ -362,6 +355,7 @@ import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../controllers/NotificationCountController.dart';
 import '../models/referralModel.dart';
 
 class ReferralsScreen extends StatefulWidget {
@@ -371,7 +365,10 @@ class ReferralsScreen extends StatefulWidget {
 
 class _ReferralsScreenState extends State<ReferralsScreen> {
   final ReferralController referralController = Get.put(ReferralController());
+  final Notificationcountcontroller notificationcountcontroller =
+      Get.put(Notificationcountcontroller());
   final RxString searchQuery = ''.obs;
+  late int count;
 
   int? userId;
   String refCode = '';
@@ -397,6 +394,8 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
       if (userId != null) {
         referralController.fetchReferralData(userId.toString());
       }
+      await notificationcountcontroller.fetchCount(userId.toString());
+      count = notificationcountcontroller.unseenCount.value;
     }
   }
 
@@ -419,25 +418,42 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
         }
 
         ReferralResponse? referralData = referralController.referralData.value;
-        List<ReferralUser> primaryReferrals = referralData?.primaryReferral
-                ?.where((user) {
+        List<ReferralUser> primaryReferrals =
+            referralData?.primaryReferral?.where((user) {
                   final fullName =
                       "${user.firstName ?? ''} ${user.lastName ?? ''}"
                           .toLowerCase();
                   return fullName.contains(searchQuery.value);
-                })
-                .toList() ??
-            [];
+                }).toList() ??
+                [];
+
+        List<ReferralUser> secondaryReferrals =
+            referralData?.secondaryReferral?.where((user) {
+                  final fullName =
+                      "${user.firstName ?? ''} ${user.lastName ?? ''}"
+                          .toLowerCase();
+                  return fullName.contains(searchQuery.value);
+                }).toList() ??
+                [];
+
+        List<ReferralUser> combinedReferralList = [
+          ...primaryReferrals,
+          ...secondaryReferrals
+        ];
 
         return SafeArea(
-           top: false,
+          top: false,
           child: Column(
             children: [
-              CustomAppBar(
-                screenType: 'referral',
-                onReferralSearchChanged: (query) {
-                  searchQuery.value = query.toLowerCase();
-                },
+              Obx(
+                () => CustomAppBar(
+                  screenType: 'referral',
+                  notificationCount:
+                      notificationcountcontroller.unseenCount.value,
+                  onReferralSearchChanged: (query) {
+                    searchQuery.value = query.toLowerCase();
+                  },
+                ),
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -459,13 +475,12 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
                         ),
                       ),
                       SizedBox(height: 16),
-                      ReferralAmountWidget(),
+                      ReferralAmountWidget(referralData!.totalReferralAmount),
                       SizedBox(height: width * 0.07),
 
                       // Copy and Share
                       Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: width * 0.05),
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.05),
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
@@ -474,14 +489,12 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
                                 width: (width / 2) * 0.845,
                                 height: 66,
                                 padding: EdgeInsets.all(width * 0.025),
-                                margin:
-                                    EdgeInsets.only(right: width * 0.025),
+                                margin: EdgeInsets.only(right: width * 0.025),
                                 decoration: BoxDecoration(
                                   color: Color(0xFFF6F2F2),
                                   borderRadius: BorderRadius.circular(
                                       Dimensions.radiusDefault),
-                                  border:
-                                      Border.all(color: Color(0xFFE4DFDF)),
+                                  border: Border.all(color: Color(0xFFE4DFDF)),
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
@@ -584,69 +597,157 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
                       SizedBox(height: width * 0.05),
 
                       // Referral List
-                      ListView.separated(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: width * 0.05),
-                        itemCount: primaryReferrals.length,
-                        separatorBuilder: (context, index) => Column(
-                          children: [
-                            SizedBox(height: width * 0.025),
-                            Divider(color: Colors.grey, thickness: 1),
-                            SizedBox(height: width * 0.025),
-                          ],
-                        ),
-                        itemBuilder: (context, index) {
-                          final user = primaryReferrals[index];
-                          return Row(
-                            children: [
-                              CircleAvatar(
-                                radius: Dimensions.radiusDoubleExtraLarge,
-                                backgroundImage: user.photoPath != null
-                                    ? NetworkImage(user.photoPath!)
-                                    : AssetImage('assets/images/Png/user.png')
-                                        as ImageProvider,
-                              ),
-                              SizedBox(width: width * 0.03),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${user.firstName ?? ''} ${user.lastName ?? ''}',
-                                    style: TextStyle(
-                                      fontFamily: 'Inter',
-                                      fontSize: width * 0.035,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
+                      // ListView.separated(
+                      //   shrinkWrap: true,
+                      //   physics: NeverScrollableScrollPhysics(),
+                      //   padding: EdgeInsets.symmetric(
+                      //       horizontal: width * 0.05),
+                      //   itemCount: primaryReferrals.length,
+                      //   separatorBuilder: (context, index) => Column(
+                      //     children: [
+                      //       SizedBox(height: width * 0.025),
+                      //       Divider(color: Colors.grey, thickness: 1),
+                      //       SizedBox(height: width * 0.025),
+                      //     ],
+                      //   ),
+                      //   itemBuilder: (context, index) {
+                      //     final user = primaryReferrals[index];
+                      //     return Row(
+                      //       children: [
+                      //         CircleAvatar(
+                      //           radius: Dimensions.radiusDoubleExtraLarge,
+                      //           backgroundImage: user.photoPath != null
+                      //               ? NetworkImage(user.photoPath!)
+                      //               : AssetImage('assets/images/Png/user.png')
+                      //                   as ImageProvider,
+                      //         ),
+                      //         SizedBox(width: width * 0.03),
+                      //         Column(
+                      //           crossAxisAlignment: CrossAxisAlignment.start,
+                      //           children: [
+                      //             Text(
+                      //               '${user.firstName ?? ''} ${user.lastName ?? ''}',
+                      //               style: TextStyle(
+                      //                 fontFamily: 'Inter',
+                      //                 fontSize: width * 0.035,
+                      //                 fontWeight: FontWeight.w600,
+                      //                 color: Colors.black,
+                      //               ),
+                      //             ),
+                      //             SizedBox(height: width * 0.0125),
+                      //             Text(
+                      //               user.phoneNumber ?? '',
+                      //               style: TextStyle(
+                      //                 fontFamily: 'Inter',
+                      //                 fontSize: width * 0.03,
+                      //                 fontWeight: FontWeight.w400,
+                      //                 color: Colors.grey,
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //         Spacer(),
+                      //         Text(
+                      //           '₹120',
+                      //           style: TextStyle(
+                      //             fontFamily: 'Inter',
+                      //             fontSize: width * 0.04,
+                      //             fontWeight: FontWeight.w600,
+                      //             color: Colors.green,
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     );
+                      //   },
+                      // ),
+
+                      combinedReferralList.isEmpty
+                          ? Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 40),
+                                child: Text(
+                                  'No referrals yet.',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: width * 0.04,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
                                   ),
-                                  SizedBox(height: width * 0.0125),
-                                  Text(
-                                    user.phoneNumber ?? '',
-                                    style: TextStyle(
-                                      fontFamily: 'Inter',
-                                      fontSize: width * 0.03,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Spacer(),
-                              Text(
-                                '₹120',
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: width * 0.04,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.green,
                                 ),
                               ),
-                            ],
-                          );
-                        },
-                      ),
+                            )
+                          : ListView.separated(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: width * 0.05),
+                              itemCount: combinedReferralList.length,
+                              separatorBuilder: (context, index) => Column(
+                                children: [
+                                  SizedBox(height: width * 0.025),
+                                  Divider(color: Colors.grey, thickness: 1),
+                                  SizedBox(height: width * 0.025),
+                                ],
+                              ),
+                              itemBuilder: (context, index) {
+                                final user = combinedReferralList[index];
+                                return Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    CircleAvatar(
+                                      radius: Dimensions.radiusDoubleExtraLarge,
+                                      backgroundImage: user.photoPath != null
+                                          ? NetworkImage(user.photoPath!)
+                                          : AssetImage(
+                                                  'assets/images/Png/user.png')
+                                              as ImageProvider,
+                                    ),
+                                    SizedBox(width: width * 0.03),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${user.firstName ?? ''} ${user.lastName ?? ''}',
+                                            style: TextStyle(
+                                              fontFamily: 'Inter',
+                                              fontSize: width * 0.035,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                          SizedBox(height: width * 0.0125),
+                                          Text(
+                                            user.phoneNumber ?? '',
+                                            style: TextStyle(
+                                              fontFamily: 'Inter',
+                                              fontSize: width * 0.03,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            width * 0.02), // optional spacing
+                                    Text(
+                                      '₹${user.amount ?? 0}',
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        fontSize: width * 0.04,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
                     ],
                   ),
                 ),

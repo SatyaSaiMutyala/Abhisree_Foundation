@@ -73,6 +73,7 @@ void main() async {
   await Firebase.initializeApp();
   print('Im crossed *************'); 
   await FirebaseApi().initNotification();
+  print('Yeah I get it **********');
   Get.put(BottomNavController());
 
   // Retrieve token from local storage

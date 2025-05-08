@@ -1,11 +1,15 @@
 import 'dart:convert';
 
 import 'package:adhisree_foundation/bottomNav/bottom_nav_bar.dart';
+import 'package:adhisree_foundation/homescreen/EmployeeScreen.dart';
 import 'package:adhisree_foundation/homescreen/donation_model/volunteer_membership.dart';
+import 'package:adhisree_foundation/utils/customButton.dart';
 import 'package:adhisree_foundation/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../controllers/UserDetailsController.dart';
 
 class SuccessScreen extends StatefulWidget {
   @override
@@ -13,6 +17,7 @@ class SuccessScreen extends StatefulWidget {
 }
 
 class _SuccessScreenState extends State<SuccessScreen> {
+  final UserProgressController userProgressController = Get.put(UserProgressController());
   String? userId;
   String? role;
 
@@ -23,23 +28,37 @@ class _SuccessScreenState extends State<SuccessScreen> {
   }
 
   Future<void> _loadUserId() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? userJson = prefs.getString('user');
-    String? storedRole = prefs.getString('role'); 
-    if (userJson != null && storedRole != null) {
-      Map<String, dynamic> userData = jsonDecode(userJson);
+  final prefs = await SharedPreferences.getInstance();
+  String? userJson = prefs.getString('user');
+  String? storedRole = prefs.getString('role');
+
+  if (userJson != null && storedRole != null) {
+    Map<String, dynamic> userData = jsonDecode(userJson);
+    userId = userData['id'].toString();
+
+    // Wait for the API call to complete
+    await userProgressController.fetchUserProgress(userId.toString());
+
+    // Now safely get the role from the API response
+    final fetchedRole = userProgressController.userProgress.value?.userType;
+
+    if (mounted) {
       setState(() {
-        userId = userData['id'].toString();
-        role = storedRole;
+        role = fetchedRole ?? storedRole;
       });
 
-      if (storedRole == 'donor' && mounted) {
+      print('GETTING FROM THE RESPONSE ***********$fetchedRole');
+
+      if (role == 'donor') {
+        print('THIS IS ROLE ******************$role');
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          _showSuccessPopup(); 
+          _showSuccessPopup();
         });
       }
     }
   }
+}
+
 
   void _showSuccessPopup() {
     double width = MediaQuery.of(context).size.width;
@@ -54,7 +73,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
           ),
           child: Container(
             width: width * 0.9,
-            height: height * 0.4,
+            height: height * 0.5,
             padding: EdgeInsets.all(width * 0.06),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -66,7 +85,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                     color: Color(0XFF338D9B)),
                 SizedBox(height: height * 0.025),
                 Text(
-                  "Are you sure , you want to join as a volunteer",
+                  "Are you sure , you want to join as a volunteer/Employee",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: width * 0.05,
@@ -103,7 +122,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                         ),
                       ),
                       child: Text(
-                        "Become a  volunteer",
+                        "Become a  Volunteer",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: width * 0.04,
@@ -115,7 +134,47 @@ class _SuccessScreenState extends State<SuccessScreen> {
                   ),
                 ),
 
-                SizedBox(height: height * 0.0125), // Space between buttons
+                SizedBox(height: height * 0.0125),  Center(
+                  child: Container(
+                    width: width * 0.9,
+                    height: height * 0.048,
+                    decoration: BoxDecoration(
+                      color: Color(0xFF338D9B),
+                      borderRadius:
+                          BorderRadius.circular(Dimensions.radiusSeven),
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Employeescreen()));
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        padding: EdgeInsets.symmetric(
+                            vertical: height * 0.01, horizontal: width * 0.04),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.radiusSeven),
+                        ),
+                      ),
+                      child: Text(
+                        "Become a  Employee",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: width * 0.04,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Poppins',
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: height * 0.0125), 
 
                 // Skip Button
                 Center(
@@ -178,7 +237,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                   fontFamily: "Poppins",
                 ),
               ),
-              SizedBox(height: height * 0.03),
+              // SizedBox(height: height * 0.03),
               // Text(
               //   "₹1000",
               //   textAlign: TextAlign.center,
@@ -188,6 +247,15 @@ class _SuccessScreenState extends State<SuccessScreen> {
               //     fontFamily: "Poppins",
               //   ),
               // ),
+            SizedBox(height: height * 0.03),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: height * 0.018, horizontal: width * 0.07),
+              child: CustomButton(
+                  text: 'Back To Home',
+                  onPressed: () =>
+                      Get.offAll(() => BottomNavScreen(initialPageIndex: 0))),
+            ),
             ],
           ),
         ),

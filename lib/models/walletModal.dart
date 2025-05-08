@@ -16,6 +16,11 @@ class WalletModal {
   String updatedAt;
   String? progress;
   int refBy;
+  int amount;
+  int status;
+  String transcationId;
+  String transcationAmount;
+  String transactionType;
 
   WalletModal({
     required this.id,
@@ -35,6 +40,11 @@ class WalletModal {
     required this.updatedAt,
     this.progress,
     required this.refBy,
+    required this.amount,
+    required this.status,
+    required this.transcationId,
+    required this.transcationAmount,
+    required this.transactionType,
   });
 
   factory WalletModal.fromJson(Map<String, dynamic> json) {
@@ -48,14 +58,19 @@ class WalletModal {
       phoneNumber: json['phone_number'] ?? '',
       photoPath: json['photo_url'] ?? '',
       otp: json['otp'] ?? '',
-      otpExpiry: json['otp_expiry'] ?? '', 
+      otpExpiry: json['otp_expiry'] ?? '',
       refId: json['ref_id'] ?? '',
       token: json['token'] ?? '',
       tokenExpiry: json['token_expiry'] ?? '',
       createdAt: json['created_at'] ?? '',
       updatedAt: json['updated_at'] ?? '',
       progress: json['progress'] ?? '',
-      refBy: json['ref_by'] ?? '',
+      refBy: json['ref_by'] is int ? json['ref_by'] : 0,
+      amount: json['ref_amount'] is int ? json['ref_amount'] : 0,
+      status: json['status'] ?? 0,
+      transcationId: json['transaction_id']?.toString() ?? '',
+      transcationAmount: json['tran_amount']?.toString() ?? '',
+      transactionType: json['tran_type']?.toString() ?? '',
     );
   }
 }
@@ -70,13 +85,12 @@ class UserResponseModel {
   });
 
   factory UserResponseModel.fromJson(Map<String, dynamic> json) {
-  return UserResponseModel(
-    users: (json['user'] != null)
-        ? List<WalletModal>.from(
-            json['user'].map((e) => WalletModal.fromJson(e)))
-        : [],
-    walletAmount: json['wallet_amount'] ?? 0,
-  );
-}
-
+    return UserResponseModel(
+      users: (json['user'] != null)
+          ? List<WalletModal>.from(
+              json['user'].map((e) => WalletModal.fromJson(e)))
+          : [],
+      walletAmount: json['wallet_amount'] ?? 0,
+    );
+  }
 }

@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../controllers/userController.dart';
 import '../widgets/text_feilds.dart';
 import 'package:adhisree_foundation/utils/customButton.dart';
-import 'package:adhisree_foundation/bottomNav/bottom_nav_bar.dart';
 
 class UserDetailsScreen extends StatefulWidget {
   @override
@@ -13,7 +12,7 @@ class UserDetailsScreen extends StatefulWidget {
 
 class _UserDetailsState extends State<UserDetailsScreen> {
   final UserController userController = Get.put(UserController());
-  final _formKey = GlobalKey<FormState>(); 
+  final _formKey = GlobalKey<FormState>();
   String referralCode = '';
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -31,9 +30,8 @@ class _UserDetailsState extends State<UserDetailsScreen> {
 
   Future<void> submitUserData() async {
     if (!_formKey.currentState!.validate()) {
-      return; // Stop if validation fails
+      return;
     }
-
 
     Map<String, dynamic> userData = {
       'first_name': _firstNameController.text,
@@ -47,8 +45,7 @@ class _UserDetailsState extends State<UserDetailsScreen> {
     };
     print('this is ref code ------------>$referralCode');
     print('User Data ***********------------->${userData}');
-    userController.submitUserDataViaRefId("save_user_with_refereal",userData);
-
+    userController.submitUserDataViaRefId("save_user_with_refereal", userData);
   }
 
   @override
@@ -70,72 +67,68 @@ class _UserDetailsState extends State<UserDetailsScreen> {
               children: [
                 textFieldScreen("First Name",
                     keyboardType: TextInputType.name,
-                    controller: _firstNameController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your first name';
-                      }
-                      return null;
-                    }),
+                    controller: _firstNameController, validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your first name';
+                  }
+                  return null;
+                }),
                 SizedBox(height: height * 0.03),
                 textFieldScreen("Last Name",
                     keyboardType: TextInputType.name,
-                    controller: _lastNameController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your last name';
-                      }
-                      return null;
-                    }),
+                    controller: _lastNameController, validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your last name';
+                  }
+                  return null;
+                }),
                 SizedBox(height: height * 0.03),
                 textFieldScreen("Email",
                     keyboardType: TextInputType.emailAddress,
-                    controller: _emailController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your email';
-                      } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
-                    }),
+                    controller: _emailController, validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your email';
+                  } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                    return 'Please enter a valid email';
+                  }
+                  return null;
+                }),
                 SizedBox(height: height * 0.03),
                 textFieldScreen("Phone Number",
                     keyboardType: TextInputType.phone,
-                    controller: _phoneController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your phone number';
-                      } else if (!RegExp(r'^\d{10}$').hasMatch(value)) {
-                        return 'Enter a valid 10-digit phone number';
-                      }
-                      return null;
-                    }),
+                    controller: _phoneController, validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your phone number';
+                  } else if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                    return 'Enter a valid 10-digit phone number';
+                  }
+                  return null;
+                }),
                 SizedBox(height: height * 0.03),
                 textFieldScreen("Address",
                     keyboardType: TextInputType.text,
-                    controller: _addressController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your address';
-                      }
-                      return null;
-                    }),
+                    controller: _addressController, validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your address';
+                  }
+                  return null;
+                }),
                 SizedBox(height: height * 0.03),
-                textFieldScreen("Gender",
-                    keyboardType: TextInputType.text,
-                    controller: _genderController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your gender';
-                      }
-                      return null;
-                    }),
+                textFieldScreen(
+                  "Gender",
+                  controller: _genderController,
+                  validator: (value) => value == null || value.isEmpty
+                      ? "Please select gender"
+                      : null,
+                  isDropdown: true,
+                  dropdownItems: ['Male', 'Female'],
+                ),
                 SizedBox(height: height * 0.03),
                 Padding(
                   padding: EdgeInsets.symmetric(
                       vertical: width * 0.04, horizontal: width * 0.04),
-                  child: CustomButton(text: 'Submit', onPressed: submitUserData),
+                  child:
+                      CustomButton(text: 'Submit', onPressed: submitUserData),
                 )
               ],
             ),

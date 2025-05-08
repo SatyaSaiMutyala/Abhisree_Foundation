@@ -10,6 +10,11 @@ class ReferralUser {
   final String? refId;
   final String token;
   final String? progress;
+  final int? level;
+  final int? targetValue;
+  final int? amount;
+  final String? role;
+
 
   ReferralUser({
     required this.id,
@@ -23,6 +28,10 @@ class ReferralUser {
     this.refId,
     required this.token,
     this.progress,
+    this.level,
+    this.targetValue,
+    this.amount,
+    this.role,
   });
 
   factory ReferralUser.fromJson(Map<String, dynamic> json) {
@@ -38,6 +47,10 @@ class ReferralUser {
       refId: json['ref_id'],
       token: json['token'],
       progress: json['progress']?.toString(),
+      level: json['current_level'],
+      targetValue: json['target_value'],
+      amount: json['amount'],
+      role: json['role_type_for_user'],
     );
   }
 }
@@ -46,11 +59,13 @@ class ReferralResponse {
   final List<ReferralUser> primaryReferral;
   final List<ReferralUser> secondaryReferral;
   final ReferralUser user;
+  final int totalReferralAmount;
 
   ReferralResponse({
     required this.primaryReferral,
     required this.secondaryReferral,
     required this.user,
+    required this.totalReferralAmount,
   });
 
   factory ReferralResponse.fromJson(Map<String, dynamic> json) {
@@ -62,6 +77,7 @@ class ReferralResponse {
           .map((e) => ReferralUser.fromJson(e))
           .toList(),
       user: ReferralUser.fromJson(json['user']),
+      totalReferralAmount: int.tryParse(json['totalReferralAmount'].toString()) ?? 0,
     );
   }
 }

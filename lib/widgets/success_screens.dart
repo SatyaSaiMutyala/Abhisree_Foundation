@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SuccessScreens extends StatefulWidget {
+  final String role;
+  const SuccessScreens({Key? key, required this.role}) : super(key: key);
   @override
   _SuccessScreensState createState() => _SuccessScreensState();
 }
@@ -56,7 +58,7 @@ class _SuccessScreensState extends State<SuccessScreens> {
             ),
             SizedBox(height: height * 0.025),
             Text(
-              "Congratulations! You are now a Volunteer at Adhisree Foundation 🎉",
+              "Congratulations! You are now an ${widget.role} at Abhisree Foundation 🎉",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: width * 0.058,
@@ -71,7 +73,7 @@ class _SuccessScreensState extends State<SuccessScreens> {
               child: CustomButton(
                   text: 'Back To Home',
                   onPressed: () =>
-                      Get.to(() => BottomNavScreen(initialPageIndex: 0))),
+                      Get.offAll(() => BottomNavScreen(initialPageIndex: 0))),
             ),
           ],
         ),

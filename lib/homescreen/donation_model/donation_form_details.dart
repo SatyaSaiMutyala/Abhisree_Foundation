@@ -1,4 +1,7 @@
 import 'package:adhisree_foundation/controllers/DonationAmountController.dart';
+import 'package:adhisree_foundation/controllers/GetEmployeeDetailsController.dart';
+import 'package:adhisree_foundation/controllers/GetVolunteersDetailsController.dart';
+import 'package:adhisree_foundation/controllers/UserDetailsController.dart';
 import 'package:adhisree_foundation/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,12 +30,22 @@ class DonationPopupForm extends StatefulWidget {
 class _DonationPopupFormState extends State<DonationPopupForm> {
   final Donationamountcontroller donationamountcontroller =
       Get.put(Donationamountcontroller());
+  final UserProgressController userDetailsController =
+      Get.put(UserProgressController());
+  final GetVolunteersDetailsController getVolunteersDetailsController =
+      Get.put(GetVolunteersDetailsController());
+  final Getemployeedetailscontroller getemployeedetailscontroller =
+      Get.put(Getemployeedetailscontroller());
+
+  bool isLoading = true;
   int? userId;
   String? name;
+  String? role;
   late Razorpay _razorpay;
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _panController = TextEditingController();
   final TextEditingController _aadharController = TextEditingController();
 
@@ -53,6 +66,40 @@ class _DonationPopupFormState extends State<DonationPopupForm> {
         _nameController.text = name ?? '';
       });
     }
+    await userDetailsController.fetchUserProgress(userId.toString());
+    setState(() {
+      role = userDetailsController.userProgress.value!.userType;
+    });
+    if (role == 'volunteer') {
+      await getVolunteersDetailsController
+          .fetchVolunteerDetails(userId.toString());
+      final data = getVolunteersDetailsController.volunteerData.value;
+      setState(() {
+        _nameController.text = '${data?.firstName ?? ''} ${data?.lastName ?? ''}'.trim();
+        _panController.text = data?.pan ?? '';
+        _emailController.text = data?.email ?? '';
+        _aadharController.text = data?.aadharNumber ?? '';
+      });
+    } else if(role == 'employee'){
+      await getemployeedetailscontroller.fetchEmployeeDetails(userId.toString());
+      final data = getemployeedetailscontroller.volunteerData.value;
+      setState(() {
+        _nameController.text = '${data?.firstName ?? ''} ${data?.lastName ?? ''}'.trim();
+        _panController.text = data?.pan ?? '';
+        _emailController.text = data?.email ?? '';
+        _aadharController.text = data?.aadharNumber ?? '';
+      });
+    } else {
+      _nameController.text = name ?? '' ;
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+    print('ROLE **********$role');
+    print('Pan **********$_panController');
+    print('email **********$_emailController');
+    print('aadhar **********$_aadharController');
   }
 
   @override
@@ -64,7 +111,13 @@ class _DonationPopupFormState extends State<DonationPopupForm> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(width * 0.028),
       ),
-      child: Stack(
+       child: isLoading 
+          ? SizedBox(
+              width: width * 0.9,
+              height: height * 0.4,
+              child: Center(child: CircularProgressIndicator()),
+            )
+          : Stack(
         children: [
           Container(
             width: width * 0.9,
@@ -100,6 +153,21 @@ class _DonationPopupFormState extends State<DonationPopupForm> {
                       }
                       return null;
                     }),
+                    if (role == "donor") ...[
+                      SizedBox(height: height * 0.015),
+                      _buildCustomTextField(
+                        "Email",
+                        "Enter your Email",
+                        _emailController,
+                        width,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Email is required';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
                     SizedBox(height: height * 0.015),
                     _buildCustomTextField(
                       "PAN",
@@ -155,6 +223,7 @@ class _DonationPopupFormState extends State<DonationPopupForm> {
                                 'userName': _nameController.text,
                                 'pan': _panController.text,
                                 'aadhar': _aadharController.text,
+                                'email' : _emailController.text,
                               };
 
                               if (widget.priceId != 0) {
@@ -180,32 +249,32 @@ class _DonationPopupFormState extends State<DonationPopupForm> {
                       ),
                     ),
                     SizedBox(height: height * 0.005),
-                    Center(
-                      child: TextButton(
-                        onPressed: () => {
-                          Navigator.pushNamed(
-                            context,
-                            AppRoutes.donationSummary,
-                            arguments: {
-                              'campaignId': widget.campaignId,
-                              'priceId': widget.priceId,
-                              'amount': widget.amount,
-                              'name': widget.name,
-                              'image': widget.image,
-                            },
-                          )
-                        },
-                        child: Text(
-                          "Skip",
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                            fontSize: width * 0.034,
-                            color: Color(0XFF338D9B),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Center(
+                    //   child: TextButton(
+                    //     onPressed: () => {
+                    //       Navigator.pushNamed(
+                    //         context,
+                    //         AppRoutes.donationSummary,
+                    //         arguments: {
+                    //           'campaignId': widget.campaignId,
+                    //           'priceId': widget.priceId,
+                    //           'amount': widget.amount,
+                    //           'name': widget.name,
+                    //           'image': widget.image,
+                    //         },
+                    //       )
+                    //     },
+                    //     child: Text(
+                    //       "Skip",
+                    //       style: TextStyle(
+                    //         fontFamily: 'Poppins',
+                    //         fontWeight: FontWeight.w500,
+                    //         fontSize: width * 0.034,
+                    //         color: Color(0XFF338D9B),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

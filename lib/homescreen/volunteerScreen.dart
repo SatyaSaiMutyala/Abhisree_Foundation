@@ -1,4 +1,4 @@
-import 'package:adhisree_foundation/bottomNav/bottom_nav_bar.dart';
+
 import 'package:adhisree_foundation/controllers/TaskController.dart';
 import 'package:adhisree_foundation/utils/customButton.dart';
 import 'package:adhisree_foundation/utils/routes.dart';
@@ -13,7 +13,13 @@ class Volunteerscreen extends StatefulWidget {
 }
 
 class _VolunteerscreenState extends State<Volunteerscreen> {
-  final Taskcontroller taskcontroller = Get.put(Taskcontroller());
+  final TaskController taskcontroller = Get.put(TaskController());
+
+    @override
+    void initState() {
+      super.initState();
+      taskcontroller.fetchTasks('getVolunteerTasks');
+    }
 
   bool isChecked = false;
   @override
@@ -21,17 +27,14 @@ class _VolunteerscreenState extends State<Volunteerscreen> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    @override
-    void initState() {
-      super.initState();
-      taskcontroller.FetchTasks('getVolunteerResponsibility');
-    }
 
     return Scaffold(body: Obx(() {
       if (taskcontroller.loading.value) {
         return Center(child: CircularProgressIndicator());
       }
       var taskData = taskcontroller.taskList.value;
+      var filteredTaskData =
+          taskData.where((item) => item.role == 'volunteer').toList();
       
       return Container(
         decoration: BoxDecoration(
@@ -71,6 +74,7 @@ class _VolunteerscreenState extends State<Volunteerscreen> {
               ),
             ),
             Expanded(
+              child : SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -115,7 +119,7 @@ class _VolunteerscreenState extends State<Volunteerscreen> {
                       horizontal: width * 0.04,
                     ),
                     child: Column(
-                      children: taskData
+                      children: filteredTaskData
                           .map(
                             (item) => Padding(
                               padding:
@@ -186,7 +190,7 @@ class _VolunteerscreenState extends State<Volunteerscreen> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: width * 0.05),
                     child: CustomButton(
-                      text: 'Countinue',
+                      text: 'Continue',
                       onPressed: () {
                         if (!isChecked) {
                           showErrorSnackbar(
@@ -200,7 +204,7 @@ class _VolunteerscreenState extends State<Volunteerscreen> {
                   )
                 ],
               ),
-            ),
+            ),),
           ],
         ),
       );

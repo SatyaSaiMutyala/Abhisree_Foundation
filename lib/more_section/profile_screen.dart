@@ -233,9 +233,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 controller: _phoneController,
                 readOnly: true),
             SizedBox(height: height * 0.02),
-            textFieldScreen("Gender",
-                keyboardType: TextInputType.text,
-                controller: _genderController),
+            textFieldScreen(
+              "Gender",
+              controller: _genderController,
+              validator: (value) => value == null || value.isEmpty
+                  ? "Please select gender"
+                  : null,
+              isDropdown: true,
+              dropdownItems: ['Male', 'Female'],
+            ),
 
             if (_isEditing) ...[
               SizedBox(height: height * 0.04),

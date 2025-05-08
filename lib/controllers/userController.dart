@@ -112,7 +112,7 @@ class UserController extends GetxController {
 
         showSuccessSnackbar(successMessage);
         print('this is role -------------->${response['user']['user_type'] }');
-        if (response['user']['user_type'] == 'volunteer') {
+        if (response['user']['user_type'] == 'volunteer' || response['user']['user_type'] == 'employee') {
         Get.offAll(() => BottomNavScreen(initialPageIndex: 0));
         } else {
           Get.offAll(() => Mainscreen());

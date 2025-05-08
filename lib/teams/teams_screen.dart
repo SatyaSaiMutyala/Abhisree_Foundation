@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../controllers/teamsController.dart';
 import '../models/referralModel.dart';
+import 'LevelController.dart';
 
 class TeamsScreen extends StatefulWidget {
   @override
@@ -18,6 +19,7 @@ class TeamsScreen extends StatefulWidget {
 
 class _TeamsScreenState extends State<TeamsScreen> {
   final ReferralController referralController = Get.put(ReferralController());
+  final levelController = Get.put(LevelController());
   Key _refreshKey = UniqueKey();
   bool showPrimary = true;
   int? userId;
@@ -29,6 +31,11 @@ class _TeamsScreenState extends State<TeamsScreen> {
     super.initState();
     _loadUserData();
   }
+
+//   void getUserLevelFromApi() async {
+//   int userLevel = await fetchUserLevel(); // fetch from backend
+//   levelController.checkAndShowLevelPopup(userLevel);
+// }
 
   Future<void> _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
@@ -79,8 +86,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
             referralController.referralData.value?.user;
 
         if (referralData == null || currentUserData == null) {
-          return Center(
-              child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator());
         }
 
         // print('IMAGE ----------->${currentUserData!.photoPath}');
@@ -88,39 +94,27 @@ class _TeamsScreenState extends State<TeamsScreen> {
         List<ReferralUser> currentList =
             showPrimary ? primaryReferrals : secondaryReferrals;
 
-        List<int> referralThresholds = [
-          0,
-          3,
-          6,
-          9,
-          12,
-          15,
-          18,
-          21,
-          24,
-          27,
-          30,
-          33
-        ];
+        double currentProgress =
+            double.tryParse(currentUserData?.progress ?? '0') ?? 0.0;
 
-        int progress = int.parse(currentUserData?.progress ?? '0');
+        final currentLevel = currentUserData.level ?? 0;
+        final target = currentUserData.targetValue ?? 0;
+        final progress = currentProgress / target;
+        final role = currentUserData.role ?? 'No Role';
+        levelController.checkAndShowLevelPopup(currentLevel, role);
 
-        int level = 1;
-        for (int i = 0; i < referralThresholds.length; i++) {
-          if (progress >= referralThresholds[i]) {
-            level = i + 1;
+        Color getLevelColor(String role, int level) {
+          if (role == 'employee') {
+            if (level < 3) return Colors.red;
+            if (level == 3) return Colors.orange;
+            return Colors.green; // level 4 or 5
+          } else if (role == 'volunteer') {
+            if (level < 6) return Colors.red;
+            if (level < 9) return Colors.orange;
+            return Colors.green;
           }
+          return Colors.grey;
         }
-
-        int nextTarget = (level < referralThresholds.length)
-            ? referralThresholds[level]
-            : referralThresholds.last;
-
-            
-        // double currentProgress =
-        //     double.tryParse(currentUserData?.progress ?? '0') ?? 0.0;
-        double progressValue =
-            (progress / nextTarget).clamp(0.0, 1.0);
 
         return Column(
           children: [
@@ -145,7 +139,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
                     width: width * 0.04,
                     height: height * 0.04,
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: getLevelColor(role.toString(), currentLevel),
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -193,9 +187,9 @@ class _TeamsScreenState extends State<TeamsScreen> {
                   child: Container(
                     alignment: Alignment.center,
                     child: Text(
-                      (currentUserData?.userType?.isNotEmpty == true)
-                          ? '${currentUserData!.userType}'.toUpperCase()
-                          : 'No Role',
+                      (currentUserData?.role?.isNotEmpty == true)
+                          ? '${currentUserData!.role}'.toUpperCase()
+                          : (currentUserData?.userType ?? '').toUpperCase(),
                       style: TextStyle(
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.w400,
@@ -253,7 +247,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
                       SizedBox(
                         width: width * 0.7,
                         child: LinearProgressIndicator(
-                          value: progressValue,
+                          value: progress,
                           backgroundColor: Color(0xFFEDEDED),
                           valueColor:
                               AlwaysStoppedAnimation<Color>(Color(0xFF136571)),
@@ -269,7 +263,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Progress",
+                              "Level : $currentLevel",
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: width * 0.034,
@@ -278,7 +272,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
                               ),
                             ),
                             Text(
-                              "${progress}/$nextTarget",
+                              "${currentProgress.floor()}/$target",
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: width * 0.034,
@@ -393,8 +387,9 @@ class _TeamsScreenState extends State<TeamsScreen> {
                               Container(
                                 width: width * 0.9,
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: width * 0.01,
-                                    vertical: width * 0.015),
+                                  horizontal: width * 0.01,
+                                  vertical: width * 0.015,
+                                ),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -415,55 +410,76 @@ class _TeamsScreenState extends State<TeamsScreen> {
                                             radius: width * 0.07,
                                           ),
                                           SizedBox(width: width * 0.03),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                member.firstName ?? '',
-                                                style: TextStyle(
-                                                  fontSize: width * 0.034,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black,
+
+                                          /// ⬇️ Expanded to prevent overflow
+                                          Container(
+                                            width: width * 0.35,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  ' ${member.firstName}' ?? '',
+                                                  style: TextStyle(
+                                                    fontSize: width * 0.034,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black,
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
-                                              ),
-                                              SizedBox(height: height * 0.003),
-                                              Text(
-                                                member.lastName ?? '',
-                                                style: TextStyle(
-                                                  fontSize: width * 0.03,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Color(0xFF7D7D7D),
+                                                SizedBox(
+                                                    height: height * 0.003),
+                                                Text(
+                                                  member.lastName ?? '',
+                                                  style: TextStyle(
+                                                    fontSize: width * 0.03,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Color(0xFF7D7D7D),
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
                                     ),
+
+                                    /// Phone number - fixed width to avoid layout clash
                                     GestureDetector(
                                       onTap: () async {
                                         final Uri phoneUri = Uri(
-                                            scheme: 'tel',
-                                            path: member.phoneNumber);
+                                          scheme: 'tel',
+                                          path: member.phoneNumber,
+                                        );
                                         if (await canLaunchUrl(phoneUri)) {
                                           await launchUrl(phoneUri);
                                         } else {
                                           print('Could not launch dialer');
                                         }
                                       },
-                                      child: Text(
-                                        member.phoneNumber ?? '',
-                                        style: TextStyle(
-                                          fontFamily: 'Inter',
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: width * 0.03,
-                                          color: Color(0xFF6F6B6B),
+                                      child: Container(
+                                        width: width * 0.3,
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          member.phoneNumber ?? '',
+                                          style: TextStyle(
+                                            fontFamily: 'Inter',
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: width * 0.03,
+                                            color: Color(0xFF6F6B6B),
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
