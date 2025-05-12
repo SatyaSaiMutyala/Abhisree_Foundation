@@ -97,22 +97,22 @@ class _DonationsummaryState extends State<Donationsummary> {
       'status': 'sucuss'
     };
 
-    final recipitData = {
-      "user_id": userId,
-      "user_name": name,
-      "trans_id": response.paymentId,
-      "type": "volunteer",
-      "money": rawAmount,
-      "gst": gst,
-      "platform_fee": platformFee,
-      "total_money": totalAmount,
-      "pan": widget.data!['pan'],
-    };
+    // final recipitData = {
+    //   "user_id": userId,
+    //   "user_name": name,
+    //   "trans_id": response.paymentId,
+    //   "type": "volunteer",
+    //   "money": rawAmount,
+    //   "gst": gst,
+    //   "platform_fee": platformFee,
+    //   "total_money": totalAmount,
+    //   "pan": widget.data!['pan'],
+    // };
 
     print("Collected Data: $details");
     await donationamountcontroller.DonateAmount('send_donot_donation', details);
-    await minimumamountcontroller.VolunteerAmount(
-        "store-emp-vol-money", recipitData);
+    // await minimumamountcontroller.VolunteerAmount(
+    //     "store-emp-vol-money", recipitData);
 
     if (mounted) {
       setState(() {

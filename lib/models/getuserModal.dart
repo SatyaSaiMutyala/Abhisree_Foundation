@@ -63,7 +63,7 @@ class UserDetailsModal {
   final String? lastName;
   final String? email;
   final String? gender;
-  final String userType;
+  final String? userType;
   final String phoneNumber;
   final String? photoPath;
   final String? otp;

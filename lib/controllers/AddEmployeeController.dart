@@ -62,19 +62,7 @@ class Addemployeecontroller extends GetxController {
       } else {
         try {
           final errorData = jsonDecode(response.body);
-
-          if (errorData is Map<String, dynamic>) {
-            String errorMessages = errorData.entries.map((e) {
-              if (e.value is List) {
-                return "${e.value.join(', ')}";
-              }
-              return "${e.value}";
-            }).join('\n');
-
-            showErrorSnackbar(errorMessages);
-          } else {
-            showErrorSnackbar("Submission failed. Please try again.");
-          }
+          showErrorSnackbar(errorData['message'].toString());
         } catch (_) {
           showErrorSnackbar("Submission failed. Please try again.");
         }

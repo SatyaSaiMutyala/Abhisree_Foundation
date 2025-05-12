@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:adhisree_foundation/homescreen/MainScreen.dart';
 import 'package:adhisree_foundation/utils/snackBar.dart';
 import 'package:get/get.dart';
@@ -54,16 +56,32 @@ class UserController extends GetxController {
 
       print('Response from server: $response');
 
-      // Check if response contains a message
-      if (response is Map && response.containsKey('message')) {
-        String successMessage = response['message'] ?? "Operation successful";
-        await storageService.saveUserData(response['user']['token'],
-            response['user'], response['user']['user_type']);
-        showSuccessSnackbar(successMessage);
-        Get.offAll(() => Mainscreen());
+      if (response is Map) {
+        if (response.containsKey('user')) {
+          String successMessage = response['message'] ?? "Operation successful";
+          await storageService.saveUserData(
+            response['user']['token'],
+            response['user'],
+            response['user']['user_type'],
+          );
+          showSuccessSnackbar(successMessage);
+          Get.offAll(() => Mainscreen());
+        } else {
+          try {
+            final errorBody = jsonDecode(response['message']);
+            String errorMessage =
+                errorBody['message'] ?? "Something went wrong";
+            print('ERROR RESPONSE ------> $response');
+            showErrorSnackbar(errorMessage);
+            print('ERROR MESSAGE ------> $errorMessage');
+          } catch (e) {
+            // Fallback if decoding fails
+            print('Failed to decode error message: $e');
+            showErrorSnackbar("Something went wrong");
+          }
+        }
       } else {
-        String errorMessage = response['error'] ?? 'Something went wrong';
-        showErrorSnackbar(errorMessage);
+        showErrorSnackbar("Invalid response format from server");
       }
     } catch (e) {
       print('Exception: $e');
@@ -111,12 +129,12 @@ class UserController extends GetxController {
             response['user'], response['user']['user_type']);
 
         showSuccessSnackbar(successMessage);
-        print('this is role -------------->${response['user']['user_type'] }');
-        if (response['user']['user_type'] == 'volunteer' || response['user']['user_type'] == 'employee') {
-        Get.offAll(() => BottomNavScreen(initialPageIndex: 0));
+        print('this is role -------------->${response['user']['user_type']}');
+        if (response['user']['user_type'] == 'volunteer' ||
+            response['user']['user_type'] == 'employee') {
+          Get.offAll(() => BottomNavScreen(initialPageIndex: 0));
         } else {
           Get.offAll(() => Mainscreen());
-
         }
       } else {
         String errorMessage = response['error'] ?? 'OTP verification failed!';

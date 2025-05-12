@@ -37,6 +37,8 @@ class _EmployeesummaryState extends State<Employeesummary> {
   late int Gst;
   bool isLoading = true;
   bool isPaymentProcessing = false;
+  bool isPaymentDone = false;
+  String? paymentId;
 
   late Razorpay _razorpay;
   String? userId;
@@ -75,11 +77,38 @@ class _EmployeesummaryState extends State<Employeesummary> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     print('handleSkipDetails ${response.paymentId}');
     print("Collected Data: ${widget.data}");
+    setState(() {
+      paymentId = response.paymentId;
+    });
 
     final recipitData = {
       "user_id": userId,
       "user_name": name,
       "trans_id": response.paymentId,
+      "type": "employee",
+      "money": employeePayment,
+      "gst": Gst,
+      "platform_fee": platformFee,
+      "total_money": totalAmount,
+      "pan": pan
+    };
+    final perfs = await SharedPreferences.getInstance();
+    await perfs.setBool('paymentStatus', true);
+    await addemployeecontroller.Addemployee('employee/create', widget.data);
+    await minimumamountcontroller.VolunteerAmount(
+        "store-emp-vol-money", recipitData);
+    if (mounted) {
+      setState(() {
+        isPaymentProcessing = false;
+      });
+    }
+  }
+
+   void handlePaymentDoneDetailsPending() async {
+    final recipitData = {
+      "user_id": userId,
+      "user_name": name,
+      "trans_id": paymentId,
       "type": "employee",
       "money": employeePayment,
       "gst": Gst,
@@ -136,6 +165,7 @@ class _EmployeesummaryState extends State<Employeesummary> {
 
   Future<void> _loadUserId() async {
     final prefs = await SharedPreferences.getInstance();
+    isPaymentDone = prefs.getBool('paymentStatus') ?? false;
     String? userJson = prefs.getString('user');
     if (userJson != null) {
       Map<String, dynamic> userData = jsonDecode(userJson);
@@ -328,7 +358,11 @@ class _EmployeesummaryState extends State<Employeesummary> {
                           setState(() {
                             isPaymentProcessing = true;
                           });
-                          _razorpay.open(options);
+                           if (isPaymentDone == false) {
+                            _razorpay.open(options);
+                          } else {
+                            handlePaymentDoneDetailsPending();
+                          }
                         }),
                   ),
                 ],

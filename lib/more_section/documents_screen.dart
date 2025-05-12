@@ -353,6 +353,7 @@ class _DocumentScreen extends State<DocumentsScreen> {
           if (data == null) {
             return Center(child: Text('You don\'t have any documents yet!'));
           }
+          print('NDA FORM : ${data.joiningLetter}');
 
           return _buildDocumentsUI(
             data.joiningLetter,

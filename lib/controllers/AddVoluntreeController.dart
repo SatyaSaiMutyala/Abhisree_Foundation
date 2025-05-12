@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:adhisree_foundation/homescreen/donation_model/volunteer_membership.dart';
 import 'package:adhisree_foundation/utils/constants.dart';
 import 'package:adhisree_foundation/widgets/success_screens.dart';
 import 'package:get/get.dart';
@@ -60,21 +61,9 @@ class Addvolunteercontroller extends GetxController {
         showSuccessSnackbar("Volunteer form submitted successfully");
         Get.offAll(() => SuccessScreens(role: 'Volunteer'));
       } else {
-        try {
+        try { 
           final errorData = jsonDecode(response.body);
-
-          if (errorData is Map<String, dynamic>) {
-            String errorMessages = errorData.entries.map((e) {
-              if (e.value is List) {
-                return "${e.value.join(', ')}";
-              }
-              return "${e.value}";
-            }).join('\n');
-
-            showErrorSnackbar(errorMessages);
-          } else {
-            showErrorSnackbar("Submission failed. Please try again.");
-          }
+          showErrorSnackbar(errorData['message'].toString());
         } catch (_) {
           showErrorSnackbar("Submission failed. Please try again.");
         }

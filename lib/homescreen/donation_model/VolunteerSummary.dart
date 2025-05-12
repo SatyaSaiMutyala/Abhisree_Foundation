@@ -36,6 +36,8 @@ class _VolunteersummaryState extends State<Volunteersummary> {
   late int Gst;
   bool isLoading = true;
   bool isPaymentProcessing = false;
+  bool isPaymentDone = false;
+  String? paymentId;
 
   late Razorpay _razorpay;
   String? userId;
@@ -74,11 +76,39 @@ class _VolunteersummaryState extends State<Volunteersummary> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     print('handleSkipDetails ${response.paymentId}');
     print("Collected Data: ${widget.data}");
+    setState(() {
+      paymentId = response.paymentId;
+    });
+    print('PaymentId : $paymentId');
+    final recipitData = {
+      "user_id": userId.toString(),
+      "user_name": name,
+      "trans_id": response.paymentId,
+      "type": "volunteer",
+      "money": VolunteerAmount,
+      "gst": Gst,
+      "platform_fee": platformFee,
+      "total_money": totalAmount,
+      "pan": pan
+    };
+    final perfs = await SharedPreferences.getInstance();
+    await perfs.setBool('paymentStatus', true);
+    await minimumamountcontroller.VolunteerAmount(
+        "store-emp-vol-money", recipitData);
+    await addvolunteercontroller.AddVolunteer('volunteer-create', widget.data);
 
+    if (mounted) {
+      setState(() {
+        isPaymentProcessing = false;
+      });
+    }
+  }
+
+  void handlePaymentDoneDetailsPending() async {
     final recipitData = {
       "user_id": userId,
       "user_name": name,
-      "trans_id": response.paymentId,
+      "trans_id": paymentId,
       "type": "volunteer",
       "money": VolunteerAmount,
       "gst": Gst,
@@ -89,6 +119,7 @@ class _VolunteersummaryState extends State<Volunteersummary> {
     await addvolunteercontroller.AddVolunteer('volunteer-create', widget.data);
     await minimumamountcontroller.VolunteerAmount(
         "store-emp-vol-money", recipitData);
+
     if (mounted) {
       setState(() {
         isPaymentProcessing = false;
@@ -134,14 +165,21 @@ class _VolunteersummaryState extends State<Volunteersummary> {
   }
 
   Future<void> _loadUserId() async {
+    print('Im in');
     final prefs = await SharedPreferences.getInstance();
+    isPaymentDone = prefs.getBool('paymentStatus') ?? false;
+    print('STATUS : ${isPaymentDone}');
     String? userJson = prefs.getString('user');
     if (userJson != null) {
       Map<String, dynamic> userData = jsonDecode(userJson);
+      print('Im if block');
       setState(() {
         userId = userData['id'].toString();
       });
+      print('USER ID------------> :${userData['id'].toString()}');
     }
+      print(userId);
+      print('Im out');
   }
 
   @override
@@ -327,7 +365,11 @@ class _VolunteersummaryState extends State<Volunteersummary> {
                           setState(() {
                             isPaymentProcessing = true;
                           });
-                          _razorpay.open(options);
+                          if (isPaymentDone == false) {
+                            _razorpay.open(options);
+                          } else {
+                            handlePaymentDoneDetailsPending();
+                          }
                         }),
                   ),
                 ],

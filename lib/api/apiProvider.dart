@@ -49,8 +49,11 @@ class ApiProvider {
         print('this is response data ****************${response.body}');
         return jsonDecode(response.body);
       } else {
+
+         print('this is response body ****************${response.body}');
         return {
           'error': 'Failed to post data',
+          'message':response.body,
           'statusCode': response.statusCode
         };
       }

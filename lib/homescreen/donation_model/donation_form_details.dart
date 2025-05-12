@@ -174,16 +174,6 @@ class _DonationPopupFormState extends State<DonationPopupForm> {
                       "Enter your PAN number",
                       _panController,
                       width,
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'PAN number is required';
-                        }
-                        final panPattern = RegExp(r'^[A-Z]{5}[0-9]{4}[A-Z]$');
-                        if (!panPattern.hasMatch(value.trim().toUpperCase())) {
-                          return 'Enter a valid PAN number (e.g., ABCDE1234F)';
-                        }
-                        return null;
-                      },
                     ),
                     SizedBox(height: height * 0.015),
                     _buildCustomTextField(

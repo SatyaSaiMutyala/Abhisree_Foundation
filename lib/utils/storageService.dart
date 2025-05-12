@@ -43,5 +43,7 @@ class StorageService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
     await prefs.remove('user');
+    await prefs.remove('paymentStatus');
+    await prefs.clear();
   }
 }

@@ -332,7 +332,6 @@ class _MoreScreenState extends State<MoreScreen> {
   Future<void> clearUserData() async {
     final storageService = StorageService();
     await storageService.clearUserData();
-
     Get.offAll(() => Loginwithnumberscreen());
   }
 

@@ -37,7 +37,7 @@ class _SuccessScreensState extends State<SuccessScreens> {
       userProgressController.fetchUserProgress(userId.toString());
       final user = userProgressController.userProgress.value;
       final userRole = user!.userType;
-      await prefs.setString('role', userRole);
+      await prefs.setString('role', userRole!);
     print("CHANDED ROLE ******${userRole}");
     }
   }
