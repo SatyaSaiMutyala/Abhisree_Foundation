@@ -13,6 +13,7 @@ class VolunteerModal {
   final String? idCardImage;
   final String? visitingCardImage;
   final String? joiningLetter;
+  final String? recieptImage;
   final String? nda;
   final String createdAt;
   final String updatedAt;
@@ -32,6 +33,7 @@ class VolunteerModal {
     this.idCardImage,
     this.visitingCardImage,
     this.joiningLetter,
+    this.recieptImage,
     this.nda,
     required this.createdAt,
     required this.updatedAt,
@@ -53,6 +55,7 @@ class VolunteerModal {
       idCardImage: json['id_card_image'] is String ? json['id_card_image'] : null,
       visitingCardImage: json['visiting_card_image'] is String ? json['visiting_card_image'] : null,
       joiningLetter: json['joining_letter_path'] is String ? json['joining_letter_path'] : null,
+      recieptImage: json['fee_recipt'] is String ? json['fee_recipt'] : null,
       nda: json['nda_path'] is String ? json['nda_path'] : null,
       createdAt: json['created_at'] ?? '',
       updatedAt: json['updated_at'] ?? '',

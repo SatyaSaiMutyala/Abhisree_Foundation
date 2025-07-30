@@ -27,6 +27,7 @@ class WithdrawaldetailsModal {
   final String? status;
   final String? transctionDetails;
   final String? reqTime;
+  final String? rejectReason;
 
   WithdrawaldetailsModal({
     required this.bankId,
@@ -57,6 +58,7 @@ class WithdrawaldetailsModal {
     required this.status,
     required this.transctionDetails,
     required this.reqTime,
+    required this.rejectReason,
   });
 
   factory WithdrawaldetailsModal.fromJson(Map<String, dynamic> json) {
@@ -89,6 +91,7 @@ class WithdrawaldetailsModal {
       status: json['withdraw_status'],
       transctionDetails: json['transction_details'],
       reqTime: json['req_time'],
+      rejectReason: json['rejection_reason'] ?? '',
     );
   }
 
@@ -118,5 +121,6 @@ class WithdrawaldetailsModal {
         "holder_name": holderName,
         "image": image,
         "reqTime" : reqTime,
+        "rejection_reason" : rejectReason
       };
 }

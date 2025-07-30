@@ -1,10 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/withdrawalDetailsModal.dart';
 
 class Paymentdetailsscreen extends StatelessWidget {
-String dateTimeDisplay = '';
+  String dateTimeDisplay = '';
   @override
   Widget build(BuildContext context) {
     final WithdrawaldetailsModal detail =
@@ -21,19 +20,19 @@ String dateTimeDisplay = '';
     //     DateFormat('hh:mm a').format(dateTime); // e.g., 12:59 PM
     // String dateTimeDisplay = "$formattedDate | $formattedTime";
     try {
-  String rawDate = detail.reqTime?.toString()?.trim() ?? "";
+      String rawDate = detail.reqTime?.toString()?.trim() ?? "";
 
-  // This is the exact format you're receiving: "2026-04-19 09:51:43"
-  DateFormat inputFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
-  DateTime dateTime = inputFormat.parseStrict(rawDate);
+      // This is the exact format you're receiving: "2026-04-19 09:51:43"
+      DateFormat inputFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+      DateTime dateTime = inputFormat.parseStrict(rawDate);
 
-  String formattedDate = DateFormat('dd-MMM-yyyy').format(dateTime);
-  String formattedTime = DateFormat('hh:mm a').format(dateTime);
-  dateTimeDisplay = "$formattedDate | $formattedTime";
-} catch (e) {
-  print("Date parsing error: $e");
-  dateTimeDisplay = "Invalid date";
-}
+      String formattedDate = DateFormat('dd-MMM-yyyy').format(dateTime);
+      String formattedTime = DateFormat('hh:mm a').format(dateTime);
+      dateTimeDisplay = "$formattedDate | $formattedTime";
+    } catch (e) {
+      print("Date parsing error: $e");
+      dateTimeDisplay = "Invalid date";
+    }
 
     print('Image *********************${detail.photoPath}');
 
@@ -159,36 +158,61 @@ String dateTimeDisplay = '';
             SizedBox(height: height * 0.025),
 
             // Transaction ID
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Transaction ID',
-                  style: TextStyle(
-                    fontSize: width * 0.045,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SizedBox(height: height * 0.006),
-                Text(
-                  detail?.status == "Approved"
-                      ? detail?.transctionDetails ?? 'No Details'
-                      : detail?.status == "Pending"
-                          ? "Pending"
-                          : "Rejected",
-                  style: TextStyle(
-                    fontSize: width * 0.03,
-                    fontFamily: "Inter",
-                    fontWeight: FontWeight.w400,
-                    color: detail?.status == "Approved"
-                        ? Colors.black
-                        : detail?.status == "Pending"
-                            ? Colors.orange
-                            : Colors.red,
-                  ),
-                ),
-              ],
-            ),
+            // Column(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Text(
+            //       'Transaction ID',
+            //       style: TextStyle(
+            //         fontSize: width * 0.045,
+            //         fontWeight: FontWeight.w500,
+            //       ),
+            //     ),
+            //     SizedBox(height: height * 0.006),
+            //     Text(
+            //       detail?.status == "Approved"
+            //           ? detail?.transctionDetails ?? 'No Details'
+            //           : detail?.status == "Pending"
+            //               ? "Pending"
+            //               : "Rejected",
+            //       style: TextStyle(
+            //         fontSize: width * 0.03,
+            //         fontFamily: "Inter",
+            //         fontWeight: FontWeight.w400,
+            //         color: detail?.status == "Approved"
+            //             ? Colors.black
+            //             : detail?.status == "Pending"
+            //                 ? Colors.orange
+            //                 : Colors.red,
+            //       ),
+            //     ),
+            //   ],
+            // ),
+
+            detail?.status == "Approved"
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Transaction ID',
+                        style: TextStyle(
+                          fontSize: width * 0.045,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(height: height * 0.006),
+                      Text(
+                        detail?.transctionDetails ?? 'No Details',
+                        style: TextStyle(
+                          fontSize: width * 0.03,
+                          fontFamily: "Inter",
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  )
+                : SizedBox.shrink(),
 
             SizedBox(height: height * 0.02),
 
@@ -217,7 +241,7 @@ String dateTimeDisplay = '';
                   ],
                 ),
                 Image.asset(
-                  'assets/images/Png/sbi.png', // You can make this dynamic too if needed
+                  'assets/icons/bank_icon.png',
                   width: width * 0.13,
                 ),
               ],
@@ -233,7 +257,7 @@ String dateTimeDisplay = '';
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Debited to',
+                      'Credited to',
                       style: TextStyle(
                         fontSize: width * 0.045,
                         fontWeight: FontWeight.w500,
@@ -250,7 +274,7 @@ String dateTimeDisplay = '';
                   ],
                 ),
                 Text(
-                  detail.amount.toString() ?? '0', 
+                  detail.amount.toString() ?? '0',
                   style: TextStyle(
                     fontSize: width * 0.04,
                     fontWeight: FontWeight.w800,

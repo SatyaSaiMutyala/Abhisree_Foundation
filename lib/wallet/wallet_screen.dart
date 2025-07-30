@@ -280,9 +280,10 @@ class _WalletScreenState extends State<WalletScreen> {
             final user = userData[index];
             String formattedDate = user.updatedAt.split(" ").first;
             double amountValue = double.tryParse(
-                  (user.transactionType == 'byadmin' &&
-                          user.transcationAmount != null &&
-                          user.transcationAmount!.isNotEmpty)
+                  (user.transactionType == 'byadmin' ||
+                          user.transactionType == 'donation' &&
+                              user.transcationAmount != null &&
+                              user.transcationAmount!.isNotEmpty)
                       ? user.transcationAmount!
                       : (user.amount ?? 0).toString(),
                 ) ??
@@ -414,7 +415,7 @@ class _WalletScreenState extends State<WalletScreen> {
           itemCount: withdrawDetails.length,
           itemBuilder: (context, index) {
             final detail = withdrawDetails[index];
-
+            print('this is reson man --------> ${detail.rejectReason}');
             // DateTime dateTime = DateTime.parse(detail.createdAt);
             // String formattedDate = DateFormat('dd-MMM-yyyy').format(dateTime);
             // String formattedTime = DateFormat('hh:mm a').format(dateTime);
@@ -440,13 +441,128 @@ class _WalletScreenState extends State<WalletScreen> {
                 : detail.accountNumber;
 
             return GestureDetector(
+              // onTap: () {
+              //   Navigator.pushNamed(
+              //     context,
+              //     AppRoutes.withdrawPaymentDetails,
+              //     arguments: detail,
+              //   );
+              // },
               onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.withdrawPaymentDetails,
-                  arguments: detail,
-                );
+                if (detail.status == "Pending") {
+                  // Do nothing
+                  return;
+                } else if (detail.status == "Rejected") {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(25)),
+                    ),
+                    backgroundColor: Colors.white,
+                    builder: (context) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 30),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 5,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            Icon(Icons.cancel, color: Colors.red, size: 70),
+                            SizedBox(height: 15),
+                            Text(
+                              'Withdrawal Rejected',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red.shade700,
+                              ),
+                            ),
+                            SizedBox(height: 25),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Reason',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 12),
+                            Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 4,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Text(
+                                detail.rejectReason ?? 'No reason provided',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black87,
+                                  height: 1.4,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 30),
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red.shade600,
+                                  padding: EdgeInsets.symmetric(vertical: 14),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  elevation: 0,
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  'Close',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                } else if (detail.status == "Approved") {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.withdrawPaymentDetails,
+                    arguments: detail,
+                  );
+                }
               },
+
               child: Container(
                 margin: EdgeInsets.only(bottom: width * 0.02),
                 padding: EdgeInsets.fromLTRB(

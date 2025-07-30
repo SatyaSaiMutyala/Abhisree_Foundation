@@ -33,16 +33,57 @@ class _AddNewAccountState extends State<AddNewAccountScreen> {
 
   final ImagePicker _picker = ImagePicker();
 
-  Future<void> _pickImage(bool isPhoto) async {
-    final pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 60);
+   Future<void> _pickImage(bool isPhoto) async {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: Icon(Icons.camera_alt),
+                title: Text('Take a photo'),
+                onTap: () async {
+                  Navigator.pop(context);
+                  await _getImage(ImageSource.camera, isPhoto);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.photo_library),
+                title: Text('Choose from gallery'),
+                onTap: () async {
+                  Navigator.pop(context);
+                  await _getImage(ImageSource.gallery, isPhoto);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _getImage(ImageSource source, bool isPhoto) async {
+    final pickedFile = await _picker.pickImage(
+      source: source,
+      imageQuality: 60,
+    );
 
     if (pickedFile != null) {
       setState(() {
-        _photo = File(pickedFile.path);
+        if (isPhoto) {
+          _photo = File(pickedFile.path);
+        } else {
+          _photo = File(pickedFile.path);
+        }
       });
     }
   }
+
+  
 
   @override
   void initState() {

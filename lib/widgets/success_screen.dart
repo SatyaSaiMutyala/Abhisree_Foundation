@@ -85,7 +85,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                     color: Color(0XFF338D9B)),
                 SizedBox(height: height * 0.025),
                 Text(
-                  "Are you sure , you want to join as a volunteer/Employee",
+                  "Are you sure , you want to join as a Volunteer/Co-Ordinator",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: width * 0.05,
@@ -162,7 +162,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                         ),
                       ),
                       child: Text(
-                        "Become a  Employee",
+                        "Become a  Co-Ordinator",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: width * 0.04,

@@ -501,6 +501,7 @@ class _DonationDetailsScreenState extends State<DonationDetailsScreen> {
                         }
                       },
                     ),
+                    SizedBox(height : height * 0.15),
                   ],
                 ),
               ),

@@ -5,6 +5,7 @@ import 'package:adhisree_foundation/homescreen/donation_model/EmployeeSummary.da
 import 'package:adhisree_foundation/homescreen/donation_model/VolunteerSummary.dart';
 import 'package:adhisree_foundation/loginScreen/userDetailsScreen.dart';
 import 'package:adhisree_foundation/more_section/BrochureScreen.dart';
+import 'package:adhisree_foundation/more_section/LegalDocsScreen.dart';
 import 'package:adhisree_foundation/notification_screen.dart';
 import 'package:adhisree_foundation/teams/InnerReferalScreen.dart';
 import 'package:adhisree_foundation/widgets/success_screens.dart';
@@ -48,6 +49,7 @@ class AppRoutes {
   static const String brochure = '/brochure';
   static const String notification = '/notification';
   static const String employeeagrement = '/employeeagrement';
+  static const String legalDocuments = '/legaldocuments';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -123,6 +125,9 @@ class AppRoutes {
 
       case employeeagrement:
       return MaterialPageRoute(builder: (_) => Employeeagreementscreen());
+
+      case legalDocuments:
+      return MaterialPageRoute(builder: (_) => LegalDocumentsScreen());
 
       case employeeSummary:
       final args = settings.arguments as Map<String, dynamic> ;

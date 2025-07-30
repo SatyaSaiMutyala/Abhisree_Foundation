@@ -12,8 +12,6 @@ class WithdrawalDetailsController extends GetxController {
   Future<void> fetchWithdrawalData(String userId) async {
     try {
       isLoading.value = true;
-
-
       final response = await _apiProvider.getRequestWithId('getWithdrawrequestDetails', userId);
 
       if (response != null &&

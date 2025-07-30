@@ -62,7 +62,10 @@ class UserController extends GetxController {
           await storageService.saveUserData(
             response['user']['token'],
             response['user'],
-            response['user']['user_type'],
+            response['user']['user_type']
+          );
+          await storageService.saveRefCode(
+            response['ref_per_role'] 
           );
           showSuccessSnackbar(successMessage);
           Get.offAll(() => Mainscreen());
@@ -91,25 +94,26 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> submitUserData(
+  Future<bool> submitUserData(
       String endpoint, Map<String, dynamic> userData) async {
     isLoading(true);
     try {
       var response = await apiProvider.postRequest(endpoint, userData);
 
       print('Response from server: $response');
-
-      // Check if response contains a message
-      if (response is Map && response.containsKey('message')) {
+      if (response is Map && response.containsKey('otp')) {
         String successMessage = response['message'] ?? "Operation successful";
         showSuccessSnackbar(successMessage);
+        return true;
       } else {
-        String errorMessage = response['error'] ?? 'Something went wrong';
+        String errorMessage = response['message'] ?? 'Something went wrong';
         showErrorSnackbar(errorMessage);
+        return false;
       }
     } catch (e) {
       print('Exception: $e');
       showErrorSnackbar("An unexpected error occurred");
+      return false;
     } finally {
       isLoading(false);
     }

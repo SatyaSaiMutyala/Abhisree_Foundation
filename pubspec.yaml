@@ -37,7 +37,8 @@ dependencies:
   get: ^4.6.6
   carousel_slider: ^5.0.0
   flutter_native_splash: ^2.4.4
-  image_picker: ^1.1.2
+  # image_picker: ^1.1.2
+  image_picker: ^1.0.8
   # share_plus: ^10.1.4
   http: ^0.13.6
   shared_preferences: ^2.5.3
@@ -58,7 +59,7 @@ dependencies:
   firebase_messaging: ^15.2.5
   flutter_cached_pdfview: ^0.4.3
   sms_autofill: ^2.4.1
-
+  video_player: ^2.8.1
   
 
 dev_dependencies:

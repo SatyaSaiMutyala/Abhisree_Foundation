@@ -152,7 +152,7 @@ class _WithdrawalBottomSheetState extends State<WithdrawalBottomSheet> {
 
                 // Note
                 Text(
-                  'Note: GST 5% + GST 5% will be deducted from this amount',
+                  'Note: TDS 5% + Service Charge 5% will be deducted from this amount',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: width * 0.04,
@@ -200,8 +200,20 @@ class _WithdrawalBottomSheetState extends State<WithdrawalBottomSheet> {
                       showErrorSnackbar("Please select a bank account");
                       return;
                     }
-                    if (_amountController.text.isEmpty) {
-                      showErrorSnackbar("Please enter amount");
+                    // if (_amountController.text.isEmpty && _amountController.text >= 500) {
+                    //   showErrorSnackbar("Please enter amount more then 500");
+                    //   return;
+                    // }
+                    if (_amountController.text.isEmpty ||
+                        int.tryParse(_amountController.text) == null) {
+                      showErrorSnackbar("Please enter a valid amount");
+                      return;
+                    }
+
+                    int amount = int.parse(_amountController.text);
+
+                    if (amount < 500) {
+                      showErrorSnackbar("Please enter amount more than 500");
                       return;
                     }
 

@@ -195,7 +195,7 @@ class _EmployeesummaryState extends State<Employeesummary> {
       'amount': finalAmount,
       'name': 'Abhisree Foundation',
       'description': 'Become a Volunteer',
-      'prefill': {'contact': '9912821123', 'email': 'abhisree@gmail.com'},
+      'prefill': {'contact': '', 'email': 'abhisree@gmail.com'},
     };
 
     return Stack(children: [
@@ -218,7 +218,7 @@ class _EmployeesummaryState extends State<Employeesummary> {
                         Expanded(
                             flex: 4,
                             child: Text(
-                              'Employee Donation',
+                              'Co-Ordinator Donation',
                               style: TextStyle(
                                 fontSize: width * 0.04,
                                 fontWeight: FontWeight.w600,
@@ -348,7 +348,8 @@ class _EmployeesummaryState extends State<Employeesummary> {
                           )),
                     ],
                   ),
-                  Spacer(),
+                  // Spacer(),
+                  SizedBox(height: height * 0.1),
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: width * 0.02, vertical: width * 0.03),

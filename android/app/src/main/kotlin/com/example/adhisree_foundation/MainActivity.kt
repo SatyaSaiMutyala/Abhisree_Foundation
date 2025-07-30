@@ -1,4 +1,4 @@
-package com.example.adhisree_foundation
+package com.adhisree_foundation
 
 import io.flutter.embedding.android.FlutterActivity
 

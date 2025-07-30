@@ -542,6 +542,7 @@ class DonationModalScreen {
                               }
                             },
                           ),
+                          SizedBox(height : height * 0.1),
                         ],
                       ),),
                     ),

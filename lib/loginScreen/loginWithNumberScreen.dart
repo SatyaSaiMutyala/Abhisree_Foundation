@@ -1,5 +1,3 @@
-
-
 import 'package:adhisree_foundation/controllers/userController.dart';
 import 'package:adhisree_foundation/loginScreen/OtpScreen.dart';
 import 'package:adhisree_foundation/utils/customButton.dart';
@@ -17,11 +15,15 @@ class _LoginWithNumberState extends State<Loginwithnumberscreen> {
   final TextEditingController _numberController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  void submitNumber() {
+  void submitNumber() async {
     if (_formKey.currentState!.validate()) {
       final number = _numberController.text.trim();
-      userController.submitUserData('register', {'phone_number': number});
-      Get.to(Otpscreen(), arguments: {'phoneNumber': number});
+      bool success = await userController
+          .submitUserData('register', {'phone_number': number});
+      // Get.to(Otpscreen(), arguments: {'phoneNumber': number});
+      if (success) {
+        Get.to(Otpscreen(), arguments: {'phoneNumber': number});
+      }
     }
   }
 
@@ -43,7 +45,8 @@ class _LoginWithNumberState extends State<Loginwithnumberscreen> {
             ),
             child: IconButton(
               onPressed: () => Get.toNamed(AppRoutes.messageScreen),
-              icon: Icon(Icons.arrow_back, color: Colors.black, size: width * 0.05),
+              icon: Icon(Icons.arrow_back,
+                  color: Colors.black, size: width * 0.05),
             ),
           ),
         ),
@@ -150,17 +153,29 @@ class _LoginWithNumberState extends State<Loginwithnumberscreen> {
                     onPressed: submitNumber,
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: height * 0.015),
-                  child: GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, AppRoutes.referralCode),
-                    child: Text(
-                      'I have a referral code',
-                      style: TextStyle(
-                        color: Color(0XFF338D9B),
-                        fontSize: width * 0.035,
-                      ),
-                    ),
+                
+                // Padding(
+                //   padding: EdgeInsets.symmetric(vertical: height * 0.015),
+                //   child: GestureDetector(
+                //     onTap: () =>
+                //         Navigator.pushNamed(context, AppRoutes.referralCode),
+                //     child: Text(
+                //       'I have a referral code',
+                //       style: TextStyle(
+                //         color: Color(0XFF338D9B),
+                //         fontSize: width * 0.045,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                 Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: height * 0.018,
+                    horizontal: width * 0.07,
+                  ),
+                  child: CustomButton(
+                    text: 'I have a referral code',
+                    onPressed: () =>  Navigator.pushNamed(context, AppRoutes.referralCode),
                   ),
                 ),
                 SizedBox(height: height * 0.02),

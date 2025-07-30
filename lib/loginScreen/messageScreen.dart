@@ -54,11 +54,13 @@ class Messagescreen extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
          ),
-        Spacer(), // Pushes button to the bottom
+        // Spacer(), // Pushes button to the bottom
+        SizedBox(height : height * 0.01),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: width * 0.04, vertical: width * 0.03 ),
               child: CustomButton(text: 'Next', onPressed: () {Navigator.pushNamed(context, AppRoutes.LoginWithNumber);}),
             ),
+            SizedBox(height: height * 0.2),
         ],
       ),
       ),

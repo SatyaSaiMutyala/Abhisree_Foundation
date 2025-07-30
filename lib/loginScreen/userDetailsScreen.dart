@@ -129,7 +129,8 @@ class _UserDetailsState extends State<UserDetailsScreen> {
                       vertical: width * 0.04, horizontal: width * 0.04),
                   child:
                       CustomButton(text: 'Submit', onPressed: submitUserData),
-                )
+                ),
+                SizedBox(height:  height * 0.1),
               ],
             ),
           ),

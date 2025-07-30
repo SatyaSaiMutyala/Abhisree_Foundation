@@ -57,8 +57,8 @@ class Addemployeecontroller extends GetxController {
       print("Response Body: ${response.body}");
 
       if (response.statusCode == 200) {
-        showSuccessSnackbar("Employee form submitted successfully");
-        Get.offAll(() => SuccessScreens(role: 'Employee'));
+        showSuccessSnackbar("Co-Ordinator form submitted successfully");
+        Get.offAll(() => SuccessScreens(role: 'Co-Ordinator'));
       } else {
         try {
           final errorData = jsonDecode(response.body);

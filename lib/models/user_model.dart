@@ -13,6 +13,7 @@ class User {
   final String? createdAt;
   final String? updatedAt;
   final String? progress;
+  final String? address;
 
   User({
     required this.id,
@@ -29,6 +30,7 @@ class User {
     this.createdAt,
     this.updatedAt,
     this.progress,
+    this.address,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -47,6 +49,7 @@ class User {
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
       progress: json['progress']?.toString(), 
+      address: json['address'] ?? '',
     );
   }
 }

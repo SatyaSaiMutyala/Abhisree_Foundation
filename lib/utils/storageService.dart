@@ -18,6 +18,16 @@ class StorageService {
     return prefs.getString('token');
   }
 
+  Future<void> saveRefCode( String refCode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('ref_role', refCode);
+  }
+
+  Future<String?> getRefCode() async{
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('ref_role');
+  }
+
   Future<String?> getUserId() async {
     final userData = await getUserData();
     return userData?['id']?.toString();

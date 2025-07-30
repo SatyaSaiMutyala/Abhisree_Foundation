@@ -78,7 +78,7 @@ class _EmployeeAgreementState extends State<Employeeagreementscreen> {
                     Image.asset('assets/images/Png/Users.png',
                         width: width * 0.2),
                     Text(
-                      "Join as Employee",
+                      "Join as Co-Ordinator",
                       style: TextStyle(
                         fontSize: width * 0.06,
                         fontWeight: FontWeight.bold,
@@ -185,7 +185,7 @@ class _EmployeeAgreementState extends State<Employeeagreementscreen> {
                     SizedBox(height: height * 0.01),
 
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.05, vertical: width * 0.05),
                       child: CustomButton(
                         text: 'Continue',
                         onPressed: () {
@@ -198,7 +198,8 @@ class _EmployeeAgreementState extends State<Employeeagreementscreen> {
                           }
                         },
                       ),
-                    )
+                    ),
+                    SizedBox(height: height * 0.15),
                   ],
                 ),
               ),

@@ -23,13 +23,15 @@ class _RefferedPayment extends State<Refferedpaymentscreen> {
     final String? type = widget.data['transactionType'] ?? '';
     final String? transcationAmount = widget.data['transcationAmount'] ?? '';
     double amountValue = double.tryParse(
-          (type == 'byadmin' &&
+          (type == 'byadmin' || type == 'donation' &&
                   transcationAmount != null &&
                   transcationAmount!.isNotEmpty)
               ? transcationAmount!
               : (amount ?? 0).toString(),
         ) ??
         0;
+
+        print('this is type ------> ${type}');
 
     return Scaffold(
       appBar: AppBar(
@@ -171,6 +173,12 @@ class _RefferedPayment extends State<Refferedpaymentscreen> {
                         TextSpan(
                           text: 'admin',
                           style: TextStyle(color: Color(0xFF039200)),
+                        ),
+                        if (type == 'donation')
+                        TextSpan(
+                          text: ' Donation Amount of ${firstName}',
+                          style: TextStyle(color: Color(0xFF039200)),
+                          
                         ),
                     ],
                   ),

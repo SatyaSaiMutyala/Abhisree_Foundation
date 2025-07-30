@@ -48,8 +48,12 @@ class ApiProvider {
       if (response.statusCode == 200 || response.statusCode == 201) {
         print('this is response data ****************${response.body}');
         return jsonDecode(response.body);
-      } else {
-
+      } else if(response.statusCode == 404) {
+        return {
+          'message':'User Deleted by Admin Contact AbhiSree Foundation'
+        };
+      }
+       else {
          print('this is response body ****************${response.body}');
         return {
           'error': 'Failed to post data',

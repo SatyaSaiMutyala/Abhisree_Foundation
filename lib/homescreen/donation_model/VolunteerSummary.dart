@@ -355,7 +355,8 @@ class _VolunteersummaryState extends State<Volunteersummary> {
                           )),
                     ],
                   ),
-                  Spacer(),
+                  // Spacer(),
+                  SizedBox(height: height * 0.1),
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: width * 0.02, vertical: width * 0.03),

@@ -1,3 +1,4 @@
+import 'package:adhisree_foundation/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,7 +21,7 @@ class _SplashScreenState extends State<Splashscreen> {
     await Future.delayed(const Duration(seconds: 3));
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
-
+    print('Yeah I got you ---->, ${baseUrl}');
     // Navigate based on login status
     Get.off(() => token != null
         ? BottomNavScreen(initialPageIndex: 0)
