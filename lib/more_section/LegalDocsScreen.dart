@@ -83,7 +83,7 @@ class _LegalDocumentsScreenState extends State<LegalDocumentsScreen> {
             return Card(
               margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: ListTile(
-                title: Text('Document ${document.id ?? ''}'),
+                title: Text('${document.name ?? ''}'),
                 trailing: IconButton(
                   icon: Icon(Icons.download, color: Colors.green),
                   onPressed: document.url != null

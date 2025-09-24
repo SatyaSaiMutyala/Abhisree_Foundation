@@ -12,6 +12,7 @@ class SocialMediaScreen extends StatelessWidget {
     'Facebook': 'https://cdn-icons-png.flaticon.com/512/733/733547.png',
     'YouTube': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/2560px-YouTube_full-color_icon_%282017%29.svg.png',
     'Website': 'https://cdn-icons-png.flaticon.com/512/841/841364.png',
+    'Google Meet': 'https://cdn4.iconfinder.com/data/icons/logos-brands-in-colors/48/google-meet-512.png'
   };
 
   @override
@@ -33,6 +34,7 @@ class SocialMediaScreen extends StatelessWidget {
           {'name': 'Facebook', 'url': data.facebook},
           {'name': 'YouTube', 'url': data.youtube},
           {'name': 'Website', 'url': data.website},
+          {'name': 'Google Meet', 'url' : data.googleMeet},
         ];
 
         return ListView.builder(

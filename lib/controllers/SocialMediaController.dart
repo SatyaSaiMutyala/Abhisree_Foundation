@@ -38,12 +38,14 @@ class SocialLinksModel {
   final String facebook;
   final String youtube;
   final String website;
+  final String googleMeet;
 
   SocialLinksModel({
     required this.instagram,
     required this.facebook,
     required this.youtube,
     required this.website,
+    required this.googleMeet,
   });
 
   factory SocialLinksModel.fromJson(Map<String, dynamic> json) {
@@ -52,6 +54,7 @@ class SocialLinksModel {
       facebook: json['facebook'] ?? '',
       youtube: json['youtube'] ?? '',
       website: json['website'] ?? '',
+      googleMeet: json['google_meet'] ?? 'http://meet.google.com/toe-edum-qmm',
     );
   }
 }

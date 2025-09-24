@@ -19,7 +19,7 @@ class WalletAmountWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
-        builder: (context) => WithdrawalBottomSheet(),
+        builder: (context) => WithdrawalBottomSheet(amount: amount),
       );
     }
 
@@ -57,12 +57,23 @@ class WalletAmountWidget extends StatelessWidget {
                     //   height: height * 0.01,
                     // ),
                     // if (!showTransactions)
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: width * 0.06),
-                      child: CustomButton(
-                          text: 'Withdrawal',
-                          onPressed: () => _showWithdrawalPopup(context)),
-                    ),
+
+                    if (amount > 500)
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.06),
+                        child: CustomButton(
+                            text: 'Withdrawal',
+                            onPressed: () => _showWithdrawalPopup(context)),
+                      )
+                    else
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.06, vertical: height * 0.01),
+                        child: Text(
+                          'Withdrawals start from ₹500',
+                          style: TextStyle(
+                              fontSize: width * 0.03, color: Colors.red),
+                        ),
+                      ),
                   ])),
             ),
           ),

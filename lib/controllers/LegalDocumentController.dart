@@ -54,18 +54,21 @@ class LegalDocumentModel {
 class LegalDocument {
   int? id;
   String? url;
+  String? name;
 
-  LegalDocument({this.id, this.url});
+  LegalDocument({this.id, this.url, this.name});
 
   LegalDocument.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     url = json['url'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'url': url,
+      'name' : name,
     };
   }
 }

@@ -13,6 +13,8 @@ import '../../models/BankDetailModel.dart';
 import '../bottomNav/controller/bottom_navbar_controller.dart';
 
 class WithdrawalBottomSheet extends StatefulWidget {
+  final int amount;
+  WithdrawalBottomSheet({required this.amount});
   @override
   _WithdrawalBottomSheetState createState() => _WithdrawalBottomSheetState();
 }
@@ -200,10 +202,6 @@ class _WithdrawalBottomSheetState extends State<WithdrawalBottomSheet> {
                       showErrorSnackbar("Please select a bank account");
                       return;
                     }
-                    // if (_amountController.text.isEmpty && _amountController.text >= 500) {
-                    //   showErrorSnackbar("Please enter amount more then 500");
-                    //   return;
-                    // }
                     if (_amountController.text.isEmpty ||
                         int.tryParse(_amountController.text) == null) {
                       showErrorSnackbar("Please enter a valid amount");
@@ -217,8 +215,13 @@ class _WithdrawalBottomSheetState extends State<WithdrawalBottomSheet> {
                       return;
                     }
 
+                    if(amount > widget.amount) {
+                      showErrorSnackbar('Insufficient wallet balance');
+                      return;
+                    }
+
                     DateTime now = DateTime.now();
-                    int weekday = now.weekday; // 1 = Monday, ..., 7 = Sunday
+                    int weekday = now.weekday;
                     int hour = now.hour;
 
                     bool isWeekday = weekday >= 1 && weekday <= 5;
