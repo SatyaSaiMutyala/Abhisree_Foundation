@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:adhisree_foundation/controllers/AddEmployeeController.dart';
 import 'package:adhisree_foundation/controllers/GetGstDetailsController.dart';
 import 'package:adhisree_foundation/controllers/MinimumAmountController.dart';
@@ -57,7 +56,7 @@ class _EmployeesummaryState extends State<Employeesummary> {
     name = widget.data['first_name'];
     pan = widget.data['pan'];
 
-    print('********$Gst ************$platform ***************$employeePayment');
+    print('********$Gst************$platform***************$employeePayment');
 
     pgf = ((employeePayment * Gst) / 100).round();
     platformFee = platform;
@@ -94,7 +93,7 @@ class _EmployeesummaryState extends State<Employeesummary> {
     };
     final perfs = await SharedPreferences.getInstance();
     await perfs.setBool('paymentStatus', true);
-    await addemployeecontroller.Addemployee('employee/create', widget.data);
+    await addemployeecontroller.Addemployee('employee/create-dev', widget.data);
     await minimumamountcontroller.VolunteerAmount(
         "store-emp-vol-money", recipitData);
     if (mounted) {
@@ -116,7 +115,7 @@ class _EmployeesummaryState extends State<Employeesummary> {
       "total_money": totalAmount,
       "pan": pan
     };
-    await addemployeecontroller.Addemployee('employee/create', widget.data);
+    await addemployeecontroller.Addemployee('employee/create-dev', widget.data);
     await minimumamountcontroller.VolunteerAmount(
         "store-emp-vol-money", recipitData);
     if (mounted) {

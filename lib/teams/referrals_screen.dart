@@ -196,8 +196,9 @@ class _ReferralsScreenState extends State<ReferralsScreen> {
                               SizedBox(width: width * 0.03),
                               GestureDetector(
                                 onTap: () {
+                                  final String withRefCode = '${playStoreLink}&referrer=refId%3D$refCode';
                                   Share.share(
-                                    "🎉 Join Abhisree Foundation!\n\nUse my referral code: $refCode to sign up.\n\n📲 Download the app now:\n$playStoreLink",
+                                    "🎉 Join Abhisree Foundation!\n\nUse my referral code: $refCode to sign up.\n\n📲 Download the app now:\n$withRefCode",
                                   );
                                 },
                                 child: Container(

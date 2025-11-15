@@ -95,7 +95,7 @@ class _VolunteersummaryState extends State<Volunteersummary> {
     await perfs.setBool('paymentStatus', true);
     await minimumamountcontroller.VolunteerAmount(
         "store-emp-vol-money", recipitData);
-    await addvolunteercontroller.AddVolunteer('volunteer-create', widget.data);
+    await addvolunteercontroller.AddVolunteer('volunteer-create-dev', widget.data);
 
     if (mounted) {
       setState(() {
@@ -116,7 +116,7 @@ class _VolunteersummaryState extends State<Volunteersummary> {
       "total_money": totalAmount,
       "pan": pan
     };
-    await addvolunteercontroller.AddVolunteer('volunteer-create', widget.data);
+    await addvolunteercontroller.AddVolunteer('volunteer-create-dev', widget.data);
     await minimumamountcontroller.VolunteerAmount(
         "store-emp-vol-money", recipitData);
 
@@ -199,6 +199,7 @@ class _VolunteersummaryState extends State<Volunteersummary> {
 
     var options = {
       'key': 'rzp_live_tUZZmaJRY6f2od',
+      // 'key':'rzp_test_B7G7XjZ92tTAmy',   //Test key
       'amount': finalAmount,
       'name': 'Abhisree Foundation',
       'description': 'Become a Volunteer',

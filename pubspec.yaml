@@ -60,6 +60,7 @@ dependencies:
   flutter_cached_pdfview: ^0.4.3
   sms_autofill: ^2.4.1
   video_player: ^2.8.1
+  install_referrer: ^1.2.1
   
 
 dev_dependencies:
