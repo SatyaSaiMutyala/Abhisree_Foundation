@@ -34,6 +34,7 @@ class _EmployeescreenState extends State<Employeescreen> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
   final TextEditingController _refController = TextEditingController();
+  final TextEditingController _donationController = TextEditingController();
 
   File? _photo;
   File? _aadharImage;
@@ -279,6 +280,15 @@ class _EmployeescreenState extends State<Employeescreen> {
                               : null,
                         ),
                         SizedBox(height: height * 0.03),
+                        textFieldScreen(
+                          "Donation Amount",
+                          keyboardType: TextInputType.number,
+                          controller: _donationController,
+                          validator: (value) => value == null || value.isEmpty
+                              ? "Please enter Donation Amout"
+                              : null,
+                        ),
+                        SizedBox(height: height * 0.03),
                         // textFieldScreen("Referal Code",
                         //     keyboardType: TextInputType.name,
                         //     controller: _refController,
@@ -335,6 +345,7 @@ class _EmployeescreenState extends State<Employeescreen> {
       "gender": _genderController.text.trim(),
       "photo": _photo,
       "aadhar_photo": _aadharImage,
+      'donation_amount': _donationController.text.trim(),
     };
     Navigator.pushNamed(
       context,

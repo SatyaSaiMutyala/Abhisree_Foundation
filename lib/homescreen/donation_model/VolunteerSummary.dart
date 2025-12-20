@@ -61,7 +61,8 @@ class _VolunteersummaryState extends State<Volunteersummary> {
     pgf = ((VolunteerAmount * Gst) / 100).round();
     platformFee = platform;
 
-    totalAmount = VolunteerAmount + pgf + platformFee;
+    // totalAmount = VolunteerAmount + pgf + platformFee;
+    totalAmount = int.parse(widget.data['donation_amount'].toString());
 
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
@@ -85,7 +86,7 @@ class _VolunteersummaryState extends State<Volunteersummary> {
       "user_name": name,
       "trans_id": response.paymentId,
       "type": "volunteer",
-      "money": VolunteerAmount,
+      "money": totalAmount,
       "gst": Gst,
       "platform_fee": platformFee,
       "total_money": totalAmount,
@@ -95,7 +96,8 @@ class _VolunteersummaryState extends State<Volunteersummary> {
     await perfs.setBool('paymentStatus', true);
     await minimumamountcontroller.VolunteerAmount(
         "store-emp-vol-money", recipitData);
-    await addvolunteercontroller.AddVolunteer('volunteer-create-dev', widget.data);
+    await addvolunteercontroller.AddVolunteer(
+        'volunteer-create-dev', widget.data);
 
     if (mounted) {
       setState(() {
@@ -110,15 +112,16 @@ class _VolunteersummaryState extends State<Volunteersummary> {
       "user_name": name,
       "trans_id": paymentId,
       "type": "volunteer",
-      "money": VolunteerAmount,
+      "money": totalAmount,
       "gst": Gst,
       "platform_fee": platformFee,
       "total_money": totalAmount,
       "pan": pan
     };
-    await addvolunteercontroller.AddVolunteer('volunteer-create-dev', widget.data);
     await minimumamountcontroller.VolunteerAmount(
         "store-emp-vol-money", recipitData);
+    await addvolunteercontroller.AddVolunteer(
+        'volunteer-create-dev', widget.data);
 
     if (mounted) {
       setState(() {
@@ -178,8 +181,8 @@ class _VolunteersummaryState extends State<Volunteersummary> {
       });
       print('USER ID------------> :${userData['id'].toString()}');
     }
-      print(userId);
-      print('Im out');
+    print(userId);
+    print('Im out');
   }
 
   @override
@@ -199,7 +202,7 @@ class _VolunteersummaryState extends State<Volunteersummary> {
 
     var options = {
       'key': 'rzp_live_tUZZmaJRY6f2od',
-      // 'key':'rzp_test_B7G7XjZ92tTAmy',   //Test key
+      // 'key': 'rzp_test_B7G7XjZ92tTAmy',
       'amount': finalAmount,
       'name': 'Abhisree Foundation',
       'description': 'Become a Volunteer',
@@ -235,7 +238,7 @@ class _VolunteersummaryState extends State<Volunteersummary> {
                         Expanded(
                             flex: 1,
                             child: Text(
-                              '₹$VolunteerAmount',
+                              '₹${widget.data['donation_amount']}',
                               style: TextStyle(
                                 fontSize: width * 0.04,
                                 fontWeight: FontWeight.w600,
@@ -279,7 +282,7 @@ class _VolunteersummaryState extends State<Volunteersummary> {
                       Expanded(
                           flex: 1,
                           child: Text(
-                            '₹$VolunteerAmount',
+                            '₹${widget.data['donation_amount']}',
                             style: TextStyle(
                               fontSize: width * 0.04,
                             ),

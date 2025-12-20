@@ -12,7 +12,7 @@ class ReferralUser {
   final String? progress;
   final int? level;
   final int? targetValue;
-  final int? amount;
+  final dynamic amount;
   final String? role;
 
 

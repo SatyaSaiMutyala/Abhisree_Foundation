@@ -61,7 +61,8 @@ class _EmployeesummaryState extends State<Employeesummary> {
     pgf = ((employeePayment * Gst) / 100).round();
     platformFee = platform;
 
-    totalAmount = employeePayment + pgf + platformFee;
+    // totalAmount = employeePayment + pgf + platformFee;
+    totalAmount = int.parse(widget.data['donation_amount'].toString());
 
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
@@ -85,7 +86,7 @@ class _EmployeesummaryState extends State<Employeesummary> {
       "user_name": name,
       "trans_id": response.paymentId,
       "type": "employee",
-      "money": employeePayment,
+      "money": totalAmount,
       "gst": Gst,
       "platform_fee": platformFee,
       "total_money": totalAmount,
@@ -93,9 +94,9 @@ class _EmployeesummaryState extends State<Employeesummary> {
     };
     final perfs = await SharedPreferences.getInstance();
     await perfs.setBool('paymentStatus', true);
-    await addemployeecontroller.Addemployee('employee/create-dev', widget.data);
     await minimumamountcontroller.VolunteerAmount(
         "store-emp-vol-money", recipitData);
+    await addemployeecontroller.Addemployee('employee/create-dev', widget.data);
     if (mounted) {
       setState(() {
         isPaymentProcessing = false;
@@ -103,21 +104,21 @@ class _EmployeesummaryState extends State<Employeesummary> {
     }
   }
 
-   void handlePaymentDoneDetailsPending() async {
+  void handlePaymentDoneDetailsPending() async {
     final recipitData = {
       "user_id": userId,
       "user_name": name,
       "trans_id": paymentId,
       "type": "employee",
-      "money": employeePayment,
+      "money": totalAmount,
       "gst": Gst,
       "platform_fee": platformFee,
       "total_money": totalAmount,
       "pan": pan
     };
-    await addemployeecontroller.Addemployee('employee/create-dev', widget.data);
     await minimumamountcontroller.VolunteerAmount(
         "store-emp-vol-money", recipitData);
+    await addemployeecontroller.Addemployee('employee/create-dev', widget.data);
     if (mounted) {
       setState(() {
         isPaymentProcessing = false;
@@ -191,6 +192,7 @@ class _EmployeesummaryState extends State<Employeesummary> {
 
     var options = {
       'key': 'rzp_live_tUZZmaJRY6f2od',
+      // 'key': 'rzp_test_B7G7XjZ92tTAmy',
       'amount': finalAmount,
       'name': 'Abhisree Foundation',
       'description': 'Become a Volunteer',
@@ -226,7 +228,7 @@ class _EmployeesummaryState extends State<Employeesummary> {
                         Expanded(
                             flex: 1,
                             child: Text(
-                              '₹$employeePayment',
+                              '₹${widget.data['donation_amount']}',
                               style: TextStyle(
                                 fontSize: width * 0.04,
                                 fontWeight: FontWeight.w600,
@@ -270,7 +272,7 @@ class _EmployeesummaryState extends State<Employeesummary> {
                       Expanded(
                           flex: 1,
                           child: Text(
-                            '₹$employeePayment',
+                            '₹${widget.data['donation_amount']}',
                             style: TextStyle(
                               fontSize: width * 0.04,
                             ),
@@ -358,7 +360,7 @@ class _EmployeesummaryState extends State<Employeesummary> {
                           setState(() {
                             isPaymentProcessing = true;
                           });
-                           if (isPaymentDone == false) {
+                          if (isPaymentDone == false) {
                             _razorpay.open(options);
                           } else {
                             handlePaymentDoneDetailsPending();

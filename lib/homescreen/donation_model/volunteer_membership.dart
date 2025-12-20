@@ -33,6 +33,8 @@ class _VolunteerMembershipState extends State<VolunteerMembership> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
   final TextEditingController _refController = TextEditingController();
+  final TextEditingController _donationController = TextEditingController();
+  
 
   File? _photo;
   File? _aadharImage;
@@ -274,6 +276,15 @@ class _VolunteerMembershipState extends State<VolunteerMembership> {
                               : null,
                         ),
                         SizedBox(height: height * 0.03),
+                        textFieldScreen(
+                          "Donation Amount",
+                          keyboardType: TextInputType.number,
+                          controller: _donationController,
+                          validator: (value) => value == null || value.isEmpty
+                              ? "Please enter Donation amount"
+                              : null,
+                        ),
+                        SizedBox(height: height * 0.03),
                         // textFieldScreen(
                         //   "Referal Code",
                         //   keyboardType: TextInputType.name,
@@ -331,6 +342,7 @@ class _VolunteerMembershipState extends State<VolunteerMembership> {
       "gender": _genderController.text.trim(),
       "photo": _photo,
       "aadhar_photo": _aadharImage,
+      "donation_amount":_donationController.text.trim(),
     };
     Navigator.pushNamed(
       context,
